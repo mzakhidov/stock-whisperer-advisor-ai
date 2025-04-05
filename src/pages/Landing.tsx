@@ -8,13 +8,24 @@ const Landing = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <header className="bg-gradient-to-b from-finance-navy to-blue-900 text-white py-16 md:py-24">
-        <div className="container px-4 mx-auto">
+      <header className="bg-gradient-to-b from-finance-navy to-blue-900 text-white py-16 md:py-24 relative">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 bg-black opacity-40 z-10"
+          style={{
+            backgroundImage: 'url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            mixBlendMode: 'overlay'
+          }}
+        ></div>
+        
+        <div className="container px-4 mx-auto relative z-20">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight drop-shadow-md">
               Stock Whisperer
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 font-light">
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light drop-shadow-sm">
               Smart analysis for smarter investing decisions.
               Get data-driven recommendations backed by comprehensive metrics.
             </p>
