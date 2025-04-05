@@ -1,0 +1,40 @@
+
+export type StockRecommendation = 'Strong Buy' | 'Buy' | 'Hold' | 'Sell' | 'Strong Sell';
+
+export type MetricScore = {
+  name: string;
+  value: number; // 0-100 scale
+  description: string;
+};
+
+export type StockData = {
+  ticker: string;
+  name: string;
+  price: number;
+  change: number;
+  changePercent: number;
+  recommendation: StockRecommendation;
+  metrics: {
+    fundamental: MetricScore[];
+    technical: MetricScore[];
+    sentiment: MetricScore[];
+  };
+  peRatio: number | null;
+  rsi: number | null;
+  fiftyDayMA: number | null;
+  twoHundredDayMA: number | null;
+  analystRatings: {
+    buy: number;
+    hold: number;
+    sell: number;
+  } | null;
+  growthRate: number | null;
+  recentEarnings: 'beat' | 'met' | 'missed' | null;
+  ceoRating: number | null; // 1-5 scale
+  marketSentiment: 'Bullish' | 'Neutral' | 'Bearish' | null;
+  recentNews: {
+    headline: string;
+    sentiment: 'positive' | 'neutral' | 'negative';
+    date: string;
+  }[] | null;
+};
