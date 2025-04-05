@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, TrendingUp, BarChart, LineChart } from 'lucide-react';
+import { ArrowRight, TrendingUp, BarChart, LineChart, DollarSign, Landmark, Layers, GanttChart, BarChart4, PieChart, UserCheck, Newspaper, Users } from 'lucide-react';
 
 const Landing = () => {
   return (
@@ -38,6 +38,57 @@ const Landing = () => {
         </div>
       </header>
 
+      {/* Recommendation Levels Section */}
+      <section className="py-14 bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <h2 className="text-2xl md:text-3xl font-bold text-center mb-8 text-finance-navy">
+            Our 5-Level Stock Recommendation System
+          </h2>
+          <div className="grid md:grid-cols-5 gap-4">
+            <div className="bg-rating-strongBuy text-white p-5 rounded-lg shadow-sm">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <TrendingUp className="mr-2 h-5 w-5" /> Strong Buy
+              </h3>
+              <p className="text-sm">
+                Exceptional growth prospects with strong fundamentals, technical signals, and positive market sentiment.
+              </p>
+            </div>
+            <div className="bg-rating-buy text-white p-5 rounded-lg shadow-sm">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <ArrowRight className="mr-2 h-5 w-5" /> Buy
+              </h3>
+              <p className="text-sm">
+                Strong potential for price appreciation with solid metrics across multiple analysis dimensions.
+              </p>
+            </div>
+            <div className="bg-rating-hold text-black p-5 rounded-lg shadow-sm">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <GanttChart className="mr-2 h-5 w-5" /> Hold
+              </h3>
+              <p className="text-sm">
+                Balanced risk-reward profile. Consider maintaining current positions but monitor for changes.
+              </p>
+            </div>
+            <div className="bg-rating-sell text-white p-5 rounded-lg shadow-sm">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <BarChart className="mr-2 h-5 w-5" /> Sell
+              </h3>
+              <p className="text-sm">
+                Deteriorating metrics suggesting increased risk. Consider reducing positions in these stocks.
+              </p>
+            </div>
+            <div className="bg-rating-strongSell text-white p-5 rounded-lg shadow-sm">
+              <h3 className="text-xl font-bold mb-2 flex items-center">
+                <LineChart className="mr-2 h-5 w-5" /> Strong Sell
+              </h3>
+              <p className="text-sm">
+                Significant red flags across multiple indicators. High risk of continued price deterioration.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-16 bg-white">
         <div className="container px-4 mx-auto">
@@ -47,7 +98,7 @@ const Landing = () => {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-gray-50 p-6 rounded-lg shadow-sm border border-gray-100">
               <div className="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mb-4">
-                <TrendingUp className="h-6 w-6 text-finance-navy" />
+                <DollarSign className="h-6 w-6 text-finance-navy" />
               </div>
               <h3 className="text-xl font-semibold mb-3 text-finance-navy">Fundamental Analysis</h3>
               <p className="text-gray-600">
@@ -71,6 +122,137 @@ const Landing = () => {
               <p className="text-gray-600">
                 Gauge market sentiment through analyst ratings, news sentiment, and insider trading to predict price movements.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Detailed Indicators Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container px-4 mx-auto">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-6 text-finance-navy">
+            Our Comprehensive Analysis Indicators
+          </h2>
+          <p className="text-center text-gray-600 max-w-3xl mx-auto mb-12">
+            Stock Whisperer analyzes over 20 key metrics across three categories to generate accurate stock recommendations.
+          </p>
+          
+          <div className="grid md:grid-cols-3 gap-10">
+            {/* Fundamental Indicators */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="rounded-full bg-blue-100 p-3 mr-3">
+                  <Layers className="h-6 w-6 text-finance-navy" />
+                </div>
+                <h3 className="text-xl font-bold text-finance-navy">Fundamental Indicators</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <Landmark className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">P/E Ratio</span>
+                    <span className="text-sm text-gray-600">Assesses if a stock is overvalued or undervalued relative to earnings</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <TrendingUp className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Growth Rate</span>
+                    <span className="text-sm text-gray-600">Evaluates the company's revenue and earnings trajectory</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <BarChart4 className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Earnings Quality</span>
+                    <span className="text-sm text-gray-600">Analyzes consistency and predictability of earnings results</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+            {/* Technical Indicators */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="rounded-full bg-blue-100 p-3 mr-3">
+                  <PieChart className="h-6 w-6 text-finance-navy" />
+                </div>
+                <h3 className="text-xl font-bold text-finance-navy">Technical Indicators</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <BarChart className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">RSI (Relative Strength Index)</span>
+                    <span className="text-sm text-gray-600">Identifies overbought or oversold conditions in the market</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <LineChart className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Moving Averages</span>
+                    <span className="text-sm text-gray-600">Tracks price trends and potential support/resistance levels</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <GanttChart className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Volume Analysis</span>
+                    <span className="text-sm text-gray-600">Evaluates trading volume to confirm price movements</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            
+            {/* Sentiment Indicators */}
+            <div className="bg-white p-6 rounded-lg shadow-md">
+              <div className="flex items-center mb-4">
+                <div className="rounded-full bg-blue-100 p-3 mr-3">
+                  <Users className="h-6 w-6 text-finance-navy" />
+                </div>
+                <h3 className="text-xl font-bold text-finance-navy">Sentiment Indicators</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <UserCheck className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Analyst Ratings</span>
+                    <span className="text-sm text-gray-600">Compiles and weighs professional analyst recommendations</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <Newspaper className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">News Sentiment</span>
+                    <span className="text-sm text-gray-600">Analyzes tone and impact of recent news coverage</span>
+                  </div>
+                </li>
+                <li className="flex items-start">
+                  <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
+                    <Users className="h-4 w-4 text-finance-navy" />
+                  </div>
+                  <div>
+                    <span className="font-semibold block">Insider Activity</span>
+                    <span className="text-sm text-gray-600">Tracks buying and selling patterns of company insiders</span>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
