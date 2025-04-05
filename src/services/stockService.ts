@@ -1,4 +1,3 @@
-
 import { StockData, StockRecommendation } from "../types/stock";
 import { toast } from "@/components/ui/sonner";
 
@@ -103,7 +102,7 @@ const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-25',
       },
       {
-        headline: 'Microsoft's AI Integration Driving New Customer Adoption',
+        headline: 'Microsoft\'s AI Integration Driving New Customer Adoption',
         sentiment: 'positive',
         date: '2025-03-18',
       },
@@ -213,7 +212,7 @@ const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-29',
       },
       {
-        headline: 'Amazon's Logistics Network Expansion Continues',
+        headline: 'Amazon\'s Logistics Network Expansion Continues',
         sentiment: 'positive',
         date: '2025-03-20',
       },
