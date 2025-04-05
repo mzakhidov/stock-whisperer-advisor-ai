@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import StockSearch from '@/components/StockSearch';
@@ -6,7 +5,7 @@ import StockCard from '@/components/StockCard';
 import StockCardSkeleton from '@/components/StockCardSkeleton';
 import { getStockData } from '@/services/stockService';
 import { StockData } from '@/types/stock';
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);

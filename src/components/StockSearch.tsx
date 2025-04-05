@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 import { searchStocks } from '@/services/stockService';
 import { StockData } from '@/types/stock';
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 interface StockSearchProps {
   onSelectStock: (ticker: string) => void;

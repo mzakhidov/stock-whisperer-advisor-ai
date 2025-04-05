@@ -1,5 +1,5 @@
 import { StockData, StockRecommendation } from "../types/stock";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "sonner";
 
 // Mock database of stocks
 const stocksDatabase: Record<string, StockData> = {
