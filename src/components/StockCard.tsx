@@ -1,10 +1,10 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StockData } from '@/types/stock';
 import { getChangeColor, getRecommendationColor, getRecommendationTextColor } from '@/services/stockService';
 import MetricBar from './MetricBar';
+import FactorBubbles from './FactorBubbles';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 
 interface StockCardProps {
@@ -15,6 +15,15 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
   const priceChangeColor = getChangeColor(stock.change);
   const recommendationBgColor = getRecommendationColor(stock.recommendation);
   const recommendationTextColor = getRecommendationTextColor(stock.recommendation);
+
+  // Combine all metrics to find the top factors by score
+  const allMetrics = [
+    ...stock.metrics.fundamental,
+    ...stock.metrics.technical,
+    ...stock.metrics.sentiment
+  ];
+  // Sort by value and get top 8 factors
+  const topFactors = [...allMetrics].sort((a, b) => b.value - a.value).slice(0, 8);
 
   return (
     <Card className="w-full border-2 border-gray-200 shadow-md overflow-hidden">
@@ -48,6 +57,11 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
 
       <CardContent className="pt-4">
         <div className="space-y-6">
+          {/* Bubble visualization of top factors */}
+          <FactorBubbles factors={topFactors} />
+          
+          <Separator />
+          
           {/* Key Metrics Section */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Key Metrics Analysis</h3>
