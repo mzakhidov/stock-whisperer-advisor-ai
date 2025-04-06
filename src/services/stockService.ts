@@ -1,8 +1,9 @@
 import { StockData, StockRecommendation } from "../types/stock";
 import { toast } from "sonner";
+import { fetchStockData } from "./apiService";
 
-// Mock database of stocks
-const stocksDatabase: Record<string, StockData> = {
+// Mock database of stocks - keep for fallback
+export const stocksDatabase: Record<string, StockData> = {
   'AAPL': {
     ticker: 'AAPL',
     name: 'Apple Inc.',
@@ -372,24 +373,35 @@ export const searchStocks = async (query: string): Promise<StockData[]> => {
   
   query = query.toUpperCase();
   
+  // For search results, we'll still use the mock database for simplicity
   return Object.values(stocksDatabase).filter(
     stock => stock.ticker.includes(query) || stock.name.toUpperCase().includes(query)
   ).slice(0, 5); // Limit to 5 results
 };
 
 export const getStockData = async (ticker: string): Promise<StockData | null> => {
-  // Simulate API call delay
-  await new Promise(resolve => setTimeout(resolve, 800));
-  
-  ticker = ticker.toUpperCase();
-  
-  // If stock not found, show error toast
-  if (!stocksDatabase[ticker]) {
-    toast.error("Stock not found. Please try a different ticker symbol.");
-    return null;
+  try {
+    // Try to fetch real data from APIs
+    const data = await fetchStockData(ticker);
+    
+    if (data) {
+      return data;
+    }
+    
+    // If API fetch failed, fall back to mock data
+    ticker = ticker.toUpperCase();
+    
+    if (!stocksDatabase[ticker]) {
+      toast.error("Stock not found. Please try a different ticker symbol.");
+      return null;
+    }
+    
+    return stocksDatabase[ticker];
+  } catch (error) {
+    console.error("Error in getStockData:", error);
+    // Fallback to mock database
+    return stocksDatabase[ticker.toUpperCase()] || null;
   }
-  
-  return stocksDatabase[ticker];
 };
 
 // Get recommendation color based on the recommendation

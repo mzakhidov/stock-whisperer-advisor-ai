@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import StockSearch from '@/components/StockSearch';
@@ -6,15 +7,20 @@ import StockCardSkeleton from '@/components/StockCardSkeleton';
 import { getStockData } from '@/services/stockService';
 import { StockData } from '@/types/stock';
 import { toast } from "sonner";
+import { API_KEYS, checkApiKeys } from '@/services/apiConfig';
 
 const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [hasFetchedInitial, setHasFetchedInitial] = useState<boolean>(false);
+  const [usingMockData, setUsingMockData] = useState<boolean>(false);
 
   const fetchStockData = async (ticker: string) => {
     setIsLoading(true);
     try {
+      // Check if using real or mock data
+      setUsingMockData(!checkApiKeys());
+      
       const data = await getStockData(ticker);
       if (data) {
         setSelectedStock(data);
@@ -54,6 +60,15 @@ const Index = () => {
       <main className="flex-1 container py-8 px-4">
         <div className="mb-8">
           <StockSearch onSelectStock={handleSelectStock} />
+          
+          {usingMockData && (
+            <div className="mt-2 p-2 bg-amber-100 border border-amber-300 rounded text-amber-800 text-sm">
+              <p>
+                <strong>⚠️ Using mock data:</strong> To display real stock data, add API keys for Alpha Vantage, 
+                Financial Modeling Prep, or Polygon in your environment variables.
+              </p>
+            </div>
+          )}
         </div>
         
         {!hasFetchedInitial && !isLoading ? (
@@ -77,7 +92,7 @@ const Index = () => {
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>
             Stock Whisperer provides recommendations based on multiple financial metrics.
-            All data shown is simulated for demonstration purposes.
+            {usingMockData && " Currently using mock data for demonstration purposes."}
           </p>
         </div>
       </main>
