@@ -30,12 +30,18 @@ const MetricBar: React.FC<MetricBarProps> = ({ metric }) => {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <div className="flex flex-col items-center cursor-help">
-            <span className="text-xs font-medium mb-1">{metric.name}</span>
+          <div className="flex flex-col items-center cursor-help hover:scale-105 transition-transform duration-300">
+            <span className="text-sm font-semibold mb-2 text-gray-700">{metric.name}</span>
             <div 
-              className={`w-14 h-14 rounded-md flex items-center justify-center ${getColorClass(metric.value)} ${getTextColorClass(metric.value)}`}
+              className={`
+                w-24 h-24 rounded-xl flex items-center justify-center 
+                shadow-md border-2 border-opacity-20 border-gray-300
+                ${getColorClass(metric.value)} 
+                ${getTextColorClass(metric.value)}
+                transform hover:shadow-lg
+              `}
             >
-              <span className="text-lg font-bold">{metric.value}</span>
+              <span className="text-2xl font-bold">{metric.value}</span>
             </div>
           </div>
         </TooltipTrigger>
