@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { MetricScore } from '@/types/stock';
 import {
   Tooltip,
@@ -7,6 +7,8 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Progress } from "@/components/ui/progress";
+import { ChevronUp, ChevronDown, MinusIcon } from "lucide-react";
 
 interface MetricBarProps {
   metric: MetricScore;
@@ -21,19 +23,28 @@ const MetricBar: React.FC<MetricBarProps> = ({ metric }) => {
     return 'bg-rating-strongSell';
   };
 
+  const getIndicator = (value: number) => {
+    if (value >= 60) return <ChevronUp className="h-4 w-4 text-rating-strongBuy" />;
+    if (value <= 40) return <ChevronDown className="h-4 w-4 text-rating-strongSell" />;
+    return <MinusIcon className="h-4 w-4 text-rating-hold" />;
+  };
+
   return (
     <div className="space-y-1">
       <div className="flex justify-between items-center">
-        <span className="text-sm font-medium">{metric.name}</span>
+        <div className="flex items-center gap-1">
+          {getIndicator(metric.value)}
+          <span className="text-sm font-medium">{metric.name}</span>
+        </div>
         <span className="text-sm font-medium">{metric.value}/100</span>
       </div>
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <div className="h-2.5 w-full bg-gray-200 rounded-full overflow-hidden cursor-help">
-              <div 
-                className={`h-2.5 rounded-full ${getColorClass(metric.value)}`} 
-                style={{ width: `${metric.value}%` }}
+            <div className="cursor-help">
+              <Progress 
+                value={metric.value} 
+                className={`h-2 ${getColorClass(metric.value)}`}
               />
             </div>
           </TooltipTrigger>
