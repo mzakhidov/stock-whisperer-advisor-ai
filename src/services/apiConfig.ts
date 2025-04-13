@@ -2,9 +2,15 @@
 import { toast } from "sonner";
 
 export const API_KEYS = {
-  ALPHA_VANTAGE: import.meta.env.VITE_ALPHA_VANTAGE_API_KEY || '',
+  ALPHA_VANTAGE: import.meta.env.VITE_ALPHA_VANTAGE_API_KEY || '02V6O6M89LT95YSU',
   FINANCIAL_MODELING_PREP: import.meta.env.VITE_FMP_API_KEY || '',
   POLYGON: import.meta.env.VITE_POLYGON_API_KEY || '',
+};
+
+export const API_URLS = {
+  ALPHA_VANTAGE: 'https://www.alphavantage.co/query',
+  FINANCIAL_MODELING_PREP: 'https://financialmodelingprep.com/api/v3',
+  POLYGON: 'https://api.polygon.io/v2',
 };
 
 export const checkApiKeys = (): boolean => {

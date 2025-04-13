@@ -225,23 +225,25 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
       const rsiData = await rsiResponse.json();
       
       if (rsiData && rsiData['Technical Analysis: RSI']) {
-        const rsiValues = Object.values(rsiData['Technical Analysis: RSI']);
-        const latestRsi = parseFloat(rsiValues[0].RSI);
-        
-        // RSI interpretation: 30-70 is neutral, <30 is oversold (good), >70 is overbought (bad)
-        const rsiValue = latestRsi < 30 ? 85 : 
-                        latestRsi > 70 ? 30 : 
-                        50 + ((50 - Math.abs(latestRsi - 50)) / 50) * 25;
-        
-        metrics.push({
-          name: 'RSI',
-          value: rsiValue,
-          description: `RSI of ${latestRsi.toFixed(2)} indicates ${
-            latestRsi < 30 ? 'oversold conditions, potential buy opportunity' : 
-            latestRsi > 70 ? 'overbought conditions, potential sell signal' : 
-            'neutral momentum'
-          }`
-        });
+        const rsiValues = Object.values(rsiData['Technical Analysis: RSI']) as any[];
+        if (rsiValues.length > 0 && rsiValues[0].RSI) {
+          const latestRsi = parseFloat(rsiValues[0].RSI);
+          
+          // RSI interpretation: 30-70 is neutral, <30 is oversold (good), >70 is overbought (bad)
+          const rsiValue = latestRsi < 30 ? 85 : 
+                          latestRsi > 70 ? 30 : 
+                          50 + ((50 - Math.abs(latestRsi - 50)) / 50) * 25;
+          
+          metrics.push({
+            name: 'RSI',
+            value: rsiValue,
+            description: `RSI of ${latestRsi.toFixed(2)} indicates ${
+              latestRsi < 30 ? 'oversold conditions, potential buy opportunity' : 
+              latestRsi > 70 ? 'overbought conditions, potential sell signal' : 
+              'neutral momentum'
+            }`
+          });
+        }
       }
       
       // Fetch Moving Averages
@@ -257,24 +259,26 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
       const quoteData = await quoteResponse.json();
       
       if (maData && maData['Technical Analysis: SMA'] && quoteData && quoteData['Global Quote']) {
-        const maValues = Object.values(maData['Technical Analysis: SMA']);
-        const latestMa = parseFloat(maValues[0].SMA);
-        const currentPrice = parseFloat(quoteData['Global Quote']['05. price']);
-        
-        // Price above MA is bullish, below is bearish
-        const priceDiffPercent = ((currentPrice - latestMa) / latestMa) * 100;
-        const maValue = 50 + (priceDiffPercent * 5); // Scale to 0-100
-        
-        metrics.push({
-          name: 'Moving Averages',
-          value: Math.min(100, Math.max(0, maValue)),
-          description: `Price is ${priceDiffPercent > 0 ? 'above' : 'below'} 50-day moving average by ${Math.abs(priceDiffPercent).toFixed(2)}%, indicating ${
-            priceDiffPercent > 5 ? 'strong uptrend' : 
-            priceDiffPercent > 0 ? 'mild uptrend' : 
-            priceDiffPercent > -5 ? 'mild downtrend' : 
-            'strong downtrend'
-          }`
-        });
+        const maValues = Object.values(maData['Technical Analysis: SMA']) as any[];
+        if (maValues.length > 0 && maValues[0].SMA) {
+          const latestMa = parseFloat(maValues[0].SMA);
+          const currentPrice = parseFloat(quoteData['Global Quote']['05. price']);
+          
+          // Price above MA is bullish, below is bearish
+          const priceDiffPercent = ((currentPrice - latestMa) / latestMa) * 100;
+          const maValue = 50 + (priceDiffPercent * 5); // Scale to 0-100
+          
+          metrics.push({
+            name: 'Moving Averages',
+            value: Math.min(100, Math.max(0, maValue)),
+            description: `Price is ${priceDiffPercent > 0 ? 'above' : 'below'} 50-day moving average by ${Math.abs(priceDiffPercent).toFixed(2)}%, indicating ${
+              priceDiffPercent > 5 ? 'strong uptrend' : 
+              priceDiffPercent > 0 ? 'mild uptrend' : 
+              priceDiffPercent > -5 ? 'mild downtrend' : 
+              'strong downtrend'
+            }`
+          });
+        }
       }
     }
     
