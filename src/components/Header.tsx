@@ -1,21 +1,40 @@
 
-import React from 'react';
+import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { Button } from "@/components/ui/button";
+import UserProfile from "@/components/UserProfile";
+import { LogIn } from "lucide-react";
 
-const Header = () => {
+export default function Header() {
+  const { isAuthenticated } = useAuth();
+
   return (
-    <header className="flex flex-col items-center justify-center py-6 bg-finance-navy text-white">
-      <div className="container px-4">
-        <div className="flex flex-col items-center space-y-2">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight">
-            Stock Whisperer
-          </h1>
-          <p className="text-sm md:text-base text-gray-300 italic">
-            Smart analysis for smarter investing
-          </p>
+    <header className="bg-background border-b border-border sticky top-0 z-10">
+      <div className="container flex h-16 items-center justify-between">
+        <div className="flex items-center gap-4">
+          <Link to="/" className="text-xl font-bold tracking-tight">
+            StockWhisperer
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-4">
+          {isAuthenticated ? (
+            <UserProfile />
+          ) : (
+            <div className="flex items-center gap-2">
+              <Link to="/login">
+                <Button variant="outline" size="sm">
+                  <LogIn className="h-4 w-4 mr-2" />
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/signup">
+                <Button size="sm">Sign Up</Button>
+              </Link>
+            </div>
+          )}
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}
