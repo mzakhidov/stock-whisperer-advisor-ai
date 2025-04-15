@@ -9,38 +9,49 @@ const Landing = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <header className="bg-gradient-to-b from-finance-navy to-blue-900 text-white py-16 md:py-24 relative overflow-hidden">
-        {/* Background Image with Overlay */}
+      <header className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
+        {/* Dynamic Background */}
         <div 
-          className="absolute inset-0 bg-black opacity-50 z-10"
+          className="absolute inset-0 z-0"
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1642790106423-e716026eecef?q=80&w=2940&auto=format&fit=crop")',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1470&auto=format&fit=crop")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundAttachment: 'fixed',
+            filter: 'brightness(0.4)',
           }}
-        ></div>
+        />
         
-        {/* Animated Overlay Pattern */}
+        {/* Gradient Overlay */}
         <div 
-          className="absolute inset-0 opacity-10 z-20"
+          className="absolute inset-0 z-10 bg-gradient-to-r from-blue-900/80 via-purple-900/80 to-blue-900/80"
           style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-            animation: 'moveBackground 20s linear infinite'
+            backgroundImage: 'linear-gradient(45deg, rgba(139, 92, 246, 0.5), rgba(14, 165, 233, 0.5), rgba(217, 70, 239, 0.5))',
           }}
-        ></div>
+        />
         
+        {/* Animated Pattern Overlay */}
+        <div 
+          className="absolute inset-0 z-20 opacity-20 animate-moveBackground"
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%23FFFFFF" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+          }}
+        />
+        
+        {/* Content */}
         <div className="container px-4 mx-auto relative z-30">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight drop-shadow-md">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-white animate-fade-in">
               Stock Whisperer
             </h1>
-            <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light drop-shadow-sm">
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light animate-fade-in delay-100">
               Smart analysis for smarter investing decisions.
               Get data-driven recommendations backed by comprehensive metrics.
             </p>
             <Link to="/dashboard">
-              <Button size="lg" className="bg-white text-finance-navy hover:bg-gray-100 font-semibold px-8">
+              <Button 
+                size="lg" 
+                className="bg-white text-finance-navy hover:bg-gray-100 hover:scale-105 transform transition-all duration-200 font-semibold px-8 py-6 text-lg animate-fade-in delay-200"
+              >
                 Try It Now <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
