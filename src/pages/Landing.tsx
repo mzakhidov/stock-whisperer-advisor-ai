@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -8,19 +9,28 @@ const Landing = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <header className="bg-gradient-to-b from-finance-navy to-blue-900 text-white py-16 md:py-24 relative">
+      <header className="bg-gradient-to-b from-finance-navy to-blue-900 text-white py-16 md:py-24 relative overflow-hidden">
         {/* Background Image with Overlay */}
         <div 
-          className="absolute inset-0 bg-black opacity-40 z-10"
+          className="absolute inset-0 bg-black opacity-50 z-10"
           style={{
-            backgroundImage: 'url("https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop")',
+            backgroundImage: 'url("https://images.unsplash.com/photo-1642790106423-e716026eecef?q=80&w=2940&auto=format&fit=crop")',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            mixBlendMode: 'overlay'
+            backgroundAttachment: 'fixed',
           }}
         ></div>
         
-        <div className="container px-4 mx-auto relative z-20">
+        {/* Animated Overlay Pattern */}
+        <div 
+          className="absolute inset-0 opacity-10 z-20"
+          style={{
+            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.4"%3E%3Cpath d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
+            animation: 'moveBackground 20s linear infinite'
+          }}
+        ></div>
+        
+        <div className="container px-4 mx-auto relative z-30">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight drop-shadow-md">
               Stock Whisperer
