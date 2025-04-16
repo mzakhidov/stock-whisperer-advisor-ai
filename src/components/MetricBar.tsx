@@ -26,6 +26,11 @@ const MetricBar: React.FC<MetricBarProps> = ({ metric }) => {
     return 'text-white';
   };
 
+  // Format the value to have at most 1 decimal place
+  const formattedValue = Number.isInteger(metric.value) 
+    ? metric.value 
+    : metric.value.toFixed(1);
+
   return (
     <TooltipProvider>
       <Tooltip>
@@ -41,7 +46,7 @@ const MetricBar: React.FC<MetricBarProps> = ({ metric }) => {
                 transform hover:shadow-lg overflow-hidden
               `}
             >
-              <span className="text-2xl font-bold">{metric.value}</span>
+              <span className="text-2xl font-bold">{formattedValue}</span>
             </div>
           </div>
         </TooltipTrigger>
