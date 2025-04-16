@@ -1,6 +1,5 @@
 
 import React, { useState, useEffect } from 'react';
-import Header from '@/components/Header';
 import StockSearch from '@/components/StockSearch';
 import StockCard from '@/components/StockCard';
 import StockCardSkeleton from '@/components/StockCardSkeleton';
@@ -55,8 +54,6 @@ const Index = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-finance-lightGray">
-      <Header />
-      
       <main className="flex-1 container py-8 px-4">
         <div className="mb-8">
           <StockSearch onSelectStock={handleSelectStock} />
@@ -96,10 +93,6 @@ const Index = () => {
           </p>
         </div>
       </main>
-      
-      <footer className="bg-finance-navy text-white py-4 text-center text-sm">
-        <p>© 2025 Stock Whisperer | Smart analysis for smarter investing</p>
-      </footer>
     </div>
   );
 };

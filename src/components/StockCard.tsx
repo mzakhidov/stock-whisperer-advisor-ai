@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -69,7 +70,7 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
             <div className="space-y-4">
               <div>
                 <h4 className="text-md font-medium mb-3">Fundamental Factors</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {stock.metrics.fundamental.map((metric) => (
                     <MetricBar key={metric.name} metric={metric} />
                   ))}
@@ -78,7 +79,7 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
               
               <div>
                 <h4 className="text-md font-medium mb-3">Technical Indicators</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {stock.metrics.technical.map((metric) => (
                     <MetricBar key={metric.name} metric={metric} />
                   ))}
@@ -87,7 +88,7 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
               
               <div>
                 <h4 className="text-md font-medium mb-3">Market Sentiment</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
                   {stock.metrics.sentiment.map((metric) => (
                     <MetricBar key={metric.name} metric={metric} />
                   ))}

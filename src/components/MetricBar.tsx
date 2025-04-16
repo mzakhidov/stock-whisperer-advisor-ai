@@ -31,14 +31,14 @@ const MetricBar: React.FC<MetricBarProps> = ({ metric }) => {
       <Tooltip>
         <TooltipTrigger asChild>
           <div className="flex flex-col items-center cursor-help hover:scale-105 transition-transform duration-300">
-            <span className="text-sm font-semibold mb-2 text-gray-700">{metric.name}</span>
+            <span className="text-sm font-semibold mb-2 text-gray-700 truncate w-24 text-center">{metric.name}</span>
             <div 
               className={`
                 w-24 h-24 rounded-xl flex items-center justify-center 
                 shadow-md border-2 border-opacity-20 border-gray-300
                 ${getColorClass(metric.value)} 
                 ${getTextColorClass(metric.value)}
-                transform hover:shadow-lg
+                transform hover:shadow-lg overflow-hidden
               `}
             >
               <span className="text-2xl font-bold">{metric.value}</span>
