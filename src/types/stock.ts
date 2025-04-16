@@ -7,6 +7,14 @@ export type MetricScore = {
   description: string;
 };
 
+export type AnalystDetail = {
+  name: string;
+  company: string;
+  recommendation: StockRecommendation;
+  priceTarget: number;
+  date: string;
+};
+
 export type StockData = {
   ticker: string;
   name: string;
@@ -37,4 +45,5 @@ export type StockData = {
     sentiment: 'positive' | 'neutral' | 'negative';
     date: string;
   }[] | null;
+  analystDetails?: AnalystDetail[]; // New field for detailed analyst information
 };

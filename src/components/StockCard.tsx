@@ -7,6 +7,15 @@ import MetricBar from './MetricBar';
 import FactorBubbles from './FactorBubbles';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface StockCardProps {
   stock: StockData;
@@ -38,6 +47,58 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
   };
 
   const analystRatingsData = prepareAnalystRatingsData();
+
+  // Sample analyst details data for demonstration
+  // In a real app, this would come from the API
+  const mockAnalystDetails = stock.analystDetails || [
+    {
+      name: "Sarah Johnson",
+      company: "Morgan Stanley",
+      recommendation: "Buy",
+      priceTarget: stock.price * 1.15,
+      date: "2025-04-01"
+    },
+    {
+      name: "Michael Chen",
+      company: "Goldman Sachs",
+      recommendation: "Strong Buy",
+      priceTarget: stock.price * 1.25,
+      date: "2025-04-05"
+    },
+    {
+      name: "Jessica Williams",
+      company: "JP Morgan",
+      recommendation: "Hold",
+      priceTarget: stock.price * 1.02,
+      date: "2025-04-08"
+    },
+    {
+      name: "Robert Kim",
+      company: "Bank of America",
+      recommendation: "Buy",
+      priceTarget: stock.price * 1.18,
+      date: "2025-04-10"
+    },
+    {
+      name: "Emily Zhang",
+      company: "Citi Group",
+      recommendation: "Hold",
+      priceTarget: stock.price * 1.05,
+      date: "2025-04-12"
+    }
+  ];
+
+  // Function to get recommendation color for table rows
+  const getRecommendationClassName = (recommendation: string) => {
+    switch(recommendation) {
+      case 'Strong Buy': return 'text-rating-strongBuy font-semibold';
+      case 'Buy': return 'text-rating-buy font-semibold';
+      case 'Hold': return 'text-rating-hold font-semibold';
+      case 'Sell': return 'text-rating-sell font-semibold';
+      case 'Strong Sell': return 'text-rating-strongSell font-semibold';
+      default: return '';
+    }
+  };
 
   return (
     <Card className="w-full border-2 border-gray-200 shadow-md overflow-hidden">
@@ -219,6 +280,41 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
               </div>
             </>
           )}
+          
+          {/* Analyst Details Table Section */}
+          <Separator className="my-6" />
+          <div>
+            <h3 className="text-lg font-semibold mb-3">Analyst Price Targets</h3>
+            <div className="rounded-md border">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Analyst</TableHead>
+                    <TableHead>Firm</TableHead>
+                    <TableHead>Rating</TableHead>
+                    <TableHead className="text-right">Price Target</TableHead>
+                    <TableHead className="text-right">Date</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {mockAnalystDetails.map((analyst, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-medium">{analyst.name}</TableCell>
+                      <TableCell>{analyst.company}</TableCell>
+                      <TableCell className={getRecommendationClassName(analyst.recommendation)}>
+                        {analyst.recommendation}
+                      </TableCell>
+                      <TableCell className="text-right">${analyst.priceTarget.toFixed(2)}</TableCell>
+                      <TableCell className="text-right">{analyst.date}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+                <TableCaption>
+                  Latest analyst price targets and recommendations for {stock.ticker}
+                </TableCaption>
+              </Table>
+            </div>
+          </div>
           
           {/* Recent News Section */}
           {stock.recentNews && stock.recentNews.length > 0 && (

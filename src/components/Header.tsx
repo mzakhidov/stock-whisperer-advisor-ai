@@ -23,7 +23,7 @@ export default function Header() {
       <div className="container flex h-16 items-center justify-between">
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold tracking-tight">
-            StockWhisperer
+            AI Stock Whisperer
           </Link>
           
           <NavigationMenu>
