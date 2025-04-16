@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -48,46 +49,6 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
 
   const analystRatingsData = prepareAnalystRatingsData();
 
-  // Sample analyst details data for demonstration
-  // In a real app, this would come from the API
-  const mockAnalystDetails = stock.analystDetails || [
-    {
-      name: "Sarah Johnson",
-      company: "Morgan Stanley",
-      recommendation: "Buy",
-      priceTarget: stock.price * 1.15,
-      date: "2025-04-01"
-    },
-    {
-      name: "Michael Chen",
-      company: "Goldman Sachs",
-      recommendation: "Strong Buy",
-      priceTarget: stock.price * 1.25,
-      date: "2025-04-05"
-    },
-    {
-      name: "Jessica Williams",
-      company: "JP Morgan",
-      recommendation: "Hold",
-      priceTarget: stock.price * 1.02,
-      date: "2025-04-08"
-    },
-    {
-      name: "Robert Kim",
-      company: "Bank of America",
-      recommendation: "Buy",
-      priceTarget: stock.price * 1.18,
-      date: "2025-04-10"
-    },
-    {
-      name: "Emily Zhang",
-      company: "Citi Group",
-      recommendation: "Hold",
-      priceTarget: stock.price * 1.05,
-      date: "2025-04-12"
-    }
-  ];
-
   // Function to get recommendation color for table rows
   const getRecommendationClassName = (recommendation: string) => {
     switch(recommendation) {
@@ -98,6 +59,20 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
       case 'Strong Sell': return 'text-rating-strongSell font-semibold';
       default: return '';
     }
+  };
+
+  // Function to get metric color class
+  const getMetricColorClass = (value: number) => {
+    if (value >= 80) return 'bg-rating-strongBuy text-white';
+    if (value >= 60) return 'bg-rating-buy text-white';
+    if (value >= 40) return 'bg-rating-hold text-black';
+    if (value >= 20) return 'bg-rating-sell text-white';
+    return 'bg-rating-strongSell text-white';
+  };
+
+  // Function to format metrics value with at most 1 decimal place
+  const formatMetricValue = (value: number) => {
+    return Number.isInteger(value) ? value.toString() : value.toFixed(1);
   };
 
   return (
@@ -137,35 +112,98 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
           
           <Separator />
           
-          {/* Key Metrics Section */}
+          {/* Key Metrics Section - Now as Tables */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Key Metrics Analysis</h3>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <h4 className="text-md font-medium mb-3">Fundamental Factors</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {stock.metrics.fundamental.map((metric) => (
-                    <MetricBar key={metric.name} metric={metric} />
-                  ))}
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Indicator</TableHead>
+                        <TableHead>Score</TableHead>
+                        <TableHead className="hidden md:table-cell">Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {stock.metrics.fundamental.map((metric) => (
+                        <TableRow key={metric.name}>
+                          <TableCell className="font-medium">{metric.name}</TableCell>
+                          <TableCell>
+                            <div className="flex justify-center items-center">
+                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
+                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               </div>
               
               <div>
                 <h4 className="text-md font-medium mb-3">Technical Indicators</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {stock.metrics.technical.map((metric) => (
-                    <MetricBar key={metric.name} metric={metric} />
-                  ))}
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Indicator</TableHead>
+                        <TableHead>Score</TableHead>
+                        <TableHead className="hidden md:table-cell">Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {stock.metrics.technical.map((metric) => (
+                        <TableRow key={metric.name}>
+                          <TableCell className="font-medium">{metric.name}</TableCell>
+                          <TableCell>
+                            <div className="flex justify-center items-center">
+                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
+                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               </div>
               
               <div>
                 <h4 className="text-md font-medium mb-3">Market Sentiment</h4>
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
-                  {stock.metrics.sentiment.map((metric) => (
-                    <MetricBar key={metric.name} metric={metric} />
-                  ))}
+                <div className="overflow-x-auto">
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Indicator</TableHead>
+                        <TableHead>Score</TableHead>
+                        <TableHead className="hidden md:table-cell">Description</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {stock.metrics.sentiment.map((metric) => (
+                        <TableRow key={metric.name}>
+                          <TableCell className="font-medium">{metric.name}</TableCell>
+                          <TableCell>
+                            <div className="flex justify-center items-center">
+                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
+                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
+                              </div>
+                            </div>
+                          </TableCell>
+                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
                 </div>
               </div>
             </div>

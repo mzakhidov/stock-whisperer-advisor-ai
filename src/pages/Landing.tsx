@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -40,7 +41,7 @@ const Landing = () => {
         <div className="container px-4 mx-auto relative z-30">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-5xl md:text-7xl font-bold mb-6 tracking-tight text-white animate-fade-in">
-              Stock Whisperer
+              AI Stock Whisperer
             </h1>
             <p className="text-xl md:text-2xl text-gray-200 mb-8 font-light animate-fade-in delay-100">
               Smart analysis for smarter investing decisions.
