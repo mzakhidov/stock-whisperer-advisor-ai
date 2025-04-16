@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -130,8 +129,8 @@ const Landing = () => {
               <div className="mt-auto">
                 <AspectRatio ratio={16/9} className="bg-muted">
                   <img
-                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop"
-                    alt="Financial charts and graphs"
+                    src="https://images.unsplash.com/photo-1554260570-9140fd3b7614?q=80&w=1470&auto=format&fit=crop"
+                    alt="Financial statements and reports"
                     className="rounded-b-lg object-cover w-full h-full"
                   />
                 </AspectRatio>
@@ -151,8 +150,8 @@ const Landing = () => {
               <div className="mt-auto">
                 <AspectRatio ratio={16/9} className="bg-muted">
                   <img
-                    src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?q=80&w=1470&auto=format&fit=crop"
-                    alt="Technical analysis charts"
+                    src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop"
+                    alt="Stock market charts and technical analysis"
                     className="rounded-b-lg object-cover w-full h-full"
                   />
                 </AspectRatio>
@@ -172,8 +171,8 @@ const Landing = () => {
               <div className="mt-auto">
                 <AspectRatio ratio={16/9} className="bg-muted">
                   <img
-                    src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1470&auto=format&fit=crop"
-                    alt="Sentiment analysis dashboard"
+                    src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1470&auto=format&fit=crop"
+                    alt="Social media and news analytics"
                     className="rounded-b-lg object-cover w-full h-full"
                   />
                 </AspectRatio>
