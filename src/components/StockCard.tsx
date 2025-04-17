@@ -2,7 +2,7 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { StockData } from '@/types/stock';
+import { StockData, AnalystDetail } from '@/types/stock';
 import { getChangeColor, getRecommendationColor, getRecommendationTextColor } from '@/services/stockService';
 import MetricBar from './MetricBar';
 import FactorBubbles from './FactorBubbles';
@@ -26,6 +26,45 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
   const priceChangeColor = getChangeColor(stock.change);
   const recommendationBgColor = getRecommendationColor(stock.recommendation);
   const recommendationTextColor = getRecommendationTextColor(stock.recommendation);
+
+  // Generate mock analyst details if not provided in stock data
+  const mockAnalystDetails: AnalystDetail[] = stock.analystDetails || [
+    {
+      name: "Sarah Johnson",
+      company: "Morgan Stanley",
+      recommendation: "Buy",
+      priceTarget: stock.price * 1.15,
+      date: "2025-03-15"
+    },
+    {
+      name: "Michael Chen",
+      company: "Goldman Sachs",
+      recommendation: stock.recommendation,
+      priceTarget: stock.price * 1.12,
+      date: "2025-03-10"
+    },
+    {
+      name: "Emily Williams",
+      company: "JP Morgan",
+      recommendation: "Hold",
+      priceTarget: stock.price * 1.05,
+      date: "2025-03-05"
+    },
+    {
+      name: "Robert Garcia",
+      company: "Bank of America",
+      recommendation: stock.recommendation === "Strong Buy" ? "Buy" : stock.recommendation,
+      priceTarget: stock.price * 1.08,
+      date: "2025-02-28"
+    },
+    {
+      name: "Jennifer Liu",
+      company: "Citigroup",
+      recommendation: stock.recommendation === "Sell" ? "Hold" : stock.recommendation,
+      priceTarget: stock.price * 1.10,
+      date: "2025-02-22"
+    }
+  ];
 
   // Combine all metrics to find the top factors by score
   const allMetrics = [
