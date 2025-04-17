@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
@@ -151,100 +150,36 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
           
           <Separator />
           
-          {/* Key Metrics Section - Now as Tables */}
+          {/* Key Metrics Section - Now as Grid Table */}
           <div>
             <h3 className="text-lg font-semibold mb-3">Key Metrics Analysis</h3>
             
-            <div className="space-y-6">
-              <div>
-                <h4 className="text-md font-medium mb-3">Fundamental Factors</h4>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Indicator</TableHead>
-                        <TableHead>Score</TableHead>
-                        <TableHead className="hidden md:table-cell">Description</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {stock.metrics.fundamental.map((metric) => (
-                        <TableRow key={metric.name}>
-                          <TableCell className="font-medium">{metric.name}</TableCell>
-                          <TableCell>
-                            <div className="flex justify-center items-center">
-                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
-                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+            <div className="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-7 gap-1 p-1 bg-gray-100 rounded-lg">
+              {[
+                ...stock.metrics.fundamental,
+                ...stock.metrics.technical,
+                ...stock.metrics.sentiment
+              ].map((metric, index) => (
+                <div
+                  key={index}
+                  className={`
+                    ${getMetricColorClass(metric.value)}
+                    p-2 rounded flex flex-col items-center justify-center
+                    aspect-square transition-all duration-200 hover:scale-[1.02]
+                    cursor-help relative group
+                  `}
+                >
+                  <div className="text-xs font-medium text-center mb-1 line-clamp-2">
+                    {metric.name}
+                  </div>
+                  <div className="text-lg font-bold">
+                    {formatMetricValue(metric.value)}
+                  </div>
+                  <div className="absolute invisible group-hover:visible bg-black/90 text-white p-2 rounded text-xs w-48 z-10 bottom-full left-1/2 -translate-x-1/2 mb-2">
+                    {metric.description}
+                  </div>
                 </div>
-              </div>
-              
-              <div>
-                <h4 className="text-md font-medium mb-3">Technical Indicators</h4>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Indicator</TableHead>
-                        <TableHead>Score</TableHead>
-                        <TableHead className="hidden md:table-cell">Description</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {stock.metrics.technical.map((metric) => (
-                        <TableRow key={metric.name}>
-                          <TableCell className="font-medium">{metric.name}</TableCell>
-                          <TableCell>
-                            <div className="flex justify-center items-center">
-                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
-                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-              
-              <div>
-                <h4 className="text-md font-medium mb-3">Market Sentiment</h4>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Indicator</TableHead>
-                        <TableHead>Score</TableHead>
-                        <TableHead className="hidden md:table-cell">Description</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {stock.metrics.sentiment.map((metric) => (
-                        <TableRow key={metric.name}>
-                          <TableCell className="font-medium">{metric.name}</TableCell>
-                          <TableCell>
-                            <div className="flex justify-center items-center">
-                              <div className={`w-14 h-14 rounded-lg flex items-center justify-center ${getMetricColorClass(metric.value)}`}>
-                                <span className="text-lg font-bold">{formatMetricValue(metric.value)}</span>
-                              </div>
-                            </div>
-                          </TableCell>
-                          <TableCell className="hidden md:table-cell">{metric.description}</TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
           
