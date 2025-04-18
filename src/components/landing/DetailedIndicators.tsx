@@ -66,7 +66,7 @@ export function DetailedIndicators() {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <div className="bg-blue-100 rounded-full p-1 mr-2 mt-1">
-                  <BarChart className="h-4 w-4 text-finance-navy" />
+                  <BarChart4 className="h-4 w-4 text-finance-navy" />
                 </div>
                 <div>
                   <span className="font-semibold block">RSI (Relative Strength Index)</span>
