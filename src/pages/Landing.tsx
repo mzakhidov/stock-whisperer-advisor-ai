@@ -1,6 +1,8 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
+import { CustomerTestimonials } from '@/components/CustomerTestimonials';
 import { 
   ArrowRight, TrendingUp, BarChart, LineChart, DollarSign, 
   Landmark, Layers, GanttChart, PieChart, 
