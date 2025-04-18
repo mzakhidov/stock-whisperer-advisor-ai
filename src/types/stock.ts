@@ -37,6 +37,9 @@ export type EarningsResult = {
 export type StockData = {
   ticker: string;
   name: string;
+  description?: string; // Added description field
+  mainProducts?: string[]; // Added main products/services
+  industry?: string; // Added industry field
   price: number;
   change: number;
   changePercent: number;
@@ -57,7 +60,7 @@ export type StockData = {
   } | null;
   growthRate: number | null;
   recentEarnings: 'beat' | 'met' | 'missed' | null;
-  ceoRating: number | null; // 1-5 scale
+  ceoRating: number | null;
   marketSentiment: 'Bullish' | 'Neutral' | 'Bearish' | null;
   recentNews: {
     headline: string;

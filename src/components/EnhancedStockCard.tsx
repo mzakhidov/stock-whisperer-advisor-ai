@@ -4,62 +4,44 @@ import StockCard from './StockCard';
 import MacroeconomicsCard from './MacroeconomicsCard';
 import EarningsCard from './EarningsCard';
 import PriceChart from './PriceChart';
+import AboutSection from './AboutSection';
 
 interface EnhancedStockCardProps {
   stock: StockData;
 }
 
 const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
-  const mockEarnings = [
-    {
-      date: "2024-03-15",
-      period: "Q1 2024",
-      actualEPS: 1.45,
-      estimatedEPS: 1.30,
-      surprise: 11.54,
-      guidance: { low: 1.40, high: 1.55 }
+  const mockDescription = {
+    'AAPL': {
+      description: "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. The company offers cutting-edge technology products and services, including the iPhone, iPad, Mac, Apple Watch, and Apple TV.",
+      industry: "Consumer Electronics",
+      mainProducts: ["iPhone", "Mac", "iPad", "Wearables", "Services"]
     },
-    {
-      date: "2023-12-15",
-      period: "Q4 2023",
-      actualEPS: 1.38,
-      estimatedEPS: 1.35,
-      surprise: 2.22,
-      guidance: { low: 1.35, high: 1.50 }
+    'MSFT': {
+      description: "Microsoft Corporation develops, licenses, and supports software, services, devices, and solutions worldwide. The company operates through cloud computing, software licensing, and hardware manufacturing.",
+      industry: "Software - Infrastructure",
+      mainProducts: ["Azure", "Windows", "Office 365", "LinkedIn", "Xbox"]
     },
-    {
-      date: "2023-09-15",
-      period: "Q3 2023",
-      actualEPS: 1.32,
-      estimatedEPS: 1.40,
-      surprise: -5.71,
-      guidance: { low: 1.30, high: 1.45 }
-    },
-    {
-      date: "2023-06-15",
-      period: "Q2 2023",
-      actualEPS: 1.28,
-      estimatedEPS: 1.25,
-      surprise: 2.40,
-      guidance: { low: 1.25, high: 1.40 }
-    }
-  ];
+    // Add more mock descriptions as needed
+  };
 
-  const mockPrices = Array.from({ length: 30 }, (_, i) => {
-    const date = new Date();
-    date.setDate(date.getDate() - (29 - i));
-    return {
-      date: date.toISOString().split('T')[0],
-      price: stock.price * (0.95 + Math.random() * 0.1),
-      volume: Math.floor(Math.random() * 1000000) + 500000
-    };
-  });
+  const aboutInfo = mockDescription[stock.ticker as keyof typeof mockDescription] || {
+    description: stock.description,
+    industry: stock.industry,
+    mainProducts: stock.mainProducts
+  };
 
   return (
     <div className="space-y-6">
+      <AboutSection 
+        name={stock.name}
+        description={aboutInfo.description}
+        industry={aboutInfo.industry}
+        mainProducts={aboutInfo.mainProducts}
+      />
+      <PriceChart data={stock.historicalPrices} />
       <StockCard stock={stock} />
-      <PriceChart data={stock.historicalPrices || mockPrices} />
-      <EarningsCard earnings={stock.earningsHistory || mockEarnings} />
+      <EarningsCard earnings={stock.earningsHistory} />
       <MacroeconomicsCard macroeconomics={stock.macroeconomics || {
         gdpGrowth: {
           name: 'GDP Growth',

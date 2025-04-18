@@ -1,6 +1,14 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { ArrowUpCircle, ArrowDownCircle, Minus } from 'lucide-react';
 import { EarningsResult } from '@/types/stock';
 
@@ -15,59 +23,50 @@ const EarningsCard: React.FC<EarningsCardProps> = ({ earnings }) => {
         <CardTitle className="text-xl font-semibold">Recent Earnings</CardTitle>
       </CardHeader>
       <CardContent>
-        <div className="grid gap-4">
-          {earnings.map((result, index) => (
-            <div
-              key={index}
-              className="flex flex-col space-y-2 p-4 rounded-lg border border-gray-100 hover:bg-gray-50"
-            >
-              <div className="flex justify-between items-center">
-                <div>
-                  <span className="text-sm text-gray-500">{result.period}</span>
-                  <p className="font-medium">{result.date}</p>
-                </div>
-                {result.actualEPS > result.estimatedEPS ? (
-                  <ArrowUpCircle className="h-6 w-6 text-green-500" />
-                ) : result.actualEPS < result.estimatedEPS ? (
-                  <ArrowDownCircle className="h-6 w-6 text-red-500" />
-                ) : (
-                  <Minus className="h-6 w-6 text-gray-500" />
-                )}
-              </div>
-              
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-500">Actual EPS</span>
-                  <p className="font-medium">${result.actualEPS.toFixed(2)}</p>
-                </div>
-                <div>
-                  <span className="text-gray-500">Estimated EPS</span>
-                  <p className="font-medium">${result.estimatedEPS.toFixed(2)}</p>
-                </div>
-              </div>
-              
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-500">Surprise:</span>
-                <span className={`font-medium ${
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Period</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead className="text-right">Actual EPS</TableHead>
+              <TableHead className="text-right">Est. EPS</TableHead>
+              <TableHead className="text-right">Surprise</TableHead>
+              <TableHead className="text-right">Guidance</TableHead>
+              <TableHead className="w-8"></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {earnings.map((result, index) => (
+              <TableRow key={index}>
+                <TableCell className="font-medium">{result.period}</TableCell>
+                <TableCell>{result.date}</TableCell>
+                <TableCell className="text-right">${result.actualEPS.toFixed(2)}</TableCell>
+                <TableCell className="text-right">${result.estimatedEPS.toFixed(2)}</TableCell>
+                <TableCell className={`text-right ${
                   result.surprise > 0 ? 'text-green-600' :
                   result.surprise < 0 ? 'text-red-600' :
                   'text-gray-600'
                 }`}>
                   {result.surprise > 0 ? '+' : ''}{result.surprise.toFixed(2)}%
-                </span>
-              </div>
-              
-              {result.guidance && (
-                <div className="mt-2 pt-2 border-t border-gray-100">
-                  <span className="text-sm text-gray-500">Next Quarter Guidance:</span>
-                  <p className="font-medium">
-                    ${result.guidance.low.toFixed(2)} - ${result.guidance.high.toFixed(2)}
-                  </p>
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
+                </TableCell>
+                <TableCell className="text-right">
+                  {result.guidance ? 
+                    `$${result.guidance.low.toFixed(2)} - $${result.guidance.high.toFixed(2)}` : 
+                    'N/A'}
+                </TableCell>
+                <TableCell>
+                  {result.actualEPS > result.estimatedEPS ? (
+                    <ArrowUpCircle className="h-5 w-5 text-green-500" />
+                  ) : result.actualEPS < result.estimatedEPS ? (
+                    <ArrowDownCircle className="h-5 w-5 text-red-500" />
+                  ) : (
+                    <Minus className="h-5 w-5 text-gray-500" />
+                  )}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </CardContent>
     </Card>
   );
