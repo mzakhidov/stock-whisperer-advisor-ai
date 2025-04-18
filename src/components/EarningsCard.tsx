@@ -13,10 +13,24 @@ import { ArrowUpCircle, ArrowDownCircle, Minus } from 'lucide-react';
 import { EarningsResult } from '@/types/stock';
 
 interface EarningsCardProps {
-  earnings: EarningsResult[];
+  earnings: EarningsResult[] | undefined;
 }
 
 const EarningsCard: React.FC<EarningsCardProps> = ({ earnings }) => {
+  // If earnings data is undefined or empty, show placeholder message
+  if (!earnings || earnings.length === 0) {
+    return (
+      <Card className="w-full bg-white shadow-sm">
+        <CardHeader>
+          <CardTitle className="text-xl font-semibold">Recent Earnings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-gray-500 text-center py-4">No earnings data available</p>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
     <Card className="w-full bg-white shadow-sm">
       <CardHeader>

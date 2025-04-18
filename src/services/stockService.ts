@@ -58,6 +58,62 @@ export const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-30',
       },
     ],
+    earningsHistory: [
+      {
+        date: "2025-01-30",
+        period: "Q1 2025",
+        actualEPS: 2.18,
+        estimatedEPS: 2.10,
+        surprise: 3.81,
+        guidance: {
+          low: 2.20,
+          high: 2.35
+        }
+      },
+      {
+        date: "2024-10-28",
+        period: "Q4 2024",
+        actualEPS: 2.05,
+        estimatedEPS: 1.95,
+        surprise: 5.13,
+        guidance: {
+          low: 2.10,
+          high: 2.25
+        }
+      },
+      {
+        date: "2024-07-25",
+        period: "Q3 2024",
+        actualEPS: 1.89,
+        estimatedEPS: 1.85,
+        surprise: 2.16,
+        guidance: {
+          low: 1.90,
+          high: 2.05
+        }
+      },
+      {
+        date: "2024-04-30",
+        period: "Q2 2024",
+        actualEPS: 1.76,
+        estimatedEPS: 1.70,
+        surprise: 3.53,
+        guidance: null
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = 175;
+      const trendFactor = 1 + (i / 100);
+      const volatility = (Math.random() - 0.5) * 0.05;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 15000000) + 10000000
+      };
+    })
   },
   'MSFT': {
     ticker: 'MSFT',
@@ -113,6 +169,62 @@ export const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-10',
       },
     ],
+    earningsHistory: [
+      {
+        date: "2025-02-15",
+        period: "Q1 2025",
+        actualEPS: 2.98,
+        estimatedEPS: 2.85,
+        surprise: 4.56,
+        guidance: {
+          low: 3.00,
+          high: 3.15
+        }
+      },
+      {
+        date: "2024-11-10",
+        period: "Q4 2024",
+        actualEPS: 2.80,
+        estimatedEPS: 2.75,
+        surprise: 1.82,
+        guidance: {
+          low: 2.85,
+          high: 3.00
+        }
+      },
+      {
+        date: "2024-08-05",
+        period: "Q3 2024",
+        actualEPS: 2.65,
+        estimatedEPS: 2.60,
+        surprise: 1.92,
+        guidance: null
+      },
+      {
+        date: "2024-05-12",
+        period: "Q2 2024",
+        actualEPS: 2.50,
+        estimatedEPS: 2.45,
+        surprise: 2.04,
+        guidance: {
+          low: 2.55,
+          high: 2.70
+        }
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = 400;
+      const trendFactor = 1 + (i / 90);
+      const volatility = (Math.random() - 0.5) * 0.04;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 12000000) + 8000000
+      };
+    })
   },
   'TSLA': {
     ticker: 'TSLA',
@@ -168,6 +280,59 @@ export const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-15',
       },
     ],
+    earningsHistory: [
+      {
+        date: "2025-01-25",
+        period: "Q1 2025",
+        actualEPS: 0.65,
+        estimatedEPS: 0.70,
+        surprise: -7.14,
+        guidance: null
+      },
+      {
+        date: "2024-10-15",
+        period: "Q4 2024",
+        actualEPS: 0.68,
+        estimatedEPS: 0.65,
+        surprise: 4.62,
+        guidance: {
+          low: 0.65,
+          high: 0.75
+        }
+      },
+      {
+        date: "2024-07-18",
+        period: "Q3 2024",
+        actualEPS: 0.60,
+        estimatedEPS: 0.55,
+        surprise: 9.09,
+        guidance: {
+          low: 0.60,
+          high: 0.70
+        }
+      },
+      {
+        date: "2024-04-20",
+        period: "Q2 2024",
+        actualEPS: 0.52,
+        estimatedEPS: 0.58,
+        surprise: -10.34,
+        guidance: null
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = 180;
+      const trendFactor = 1 - (i / 150);
+      const volatility = (Math.random() - 0.5) * 0.08;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 20000000) + 15000000
+      };
+    })
   },
   'AMZN': {
     ticker: 'AMZN',
@@ -223,6 +388,65 @@ export const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-12',
       },
     ],
+    earningsHistory: [
+      {
+        date: "2025-02-29",
+        period: "Q1 2025",
+        actualEPS: 2.20,
+        estimatedEPS: 2.15,
+        surprise: 5.00,
+        guidance: {
+          low: 2.25,
+          high: 2.28
+        }
+      },
+      {
+        date: "2024-11-25",
+        period: "Q4 2024",
+        actualEPS: 2.15,
+        estimatedEPS: 2.10,
+        surprise: 5.00,
+        guidance: {
+          low: 2.20,
+          high: 2.25
+        }
+      },
+      {
+        date: "2024-08-20",
+        period: "Q3 2024",
+        actualEPS: 2.00,
+        estimatedEPS: 1.95,
+        surprise: 5.00,
+        guidance: {
+          low: 2.05,
+          high: 2.10
+        }
+      },
+      {
+        date: "2024-05-25",
+        period: "Q2 2024",
+        actualEPS: 1.85,
+        estimatedEPS: 1.80,
+        surprise: 5.00,
+        guidance: {
+          low: 1.90,
+          high: 1.95
+        }
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = 175;
+      const trendFactor = 1 + (i / 100);
+      const volatility = (Math.random() - 0.5) * 0.05;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 15000000) + 10000000
+      };
+    })
   },
   'GOOGL': {
     ticker: 'GOOGL',
@@ -278,6 +502,65 @@ export const stocksDatabase: Record<string, StockData> = {
         date: '2025-03-15',
       },
     ],
+    earningsHistory: [
+      {
+        date: "2025-02-28",
+        period: "Q1 2025",
+        actualEPS: 2.25,
+        estimatedEPS: 2.20,
+        surprise: 5.00,
+        guidance: {
+          low: 2.30,
+          high: 2.35
+        }
+      },
+      {
+        date: "2024-11-20",
+        period: "Q4 2024",
+        actualEPS: 2.20,
+        estimatedEPS: 2.15,
+        surprise: 5.00,
+        guidance: {
+          low: 2.25,
+          high: 2.30
+        }
+      },
+      {
+        date: "2024-08-15",
+        period: "Q3 2024",
+        actualEPS: 2.05,
+        estimatedEPS: 2.00,
+        surprise: 5.00,
+        guidance: {
+          low: 2.10,
+          high: 2.15
+        }
+      },
+      {
+        date: "2024-05-20",
+        period: "Q2 2024",
+        actualEPS: 1.90,
+        estimatedEPS: 1.85,
+        surprise: 5.00,
+        guidance: {
+          low: 1.95,
+          high: 2.00
+        }
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = 150;
+      const trendFactor = 1 + (i / 100);
+      const volatility = (Math.random() - 0.5) * 0.05;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 15000000) + 10000000
+      };
+    })
   },
 };
 
@@ -361,6 +644,68 @@ moreStocks.forEach(stock => {
     ceoRating: parseFloat((Math.random() * 4 + 1).toFixed(1)),
     marketSentiment: Math.random() > 0.6 ? 'Bullish' : (Math.random() > 0.4 ? 'Neutral' : 'Bearish'),
     recentNews: null, // Simplified for additional stocks
+    earningsHistory: [
+      {
+        date: "2025-02-10",
+        period: "Q1 2025",
+        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        guidance: Math.random() > 0.3 ? {
+          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+        } : null
+      },
+      {
+        date: "2024-11-15",
+        period: "Q4 2024",
+        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        guidance: Math.random() > 0.3 ? {
+          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+        } : null
+      },
+      {
+        date: "2024-08-20",
+        period: "Q3 2024",
+        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        guidance: Math.random() > 0.3 ? {
+          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+        } : null
+      },
+      {
+        date: "2024-05-15",
+        period: "Q2 2024",
+        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        guidance: Math.random() > 0.3 ? {
+          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
+          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+        } : null
+      }
+    ],
+    historicalPrices: Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      
+      // Generate realistic price movements
+      const basePrice = stocksDatabase[stock.ticker].price * 0.9;
+      const randomTrend = Math.random() > 0.5 ? 1 : -1;
+      const trendFactor = 1 + (randomTrend * i / 200);
+      const volatility = (Math.random() - 0.5) * 0.06;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 10000000) + 2000000
+      };
+    })
   };
 });
 
