@@ -1,5 +1,6 @@
 
 import React, { useEffect } from "react";
+import type { CarouselApi } from "@/components/ui/carousel";
 import {
   Carousel,
   CarouselContent,
