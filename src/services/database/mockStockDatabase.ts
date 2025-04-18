@@ -1,3 +1,4 @@
+
 import { StockData, StockRecommendation } from '@/types/stock';
 
 // Mock database of stocks - keep for fallback
@@ -604,6 +605,7 @@ moreStocks.forEach(stock => {
                      recommendation === 'Hold' ? 50 :
                      recommendation === 'Sell' ? 40 : 20;
   
+  // Create the stock object first
   stocksDatabase[stock.ticker] = {
     ticker: stock.ticker,
     name: stock.name,
@@ -646,63 +648,66 @@ moreStocks.forEach(stock => {
       {
         date: "2025-02-10",
         period: "Q1 2025",
-        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        actualEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        estimatedEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        surprise: parseFloat((Math.random() * 10 - 5).toFixed(2)),
         guidance: Math.random() > 0.3 ? {
-          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+          low: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+          high: parseFloat((Math.random() * 3 + 1).toFixed(2))
         } : null
       },
       {
         date: "2024-11-15",
         period: "Q4 2024",
-        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        actualEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        estimatedEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        surprise: parseFloat((Math.random() * 10 - 5).toFixed(2)),
         guidance: Math.random() > 0.3 ? {
-          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+          low: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+          high: parseFloat((Math.random() * 3 + 1).toFixed(2))
         } : null
       },
       {
         date: "2024-08-20",
         period: "Q3 2024",
-        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        actualEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        estimatedEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        surprise: parseFloat((Math.random() * 10 - 5).toFixed(2)),
         guidance: Math.random() > 0.3 ? {
-          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+          low: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+          high: parseFloat((Math.random() * 3 + 1).toFixed(2))
         } : null
       },
       {
         date: "2024-05-15",
         period: "Q2 2024",
-        actualEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        estimatedEPS: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-        surprise: (Math.random() * 10 - 5).toFixed(2) as unknown as number,
+        actualEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        estimatedEPS: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+        surprise: parseFloat((Math.random() * 10 - 5).toFixed(2)),
         guidance: Math.random() > 0.3 ? {
-          low: (Math.random() * 2 + 0.5).toFixed(2) as unknown as number,
-          high: (Math.random() * 3 + 1).toFixed(2) as unknown as number
+          low: parseFloat((Math.random() * 2 + 0.5).toFixed(2)),
+          high: parseFloat((Math.random() * 3 + 1).toFixed(2))
         } : null
       }
     ],
-    historicalPrices: Array.from({ length: 30 }, (_, i) => {
-      const date = new Date();
-      date.setDate(date.getDate() - (30 - i));
-      
-      // Generate realistic price movements
-      const basePrice = stocksDatabase[stock.ticker].price * 0.9;
-      const randomTrend = Math.random() > 0.5 ? 1 : -1;
-      const trendFactor = 1 + (randomTrend * i / 200);
-      const volatility = (Math.random() - 0.5) * 0.06;
-      
-      return {
-        date: date.toISOString().split('T')[0],
-        price: basePrice * trendFactor * (1 + volatility),
-        volume: Math.floor(Math.random() * 10000000) + 2000000
-      };
-    })
+    historicalPrices: []  // We'll generate this after creating the stock object
   };
+  
+  // Now we can safely generate historical prices using the stock's price
+  stocksDatabase[stock.ticker].historicalPrices = Array.from({ length: 30 }, (_, i) => {
+    const date = new Date();
+    date.setDate(date.getDate() - (30 - i));
+    
+    // Generate realistic price movements
+    const basePrice = price * 0.9;  // Use the generated price directly instead of accessing it from stocksDatabase
+    const randomTrend = Math.random() > 0.5 ? 1 : -1;
+    const trendFactor = 1 + (randomTrend * i / 200);
+    const volatility = (Math.random() - 0.5) * 0.06;
+    
+    return {
+      date: date.toISOString().split('T')[0],
+      price: basePrice * trendFactor * (1 + volatility),
+      volume: Math.floor(Math.random() * 10000000) + 2000000
+    };
+  });
 });
