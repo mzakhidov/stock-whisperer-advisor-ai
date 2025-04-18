@@ -1,6 +1,8 @@
+
 import { toast } from "sonner";
 import { API_KEYS, API_URLS, checkApiKeys } from "./apiConfig";
 import { StockData, MetricScore, StockRecommendation } from "@/types/stock";
+import { stocksDatabase } from './stockService';
 
 export const fetchStockData = async (ticker: string): Promise<StockData | null> => {
   if (!checkApiKeys()) {
@@ -24,6 +26,65 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
     const allMetrics = [...fundamentals, ...technicals, ...sentiment];
     const recommendation = generateRecommendation(allMetrics);
 
+    // Generate mock earnings and price history if not available
+    const mockEarningsHistory = [
+      {
+        date: "2025-01-30",
+        period: "Q1 2025",
+        actualEPS: 1.88,
+        estimatedEPS: 1.82,
+        surprise: 3.29,
+        guidance: {
+          low: 1.92,
+          high: 2.05
+        }
+      },
+      {
+        date: "2024-10-28",
+        period: "Q4 2024",
+        actualEPS: 1.75,
+        estimatedEPS: 1.78,
+        surprise: -1.69,
+        guidance: null
+      },
+      {
+        date: "2024-07-25",
+        period: "Q3 2024",
+        actualEPS: 1.69,
+        estimatedEPS: 1.65,
+        surprise: 2.42,
+        guidance: {
+          low: 1.70,
+          high: 1.80
+        }
+      },
+      {
+        date: "2024-04-30",
+        period: "Q2 2024",
+        actualEPS: 1.52,
+        estimatedEPS: 1.50,
+        surprise: 1.33,
+        guidance: {
+          low: 1.60,
+          high: 1.70
+        }
+      }
+    ];
+
+    const mockHistoricalPrices = Array.from({ length: 30 }, (_, i) => {
+      const date = new Date();
+      date.setDate(date.getDate() - (30 - i));
+      const basePrice = overview.price * 0.9;
+      const trendFactor = 1 + (i / 100);
+      const volatility = (Math.random() - 0.5) * 0.1;
+      
+      return {
+        date: date.toISOString().split('T')[0],
+        price: basePrice * trendFactor * (1 + volatility),
+        volume: Math.floor(Math.random() * 10000000) + 5000000
+      };
+    });
+
     const stockData: StockData = {
       ticker: ticker.toUpperCase(),
       name: overview.name,
@@ -46,6 +107,8 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       ceoRating: overview.ceoRating,
       marketSentiment: overview.marketSentiment,
       recentNews: overview.recentNews,
+      earningsHistory: mockEarningsHistory,
+      historicalPrices: mockHistoricalPrices
     };
 
     return stockData;
@@ -380,8 +443,6 @@ const generateRecommendation = (metrics: MetricScore[]): StockRecommendation => 
 };
 
 const getMockStockData = (ticker: string): StockData | null => {
-  import { stocksDatabase } from './stockService';
-  
   ticker = ticker.toUpperCase();
   
   if (stocksDatabase[ticker]) {
