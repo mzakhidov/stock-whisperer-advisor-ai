@@ -53,27 +53,36 @@ export function CustomerTestimonials() {
           What Our Users Say
         </h2>
         
-        <div className="max-w-5xl mx-auto">
-          <Carousel setApi={setApi} opts={{ align: "center", loop: true }}>
-            <CarouselContent>
+        <div className="max-w-7xl mx-auto">
+          <Carousel 
+            setApi={setApi} 
+            opts={{ 
+              align: "start",
+              loop: true,
+              slidesToScroll: 3
+            }}
+          >
+            <CarouselContent className="-ml-2 md:-ml-4">
               {testimonials.map((testimonial, index) => (
-                <CarouselItem key={index}>
-                  <Card className="border-none bg-transparent">
+                <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/3">
+                  <Card className="border-none bg-transparent h-full">
                     <CardContent className="p-6">
-                      <div className="flex flex-col items-center space-y-4">
+                      <div className="flex flex-col items-center space-y-4 h-full">
                         <Quote className="h-8 w-8 text-primary/60" />
-                        <p className="text-lg md:text-xl text-gray-700 text-center italic mb-6 max-w-2xl">
+                        <p className="text-base md:text-lg text-gray-700 text-center italic mb-6 line-clamp-4">
                           "{testimonial.quote}"
                         </p>
-                        <Avatar className="h-16 w-16">
-                          <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                          <AvatarFallback>{testimonial.name.split(' ')[0][0]}</AvatarFallback>
-                        </Avatar>
-                        <div className="text-center">
-                          <h3 className="font-semibold text-lg text-finance-navy">
-                            {testimonial.name}
-                          </h3>
-                          <p className="text-gray-600">{testimonial.role}</p>
+                        <div className="mt-auto">
+                          <Avatar className="h-16 w-16 mb-4">
+                            <AvatarImage src={testimonial.image} alt={testimonial.name} />
+                            <AvatarFallback>{testimonial.name.split(' ')[0][0]}</AvatarFallback>
+                          </Avatar>
+                          <div className="text-center">
+                            <h3 className="font-semibold text-lg text-finance-navy">
+                              {testimonial.name}
+                            </h3>
+                            <p className="text-gray-600">{testimonial.role}</p>
+                          </div>
                         </div>
                       </div>
                     </CardContent>
