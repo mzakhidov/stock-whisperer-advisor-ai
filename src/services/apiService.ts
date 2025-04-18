@@ -1,18 +1,14 @@
-
 import { toast } from "sonner";
 import { API_KEYS, API_URLS, checkApiKeys } from "./apiConfig";
 import { StockData, MetricScore, StockRecommendation } from "@/types/stock";
 
-// Function to fetch stock data from external APIs
 export const fetchStockData = async (ticker: string): Promise<StockData | null> => {
   if (!checkApiKeys()) {
     toast.error("API keys not configured. Using mock data instead.");
-    // If no API keys available, fallback to mock data
     return getMockStockData(ticker);
   }
 
   try {
-    // Fetch data in parallel for better performance
     const [overview, fundamentals, technicals, sentiment] = await Promise.all([
       fetchStockOverview(ticker),
       fetchFundamentalMetrics(ticker),
@@ -25,11 +21,9 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       return null;
     }
 
-    // Generate recommendation based on combined metrics
     const allMetrics = [...fundamentals, ...technicals, ...sentiment];
     const recommendation = generateRecommendation(allMetrics);
 
-    // Construct the complete stock data object
     const stockData: StockData = {
       ticker: ticker.toUpperCase(),
       name: overview.name,
@@ -62,7 +56,6 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
   }
 };
 
-// Fetch basic stock overview information
 const fetchStockOverview = async (ticker: string): Promise<any | null> => {
   try {
     if (API_KEYS.ALPHA_VANTAGE) {
@@ -74,7 +67,7 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
       if (data['Global Quote']) {
         const quote = data['Global Quote'];
         return {
-          name: ticker, // Alpha Vantage doesn't return company name in this endpoint
+          name: ticker,
           price: parseFloat(quote['05. price']),
           change: parseFloat(quote['09. change']),
           changePercent: parseFloat(quote['10. change percent'].replace('%', '')),
@@ -103,7 +96,7 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
           price: quote.price,
           change: quote.change,
           changePercent: quote.changesPercentage,
-          peRatio: quote.pe,
+          peRatio: null,
           rsi: null,
           fiftyDayMA: null,
           twoHundredDayMA: quote.priceAvg200,
@@ -117,7 +110,6 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
       }
     }
     
-    // If we get here, fallback to mock data but don't return the entire mock object yet
     const mockData = getMockStockData(ticker);
     return {
       name: mockData?.name || ticker,
@@ -141,13 +133,11 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
   }
 };
 
-// Fetch fundamental metrics (P/E, growth rate, earnings quality)
 const fetchFundamentalMetrics = async (ticker: string): Promise<MetricScore[]> => {
   try {
     const metrics: MetricScore[] = [];
     
     if (API_KEYS.FINANCIAL_MODELING_PREP) {
-      // Fetch P/E ratio and other fundamentals
       const response = await fetch(
         `${API_URLS.FINANCIAL_MODELING_PREP}/ratios/${ticker}?apikey=${API_KEYS.FINANCIAL_MODELING_PREP}`
       );
@@ -156,41 +146,43 @@ const fetchFundamentalMetrics = async (ticker: string): Promise<MetricScore[]> =
       if (data && data.length > 0) {
         const ratios = data[0];
         
-        // P/E Ratio Analysis
         const peRatio = ratios.priceEarningsRatio;
-        const peValue = peRatio > 0 && peRatio < 30 ? 
-          Math.max(0, 100 - (peRatio * 2)) : // Lower PE is better, up to a point
-          Math.max(20, 100 - Math.abs(peRatio)); // Very low or negative PE might be concerning
+        let peValue = 50;
+        let peDescription = '';
+        
+        if (peRatio <= 20) {
+          peValue = 90;
+          peDescription = 'P/E ratio below 20 indicates potential strong buy opportunity';
+        } else if (peRatio >= 90) {
+          peValue = 10;
+          peDescription = 'P/E ratio above 90 indicates potential strong sell signal';
+        } else {
+          peValue = Math.max(20, 100 - peRatio);
+          peDescription = `P/E ratio of ${peRatio?.toFixed(2)} indicates moderate valuation`;
+        }
         
         metrics.push({
           name: 'P/E Ratio',
           value: peValue,
-          description: `P/E ratio of ${peRatio?.toFixed(2) || 'N/A'} indicates ${
-            peRatio < 15 ? 'potential undervaluation' : 
-            peRatio < 25 ? 'fair valuation' : 
-            'potential overvaluation'
-          }`
+          description: peDescription
         });
         
-        // Growth metrics
         const growthValue = calculateGrowthValue(ratios);
         metrics.push({
           name: 'Growth Rate',
           value: growthValue,
-          description: `Growth analysis based on revenue, earnings, and cash flow trends`
+          description: 'Growth analysis based on revenue, earnings, and cash flow trends'
         });
         
-        // Earnings quality
         const earningsQualityValue = calculateEarningsQuality(ratios);
         metrics.push({
           name: 'Earnings Quality',
           value: earningsQualityValue,
-          description: `Assessment of earnings consistency and cash flow conversion`
+          description: 'Assessment of earnings consistency and cash flow conversion'
         });
       }
     }
     
-    // If no data or missing metrics, fill with mock data
     if (metrics.length < 3) {
       const mockData = getMockStockData(ticker);
       if (mockData) {
@@ -206,19 +198,16 @@ const fetchFundamentalMetrics = async (ticker: string): Promise<MetricScore[]> =
     return metrics;
   } catch (error) {
     console.error("Error fetching fundamental metrics:", error);
-    // Return mock fundamental metrics
     const mockData = getMockStockData(ticker);
     return mockData?.metrics.fundamental || [];
   }
 };
 
-// Fetch technical indicators (RSI, moving averages, volume)
 const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> => {
   try {
     const metrics: MetricScore[] = [];
     
     if (API_KEYS.ALPHA_VANTAGE) {
-      // Fetch RSI
       const rsiResponse = await fetch(
         `${API_URLS.ALPHA_VANTAGE}?function=RSI&symbol=${ticker}&interval=daily&time_period=14&series_type=close&apikey=${API_KEYS.ALPHA_VANTAGE}`
       );
@@ -229,30 +218,33 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
         if (rsiValues.length > 0 && rsiValues[0].RSI) {
           const latestRsi = parseFloat(rsiValues[0].RSI);
           
-          // RSI interpretation: 30-70 is neutral, <30 is oversold (good), >70 is overbought (bad)
-          const rsiValue = latestRsi < 30 ? 85 : 
-                          latestRsi > 70 ? 30 : 
-                          50 + ((50 - Math.abs(latestRsi - 50)) / 50) * 25;
+          let rsiValue = 50;
+          let rsiDescription = '';
+          
+          if (latestRsi < 35) {
+            rsiValue = 90;
+            rsiDescription = 'RSI below 35 indicates oversold conditions, strong buy signal';
+          } else if (latestRsi > 90) {
+            rsiValue = 10;
+            rsiDescription = 'RSI above 90 indicates overbought conditions, strong sell signal';
+          } else {
+            rsiValue = 50 + ((60 - latestRsi) / 25) * 20;
+            rsiDescription = `RSI of ${latestRsi.toFixed(2)} indicates neutral momentum`;
+          }
           
           metrics.push({
             name: 'RSI',
             value: rsiValue,
-            description: `RSI of ${latestRsi.toFixed(2)} indicates ${
-              latestRsi < 30 ? 'oversold conditions, potential buy opportunity' : 
-              latestRsi > 70 ? 'overbought conditions, potential sell signal' : 
-              'neutral momentum'
-            }`
+            description: rsiDescription
           });
         }
       }
       
-      // Fetch Moving Averages
       const maResponse = await fetch(
         `${API_URLS.ALPHA_VANTAGE}?function=SMA&symbol=${ticker}&interval=daily&time_period=50&series_type=close&apikey=${API_KEYS.ALPHA_VANTAGE}`
       );
       const maData = await maResponse.json();
       
-      // Also fetch current price for comparison
       const quoteResponse = await fetch(
         `${API_URLS.ALPHA_VANTAGE}?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEYS.ALPHA_VANTAGE}`
       );
@@ -264,9 +256,8 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
           const latestMa = parseFloat(maValues[0].SMA);
           const currentPrice = parseFloat(quoteData['Global Quote']['05. price']);
           
-          // Price above MA is bullish, below is bearish
           const priceDiffPercent = ((currentPrice - latestMa) / latestMa) * 100;
-          const maValue = 50 + (priceDiffPercent * 5); // Scale to 0-100
+          const maValue = 50 + (priceDiffPercent * 5);
           
           metrics.push({
             name: 'Moving Averages',
@@ -282,15 +273,12 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
       }
     }
     
-    // Volume analysis would be here (requires historical data fetching)
-    // For simplicity, we'll add a mock volume metric
     metrics.push({
       name: 'Volume',
-      value: Math.floor(Math.random() * 40) + 40, // Random value between 40-80
+      value: Math.floor(Math.random() * 40) + 40,
       description: 'Volume analysis based on recent trading activity'
     });
     
-    // If no data or missing metrics, fill with mock data
     if (metrics.length < 3) {
       const mockData = getMockStockData(ticker);
       if (mockData) {
@@ -306,28 +294,23 @@ const fetchTechnicalIndicators = async (ticker: string): Promise<MetricScore[]> 
     return metrics;
   } catch (error) {
     console.error("Error fetching technical indicators:", error);
-    // Return mock technical indicators
     const mockData = getMockStockData(ticker);
     return mockData?.metrics.technical || [];
   }
 };
 
-// Fetch market sentiment (analyst ratings, news sentiment, insider trading)
 const fetchMarketSentiment = async (ticker: string): Promise<MetricScore[]> => {
   try {
     const metrics: MetricScore[] = [];
     
-    // For market sentiment, we would need premium APIs
-    // For demonstration purposes, we'll use mock data based on real stock ticker
     const mockData = getMockStockData(ticker);
     
     if (mockData) {
       return mockData.metrics.sentiment;
     }
     
-    // If we don't have mock data for this ticker, generate some based on the ticker
     const tickerSum = ticker.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-    const seedValue = tickerSum % 100; // 0-99
+    const seedValue = tickerSum % 100;
     
     metrics.push({
       name: 'Analyst Ratings',
@@ -350,16 +333,12 @@ const fetchMarketSentiment = async (ticker: string): Promise<MetricScore[]> => {
     return metrics;
   } catch (error) {
     console.error("Error fetching market sentiment:", error);
-    // Return mock sentiment metrics
     const mockData = getMockStockData(ticker);
     return mockData?.metrics.sentiment || [];
   }
 };
 
-// Helper function to calculate growth value based on ratios
 const calculateGrowthValue = (ratios: any): number => {
-  // In a real implementation, this would analyze multiple years of data
-  // For simplicity, we're using available ratios to estimate growth
   const revenueGrowth = ratios.netIncomePerShare > 0 ? 70 : 30;
   const profitMargin = ratios.netProfitMargin || 0;
   const profitMarginScore = profitMargin > 0.2 ? 80 : 
@@ -369,9 +348,7 @@ const calculateGrowthValue = (ratios: any): number => {
   return Math.round((revenueGrowth + profitMarginScore) / 2);
 };
 
-// Helper function to calculate earnings quality based on ratios
 const calculateEarningsQuality = (ratios: any): number => {
-  // In a real implementation, this would be much more sophisticated
   const returnOnEquity = ratios.returnOnEquity || 0;
   const roeScore = returnOnEquity > 0.2 ? 90 : 
                   returnOnEquity > 0.15 ? 80 : 
@@ -387,17 +364,14 @@ const calculateEarningsQuality = (ratios: any): number => {
   return Math.round((roeScore + debtScore) / 2);
 };
 
-// Generate a recommendation based on metrics
 const generateRecommendation = (metrics: MetricScore[]): StockRecommendation => {
   if (!metrics || metrics.length === 0) {
     return 'Hold';
   }
   
-  // Calculate weighted average of all metrics
   const totalValue = metrics.reduce((sum, metric) => sum + metric.value, 0);
   const averageValue = totalValue / metrics.length;
   
-  // Map the average to a recommendation
   if (averageValue >= 80) return 'Strong Buy';
   if (averageValue >= 60) return 'Buy';
   if (averageValue >= 40) return 'Hold';
@@ -405,9 +379,7 @@ const generateRecommendation = (metrics: MetricScore[]): StockRecommendation => 
   return 'Strong Sell';
 };
 
-// Fallback to get mock data for a ticker from the existing mock database
 const getMockStockData = (ticker: string): StockData | null => {
-  // Import the mock database from stockService
   const { stocksDatabase } = require('./stockService');
   
   ticker = ticker.toUpperCase();
@@ -416,7 +388,6 @@ const getMockStockData = (ticker: string): StockData | null => {
     return stocksDatabase[ticker];
   }
   
-  // If ticker not found in mock data, try to find a similar one
   const similarTickers = Object.keys(stocksDatabase).filter(
     key => key.includes(ticker) || ticker.includes(key)
   );
@@ -425,6 +396,5 @@ const getMockStockData = (ticker: string): StockData | null => {
     return stocksDatabase[similarTickers[0]];
   }
   
-  // If no similar ticker found, return a default mock
-  return stocksDatabase['AAPL']; // Default to AAPL if no match
+  return stocksDatabase['AAPL'];
 };
