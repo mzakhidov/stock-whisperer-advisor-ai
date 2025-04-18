@@ -22,6 +22,18 @@ export type MacroIndicator = {
   period: string;
 };
 
+export type EarningsResult = {
+  date: string;
+  period: string;
+  actualEPS: number;
+  estimatedEPS: number;
+  surprise: number;
+  guidance: {
+    low: number;
+    high: number;
+  } | null;
+};
+
 export type StockData = {
   ticker: string;
   name: string;
@@ -60,4 +72,10 @@ export type StockData = {
     consumerSpending: MacroIndicator;
     fedFundsRate: MacroIndicator;
   };
+  earningsHistory: EarningsResult[];
+  historicalPrices: {
+    date: string;
+    price: number;
+    volume: number;
+  }[];
 };
