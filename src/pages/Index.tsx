@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import StockSearch from '@/components/StockSearch';
 import StockCard from '@/components/StockCard';
@@ -7,6 +6,7 @@ import { getStockData } from '@/services/stockService';
 import { StockData } from '@/types/stock';
 import { toast } from "sonner";
 import { API_KEYS, checkApiKeys } from '@/services/apiConfig';
+import EnhancedStockCard from '@/components/EnhancedStockCard';
 
 const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
@@ -77,7 +77,7 @@ const Index = () => {
         ) : isLoading ? (
           <StockCardSkeleton />
         ) : selectedStock ? (
-          <StockCard stock={selectedStock} />
+          <EnhancedStockCard stock={selectedStock} />
         ) : (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
             <p className="text-lg text-gray-500">

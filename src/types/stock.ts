@@ -1,4 +1,3 @@
-
 export type StockRecommendation = 'Strong Buy' | 'Buy' | 'Hold' | 'Sell' | 'Strong Sell';
 
 export type MetricScore = {
@@ -13,6 +12,14 @@ export type AnalystDetail = {
   recommendation: StockRecommendation;
   priceTarget: number;
   date: string;
+};
+
+export type MacroIndicator = {
+  name: string;
+  value: number | string;
+  change: number;
+  trend: 'up' | 'down' | 'neutral';
+  period: string;
 };
 
 export type StockData = {
@@ -45,5 +52,12 @@ export type StockData = {
     sentiment: 'positive' | 'neutral' | 'negative';
     date: string;
   }[] | null;
-  analystDetails?: AnalystDetail[]; // New field for detailed analyst information
+  analystDetails?: AnalystDetail[];
+  macroeconomics?: {
+    gdpGrowth: MacroIndicator;
+    unemploymentRate: MacroIndicator;
+    inflationRate: MacroIndicator;
+    consumerSpending: MacroIndicator;
+    fedFundsRate: MacroIndicator;
+  };
 };
