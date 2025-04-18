@@ -1,8 +1,14 @@
+
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { 
+  ArrowRight, TrendingUp, BarChart, LineChart, DollarSign, 
+  Landmark, Layers, GanttChart, PieChart, 
+  UserCheck, Newspaper, Users, BarChart4 
+} from 'lucide-react';
 import MatrixIcons from '@/components/MatrixIcons';
+import { AspectRatio } from '@/components/ui/aspect-ratio';
 
 const Landing = () => {
   return (
