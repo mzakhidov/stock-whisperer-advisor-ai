@@ -1,6 +1,6 @@
 
 import { StockData } from '@/types/stock';
-import { stocksDatabase } from './stockService';
+import { stocksDatabase } from './database/mockStockDatabase';
 
 export const getMockStockData = (ticker: string): StockData | null => {
   ticker = ticker.toUpperCase();
