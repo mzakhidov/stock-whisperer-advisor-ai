@@ -22,12 +22,13 @@ const plansData = [
       text: "Current Plan",
       variant: "outline" as const,
       disabled: true,
-      ctaColor: "bg-gray-200 text-gray-500 border border-gray-300"
+      ctaColor:
+        "bg-gray-200 text-gray-500 border border-gray-300",
     },
   },
   {
     name: "Plus",
-    icon: <BadgeDollarSign className="h-8 w-8 mb-2 text-violet-600" />,
+    icon: <BadgeDollarSign className="h-8 w-8 mb-2 text-white" />,
     price: {
       monthly: "$9/mo",
       annually: "$90/yr",
@@ -39,13 +40,14 @@ const plansData = [
       "Early access features",
     ],
     highlight: true,
-    color: "bg-violet-600 border-violet-600 shadow-lg",
+    color: "bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 border-transparent shadow-lg",
     text: "text-white",
     button: {
       text: "Start Plus",
       variant: "default" as const,
       disabled: false,
-      ctaColor: "bg-gradient-to-r from-violet-600 via-pink-500 to-orange-400 text-white border-0 hover:brightness-105 shadow-lg"
+      ctaColor:
+        "bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400 text-white border-0 hover:brightness-105 shadow-lg",
     },
   },
   {
@@ -68,7 +70,8 @@ const plansData = [
       text: "Go Pro",
       variant: "outline" as const,
       disabled: false,
-      ctaColor: "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border-0 hover:brightness-105 shadow-lg"
+      ctaColor:
+        "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border-0 hover:brightness-105 shadow-lg",
     },
   },
 ];
