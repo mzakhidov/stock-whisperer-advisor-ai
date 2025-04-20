@@ -15,6 +15,7 @@ import UserProfile from "./pages/UserProfile";
 import Plans from "./pages/Plans";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import React from "react";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const AppRoutes = () => (
     <main className="flex-grow">
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/about" element={<React.lazy(() => import("./pages/About")) />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />

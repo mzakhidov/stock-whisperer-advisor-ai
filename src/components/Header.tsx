@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -34,6 +33,13 @@ export default function Header() {
                   <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                     <Home className="h-4 w-4 mr-2" />
                     Home
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+              <NavigationMenuItem>
+                <Link to="/about">
+                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                    About
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
