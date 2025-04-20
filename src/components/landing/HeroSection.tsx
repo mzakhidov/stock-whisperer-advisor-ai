@@ -41,7 +41,7 @@ export function HeroSection() {
               size="lg" 
               className="bg-white text-finance-navy hover:bg-gray-100 hover:scale-105 transform transition-all duration-200 font-semibold px-8 py-6 text-lg animate-fade-in delay-200"
             >
-              Try It Now <ArrowRight className="ml-2 h-5 w-5" />
+              Try AI Stock Whisperer Now <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
         </div>

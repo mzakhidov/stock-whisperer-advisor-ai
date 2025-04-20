@@ -17,19 +17,19 @@ const testimonials = [
     name: "Sarah J.",
     role: "Individual Investor",
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1287&auto=format&fit=crop",
-    quote: "Stock Whisperer has transformed my investment strategy. The AI-driven insights helped me make more informed decisions.",
+    quote: "AI Stock Whisperer has transformed my investment strategy. The AI-driven insights helped me make more informed decisions.",
   },
   {
     name: "Michael R.",
     role: "Day Trader",
     image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop",
-    quote: "The technical analysis features are incredibly accurate. It's like having a professional analyst by your side.",
+    quote: "The technical analysis features of AI Stock Whisperer are incredibly accurate. It's like having a professional analyst by your side.",
   },
   {
     name: "Emily L.",
     role: "Portfolio Manager",
     image: "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?q=80&w=2940&auto=format&fit=crop",
-    quote: "The sentiment analysis helps me stay ahead of market trends. This tool has become essential for my daily trading.",
+    quote: "The sentiment analysis from AI Stock Whisperer helps me stay ahead of market trends. This tool has become essential for my daily trading.",
   },
 ];
 
@@ -50,7 +50,7 @@ export function CustomerTestimonials() {
     <section className="py-16 bg-gradient-to-b from-white to-gray-50">
       <div className="container px-4 mx-auto">
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-finance-navy">
-          What Our Users Say
+          What Our Users Say About AI Stock Whisperer
         </h2>
         
         <div className="max-w-7xl mx-auto">
