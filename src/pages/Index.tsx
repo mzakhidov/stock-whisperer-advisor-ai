@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import StockSearch from '@/components/StockSearch';
 import StockCard from '@/components/StockCard';
@@ -75,10 +76,10 @@ const Index = () => {
         ) : isLoading ? (
           <StockCardSkeleton />
         ) : selectedStock ? (
-          <>
+          <div className="space-y-6">
             <EnhancedStockCard stock={selectedStock} />
             <CompetitorsTable stock={selectedStock} />
-          </>
+          </div>
         ) : (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
             <p className="text-lg text-gray-500">
@@ -89,7 +90,7 @@ const Index = () => {
         
         <div className="mt-8 text-center text-sm text-gray-500">
           <p>
-            Stock Whisperer provides recommendations based on multiple financial metrics.
+            AI Stock Whisperer provides recommendations based on multiple financial metrics.
             {usingMockData && " Currently using mock data for demonstration purposes."}
           </p>
         </div>
