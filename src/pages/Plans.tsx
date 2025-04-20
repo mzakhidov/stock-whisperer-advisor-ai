@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
+import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 
 const plansData = [
   {
@@ -21,6 +22,7 @@ const plansData = [
       text: "Current Plan",
       variant: "outline" as const,
       disabled: true,
+      ctaColor: "bg-gray-200 text-gray-500 border border-gray-300"
     },
   },
   {
@@ -28,7 +30,7 @@ const plansData = [
     icon: <BadgeDollarSign className="h-8 w-8 mb-2 text-violet-600" />,
     price: {
       monthly: "$9/mo",
-      annually: "$90/yr", // 17% off (was $108)
+      annually: "$90/yr",
     },
     features: [
       "Unlimited watchlists",
@@ -43,6 +45,7 @@ const plansData = [
       text: "Start Plus",
       variant: "default" as const,
       disabled: false,
+      ctaColor: "bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 text-white border-0 hover:brightness-105 shadow-lg"
     },
   },
   {
@@ -50,7 +53,7 @@ const plansData = [
     icon: <PackagePlus className="h-8 w-8 mb-2 text-finance-navy" />,
     price: {
       monthly: "$19/mo",
-      annually: "$190/yr", // 17% off (was $228)
+      annually: "$190/yr",
     },
     features: [
       "All Plus features",
@@ -65,9 +68,92 @@ const plansData = [
       text: "Go Pro",
       variant: "outline" as const,
       disabled: false,
+      ctaColor: "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border-0 hover:brightness-105 shadow-lg"
     },
   },
 ];
+
+// Define plan features for comparison chart
+const comparisonFeatures = [
+  {
+    feature: "Real-time quotes",
+    Freemium: true,
+    Plus: true,
+    Pro: true,
+  },
+  {
+    feature: "Basic analytics",
+    Freemium: true,
+    Plus: true,
+    Pro: true,
+  },
+  {
+    feature: "Unlimited watchlists",
+    Freemium: false,
+    Plus: true,
+    Pro: true,
+  },
+  {
+    feature: "Advanced analytics",
+    Freemium: false,
+    Plus: true,
+    Pro: true,
+  },
+  {
+    feature: "AI-powered signals",
+    Freemium: false,
+    Plus: false,
+    Pro: true,
+  },
+  {
+    feature: "Watchlist limit",
+    Freemium: "5",
+    Plus: "Unlimited",
+    Pro: "Unlimited",
+  },
+  {
+    feature: "Support",
+    Freemium: "Email",
+    Plus: "Priority Email",
+    Pro: "1:1 Portfolio review",
+  },
+  {
+    feature: "Export data",
+    Freemium: false,
+    Plus: false,
+    Pro: true,
+  },
+  {
+    feature: "Early access features",
+    Freemium: false,
+    Plus: true,
+    Pro: true,
+  }
+];
+
+// Simple FAQ data
+const faq = [
+  {
+    q: "Can I switch between monthly and annual billing any time?",
+    a: "Yes! You can switch your billing cycle any time without losing your data or preferences."
+  },
+  {
+    q: "Is there a free trial for paid plans?",
+    a: "All users can try Plus and Pro features free for 7 days—no credit card required."
+  },
+  {
+    q: "What payment methods are accepted?",
+    a: "We accept all major credit cards, PayPal, and Apple Pay."
+  },
+  {
+    q: "Can I cancel my upgrade at any time?",
+    a: "Absolutely! Plans are flexible. Cancel anytime; you'll retain access until your current period ends."
+  },
+  {
+    q: "Will I lose my watchlists if I downgrade?",
+    a: "No, your watchlists are safe! You may need to remove lists if limits change."
+  }
+]
 
 export default function Plans() {
   const [annual, setAnnual] = useState(false);
@@ -113,18 +199,66 @@ export default function Plans() {
               <button
                 disabled={plan.button.disabled}
                 className={`
-                  w-full px-6 py-3 rounded font-semibold text-base
-                  ${plan.button.variant === "default"
-                  ? "bg-white text-violet-600 border border-violet-600 hover:bg-violet-100"
-                  : "border border-gray-300 text-gray-900 bg-transparent hover:bg-gray-100"}
+                  w-[95%] px-6 py-3 rounded-lg font-semibold text-base text-center
+                  ${plan.button.ctaColor}
                   ${plan.button.disabled ? "cursor-not-allowed opacity-50" : ""}
-                  transition-colors duration-200
+                  transition-colors duration-200 animate-pulse-subtle
                 `}
               >
                 {plan.button.text}
               </button>
             </div>
           ))}
+        </div>
+
+        {/* Comparison Chart */}
+        <div className="mt-16">
+          <h2 className="text-2xl font-bold mb-4 text-center text-finance-navy">Compare Plans</h2>
+          <div className="overflow-x-auto">
+            <Table className="min-w-[400px] w-full border rounded-xl bg-white shadow-md">
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-1/3 font-bold text-lg">Feature</TableHead>
+                  <TableHead className="text-center font-bold text-lg">Freemium</TableHead>
+                  <TableHead className="text-center font-bold text-lg">Plus</TableHead>
+                  <TableHead className="text-center font-bold text-lg">Pro</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {comparisonFeatures.map((item) => (
+                  <TableRow key={item.feature}>
+                    <TableCell className="py-3 font-medium">{item.feature}</TableCell>
+                    {["Freemium", "Plus", "Pro"].map((plan) => (
+                      <TableCell key={plan} className="text-center">
+                        {typeof item[plan] === "boolean" ? (
+                          item[plan] ? (
+                            <span className="inline-block text-green-600 text-xl font-bold">&#10003;</span>
+                          ) : (
+                            <span className="inline-block text-gray-400 text-xl font-bold">&#8212;</span>
+                          )
+                        ) : (
+                          <span className="font-semibold">{item[plan]}</span>
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+
+        {/* FAQ Section */}
+        <div className="mt-16 max-w-3xl mx-auto">
+          <h2 className="text-2xl font-bold mb-6 text-center text-finance-navy">Frequently Asked Questions</h2>
+          <div className="space-y-6">
+            {faq.map(f => (
+              <div key={f.q} className="rounded-lg shadow bg-white px-6 py-5">
+                <p className="font-semibold text-finance-navy mb-1">{f.q}</p>
+                <p className="text-gray-700">{f.a}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
