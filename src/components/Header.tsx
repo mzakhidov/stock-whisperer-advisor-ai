@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -25,10 +26,7 @@ export default function Header() {
           <Link to="/" className="text-xl font-bold tracking-tight">
             AI Stock Whisperer
           </Link>
-          <Link to="/plans" className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${location.pathname === "/plans" ? "bg-accent text-accent-foreground" : ""}`}>
-            Plans
-          </Link>
-          
+          {/* Main Navigation */}
           <NavigationMenu>
             <NavigationMenuList>
               <NavigationMenuItem>
@@ -39,7 +37,6 @@ export default function Header() {
                   </NavigationMenuLink>
                 </Link>
               </NavigationMenuItem>
-              
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <BarChart className="h-4 w-4 mr-2" />
@@ -83,7 +80,6 @@ export default function Header() {
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
-              
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <Book className="h-4 w-4 mr-2" />
@@ -116,6 +112,16 @@ export default function Header() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
+          {/* PLANS NAV LINK */}
+          <Link
+            to="/plans"
+            className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
+              location.pathname === "/plans" ? "bg-accent text-accent-foreground" : ""
+            } ml-4`}
+            style={{ marginLeft: 24 }}
+          >
+            Plans
+          </Link>
         </div>
 
         <div className="flex items-center gap-4">
