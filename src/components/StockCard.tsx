@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { StockData, AnalystDetail } from '@/types/stock';
 import { getChangeColor, getRecommendationColor, getRecommendationTextColor } from '@/services/stockService';
+import { ShieldCheck, ShieldHalf, ShieldAlert } from 'lucide-react';
 import MetricBar from './MetricBar';
 import FactorBubbles from './FactorBubbles';
 import { ArrowUp, ArrowDown } from 'lucide-react';
@@ -113,6 +114,26 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
     return Number.isInteger(value) ? value.toString() : value.toFixed(1);
   };
 
+  // Calculate risk level based on metrics
+  const calculateRiskLevel = (stock: StockData) => {
+    // Aggregate scores from different metrics
+    const allMetrics = [
+      ...stock.metrics.fundamental,
+      ...stock.metrics.technical,
+      ...stock.metrics.sentiment
+    ];
+    
+    const averageScore = allMetrics.reduce((sum, metric) => sum + metric.value, 0) / allMetrics.length;
+    
+    if (averageScore >= 80) return { level: 'Low', color: 'text-green-500', icon: ShieldCheck };
+    if (averageScore >= 65) return { level: 'Medium Low', color: 'text-emerald-500', icon: ShieldCheck };
+    if (averageScore >= 50) return { level: 'Medium', color: 'text-yellow-500', icon: ShieldHalf };
+    if (averageScore >= 35) return { level: 'High', color: 'text-orange-500', icon: ShieldAlert };
+    return { level: 'Very High', color: 'text-red-500', icon: ShieldAlert };
+  };
+
+  const riskLevel = calculateRiskLevel(stock);
+
   return (
     <Card className="w-full border-2 border-gray-200 shadow-md overflow-hidden">
       <CardHeader className="bg-finance-navy text-white pb-2">
@@ -145,6 +166,22 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
 
       <CardContent className="pt-4">
         <div className="space-y-6">
+          {/* Risk Level Section */}
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold mb-2">Risk Assessment</h3>
+            <div className="flex items-center space-x-3">
+              <riskLevel.icon className={`h-6 w-6 ${riskLevel.color}`} />
+              <div>
+                <span className={`font-semibold ${riskLevel.color}`}>
+                  {riskLevel.level} Risk
+                </span>
+                <p className="text-sm text-gray-600">
+                  Based on comprehensive analysis of market metrics and company performance
+                </p>
+              </div>
+            </div>
+          </div>
+
           {/* Bubble visualization of top factors */}
           <FactorBubbles factors={topFactors} />
           
