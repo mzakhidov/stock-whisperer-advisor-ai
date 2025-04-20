@@ -1,8 +1,8 @@
-
 import React, { useState } from "react";
 import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
+import FAQAccordion from "../components/FAQAccordion";
 
 const plansData = [
   {
@@ -45,7 +45,7 @@ const plansData = [
       text: "Start Plus",
       variant: "default" as const,
       disabled: false,
-      ctaColor: "bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-400 text-white border-0 hover:brightness-105 shadow-lg"
+      ctaColor: "bg-gradient-to-r from-violet-600 via-pink-500 to-orange-400 text-white border-0 hover:brightness-105 shadow-lg"
     },
   },
   {
@@ -73,7 +73,6 @@ const plansData = [
   },
 ];
 
-// Define plan features for comparison chart
 const comparisonFeatures = [
   {
     feature: "Real-time quotes",
@@ -131,7 +130,6 @@ const comparisonFeatures = [
   }
 ];
 
-// Simple FAQ data
 const faq = [
   {
     q: "Can I switch between monthly and annual billing any time?",
@@ -202,7 +200,7 @@ export default function Plans() {
                   w-[95%] px-6 py-3 rounded-lg font-semibold text-base text-center
                   ${plan.button.ctaColor}
                   ${plan.button.disabled ? "cursor-not-allowed opacity-50" : ""}
-                  transition-colors duration-200 animate-pulse-subtle
+                  transition-colors duration-200
                 `}
               >
                 {plan.button.text}
@@ -211,7 +209,6 @@ export default function Plans() {
           ))}
         </div>
 
-        {/* Comparison Chart */}
         <div className="mt-16">
           <h2 className="text-2xl font-bold mb-4 text-center text-finance-navy">Compare Plans</h2>
           <div className="overflow-x-auto">
@@ -248,17 +245,9 @@ export default function Plans() {
           </div>
         </div>
 
-        {/* FAQ Section */}
         <div className="mt-16 max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold mb-6 text-center text-finance-navy">Frequently Asked Questions</h2>
-          <div className="space-y-6">
-            {faq.map(f => (
-              <div key={f.q} className="rounded-lg shadow bg-white px-6 py-5">
-                <p className="font-semibold text-finance-navy mb-1">{f.q}</p>
-                <p className="text-gray-700">{f.a}</p>
-              </div>
-            ))}
-          </div>
+          <FAQAccordion faq={faq} />
         </div>
       </div>
     </section>
