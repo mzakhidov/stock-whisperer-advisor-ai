@@ -1,9 +1,7 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner';
 
-// Define types for our context
 interface User {
   id: string;
   email: string;
@@ -17,12 +15,11 @@ interface AuthContextType {
   signup: (name: string, email: string, password: string) => Promise<void>;
   logout: () => void;
   isAuthenticated: boolean;
+  resetPassword: (email: string) => Promise<void>;
 }
 
-// Create the context
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Custom hook to use the auth context
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -36,7 +33,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Check if user is logged in from localStorage on initial load
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -45,17 +41,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setLoading(false);
   }, []);
 
-  // Login function
   const login = async (email: string, password: string) => {
     setLoading(true);
     try {
-      // This is a mock login - in a real app, you would validate with an API
-      // For demo purposes, we'll just check if the password is at least 6 characters
       if (password.length < 6) {
         throw new Error('Invalid credentials');
       }
 
-      // Create a mock user
       const mockUser = {
         id: `user-${Date.now()}`,
         email,
@@ -74,16 +66,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Signup function
   const signup = async (name: string, email: string, password: string) => {
     setLoading(true);
     try {
-      // This is a mock signup - in a real app, you would register with an API
       if (password.length < 6) {
         throw new Error('Password must be at least 6 characters');
       }
 
-      // Create a mock user
       const mockUser = {
         id: `user-${Date.now()}`,
         email,
@@ -102,12 +91,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Logout function
   const logout = () => {
     setUser(null);
     localStorage.removeItem('user');
     toast.info('Logged out');
     navigate('/');
+  };
+
+  const resetPassword = async (email: string) => {
+    setLoading(true);
+    try {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      toast.success('If an account exists with this email, you will receive password reset instructions.');
+    } catch (error) {
+      toast.error('Failed to process password reset request');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
   };
 
   const isAuthenticated = !!user;
@@ -119,6 +120,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     signup,
     logout,
     isAuthenticated,
+    resetPassword,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

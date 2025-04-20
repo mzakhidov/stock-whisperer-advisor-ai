@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
@@ -8,31 +9,28 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useAuth } from '@/contexts/AuthContext';
-import { LogIn } from 'lucide-react';
+import { KeyRound } from 'lucide-react';
 
-const loginSchema = z.object({
+const resetPasswordSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email address' }),
-  password: z.string().min(6, { message: 'Password must be at least 6 characters' }),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
-const Login = () => {
-  const { login } = useAuth();
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+const ResetPassword = () => {
+  const { resetPassword } = useAuth();
+  const form = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
       email: '',
-      password: '',
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = async (data: ResetPasswordFormValues) => {
     try {
-      await login(data.email, data.password);
+      await resetPassword(data.email);
     } catch (error) {
-      // Error is handled in the auth context
-      console.error('Login error:', error);
+      console.error('Reset password error:', error);
     }
   };
 
@@ -40,9 +38,9 @@ const Login = () => {
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12 sm:px-6 lg:px-8">
       <Card className="w-full max-w-md">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Sign in to your account</CardTitle>
+          <CardTitle className="text-2xl font-bold">Reset Password</CardTitle>
           <CardDescription>
-            Enter your email and password below to sign in to your account
+            Enter your email address and we'll send you instructions to reset your password
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -61,39 +59,18 @@ const Login = () => {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="••••••••" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex items-center justify-end">
-                <Link
-                  to="/reset-password"
-                  className="text-sm font-medium text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
-                <LogIn className="mr-2 h-4 w-4" />
-                Sign in
+                <KeyRound className="mr-2 h-4 w-4" />
+                Send Reset Instructions
               </Button>
             </form>
           </Form>
         </CardContent>
-        <CardFooter className="flex flex-col">
-          <div className="mt-4 text-center text-sm">
-            Don't have an account?{' '}
-            <Link to="/signup" className="font-medium text-primary hover:underline">
-              Sign up
+        <CardFooter className="flex flex-col space-y-2">
+          <div className="text-center text-sm">
+            Remember your password?{' '}
+            <Link to="/login" className="font-medium text-primary hover:underline">
+              Sign in
             </Link>
           </div>
         </CardFooter>
@@ -102,4 +79,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ResetPassword;
