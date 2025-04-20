@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,6 +17,7 @@ import Plans from "./pages/Plans";
 import { AuthProvider } from "./contexts/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import React from "react";
+import About from "./pages/About";
 
 const queryClient = new QueryClient();
 
@@ -25,7 +27,7 @@ const AppRoutes = () => (
     <main className="flex-grow">
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/about" element={<React.lazy(() => import("./pages/About")) />} />
+        <Route path="/about" element={<About />} />
         <Route path="/plans" element={<Plans />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
