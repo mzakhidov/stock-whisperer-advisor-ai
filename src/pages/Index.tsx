@@ -7,6 +7,7 @@ import { StockData } from '@/types/stock';
 import { toast } from "sonner";
 import { API_KEYS, checkApiKeys } from '@/services/apiConfig';
 import EnhancedStockCard from '@/components/EnhancedStockCard';
+import CompetitorsTable from '@/components/CompetitorsTable';
 
 const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
@@ -17,7 +18,6 @@ const Index = () => {
   const fetchStockData = async (ticker: string) => {
     setIsLoading(true);
     try {
-      // Check if using real or mock data
       setUsingMockData(!checkApiKeys());
       
       const data = await getStockData(ticker);
@@ -25,7 +25,6 @@ const Index = () => {
         setSelectedStock(data);
         setHasFetchedInitial(true);
       } else {
-        // If null was returned, the error toast is already shown by the service
         if (hasFetchedInitial) {
           setSelectedStock(null);
         }
@@ -45,7 +44,6 @@ const Index = () => {
     fetchStockData(ticker);
   };
 
-  // Default to loading AAPL on first render
   useEffect(() => {
     if (!hasFetchedInitial) {
       fetchStockData('AAPL');
@@ -77,7 +75,10 @@ const Index = () => {
         ) : isLoading ? (
           <StockCardSkeleton />
         ) : selectedStock ? (
-          <EnhancedStockCard stock={selectedStock} />
+          <>
+            <EnhancedStockCard stock={selectedStock} />
+            <CompetitorsTable stock={selectedStock} />
+          </>
         ) : (
           <div className="text-center py-12 bg-white rounded-lg shadow-md">
             <p className="text-lg text-gray-500">
