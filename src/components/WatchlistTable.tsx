@@ -63,7 +63,8 @@ const WatchlistTable: React.FC<WatchlistTableProps> = ({ stocks, onSelectStock }
                 <TableCell className="text-right">{stock.peRatio?.toFixed(2) || 'N/A'}</TableCell>
                 <TableCell className="text-right">{stock.rsi?.toFixed(2) || 'N/A'}</TableCell>
               </TableRow>
-            ))}
+            );
+          })}
         </TableBody>
       </Table>
     </div>
