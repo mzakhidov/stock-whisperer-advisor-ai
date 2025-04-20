@@ -1,5 +1,4 @@
-
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import UserProfile from "@/components/UserProfile";
@@ -17,6 +16,7 @@ import React from "react";
 
 export default function Header() {
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
 
   return (
     <header className="bg-background border-b border-border sticky top-0 z-10">
@@ -24,6 +24,9 @@ export default function Header() {
         <div className="flex items-center gap-6">
           <Link to="/" className="text-xl font-bold tracking-tight">
             AI Stock Whisperer
+          </Link>
+          <Link to="/plans" className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${location.pathname === "/plans" ? "bg-accent text-accent-foreground" : ""}`}>
+            Plans
           </Link>
           
           <NavigationMenu>
