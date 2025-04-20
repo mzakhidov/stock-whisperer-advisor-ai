@@ -10,7 +10,7 @@ export function RecommendationLevels() {
           Our 5-Level Stock Recommendation System
         </h2>
         <div className="grid md:grid-cols-5 gap-4">
-          <div className="bg-rating-strongBuy text-white p-5 rounded-lg shadow-sm">
+          <div className="bg-rating-strongBuy text-white p-5 rounded-lg shadow-sm transition-transform duration-200 hover:scale-105">
             <h3 className="text-xl font-bold mb-2 flex items-center">
               <TrendingUp className="mr-2 h-5 w-5" /> Strong Buy
             </h3>
@@ -18,7 +18,7 @@ export function RecommendationLevels() {
               Exceptional growth prospects with strong fundamentals, technical signals, and positive market sentiment.
             </p>
           </div>
-          <div className="bg-rating-buy text-white p-5 rounded-lg shadow-sm">
+          <div className="bg-rating-buy text-white p-5 rounded-lg shadow-sm transition-transform duration-200 hover:scale-105">
             <h3 className="text-xl font-bold mb-2 flex items-center">
               <ArrowRight className="mr-2 h-5 w-5" /> Buy
             </h3>
@@ -26,7 +26,7 @@ export function RecommendationLevels() {
               Strong potential for price appreciation with solid metrics across multiple analysis dimensions.
             </p>
           </div>
-          <div className="bg-rating-hold text-black p-5 rounded-lg shadow-sm">
+          <div className="bg-rating-hold text-black p-5 rounded-lg shadow-sm transition-transform duration-200 hover:scale-105">
             <h3 className="text-xl font-bold mb-2 flex items-center">
               <GanttChart className="mr-2 h-5 w-5" /> Hold
             </h3>
@@ -34,7 +34,7 @@ export function RecommendationLevels() {
               Balanced risk-reward profile. Consider maintaining current positions but monitor for changes.
             </p>
           </div>
-          <div className="bg-rating-sell text-white p-5 rounded-lg shadow-sm">
+          <div className="bg-rating-sell text-white p-5 rounded-lg shadow-sm transition-transform duration-200 hover:scale-105">
             <h3 className="text-xl font-bold mb-2 flex items-center">
               <BarChart className="mr-2 h-5 w-5" /> Sell
             </h3>
@@ -42,7 +42,7 @@ export function RecommendationLevels() {
               Deteriorating metrics suggesting increased risk. Consider reducing positions in these stocks.
             </p>
           </div>
-          <div className="bg-rating-strongSell text-white p-5 rounded-lg shadow-sm">
+          <div className="bg-rating-strongSell text-white p-5 rounded-lg shadow-sm transition-transform duration-200 hover:scale-105">
             <h3 className="text-xl font-bold mb-2 flex items-center">
               <LineChart className="mr-2 h-5 w-5" /> Strong Sell
             </h3>
