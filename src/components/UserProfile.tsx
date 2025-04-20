@@ -2,7 +2,8 @@
 import React from 'react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Button } from '@/components/ui/button';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, UserCog } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const UserProfile: React.FC = () => {
   const { user, logout } = useAuth();
@@ -17,6 +18,12 @@ const UserProfile: React.FC = () => {
         </div>
         <div className="text-sm font-medium">{user.name}</div>
       </div>
+      <Link to="/profile">
+        <Button variant="outline" size="sm" className="gap-2">
+          <UserCog className="h-4 w-4" />
+          Profile
+        </Button>
+      </Link>
       <Button variant="outline" size="sm" onClick={logout}>
         <LogOut className="h-4 w-4 mr-2" />
         Logout

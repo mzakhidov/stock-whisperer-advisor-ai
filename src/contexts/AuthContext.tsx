@@ -8,6 +8,12 @@ interface User {
   name: string;
 }
 
+interface UpdateProfileData {
+  name: string;
+  email: string;
+  password?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   loading: boolean;
@@ -16,6 +22,7 @@ interface AuthContextType {
   logout: () => void;
   isAuthenticated: boolean;
   resetPassword: (email: string) => Promise<void>;
+  updateProfile: (data: UpdateProfileData) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -111,6 +118,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const updateProfile = async (data: UpdateProfileData) => {
+    setLoading(true);
+    try {
+      const updatedUser = {
+        ...user!,
+        name: data.name,
+        email: data.email,
+      };
+      
+      setUser(updatedUser);
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+      toast.success('Profile updated successfully');
+    } catch (error) {
+      toast.error('Failed to update profile');
+      throw error;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const isAuthenticated = !!user;
 
   const value = {
@@ -121,6 +148,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     logout,
     isAuthenticated,
     resetPassword,
+    updateProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
