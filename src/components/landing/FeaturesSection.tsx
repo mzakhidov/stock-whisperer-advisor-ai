@@ -3,11 +3,6 @@ import React from 'react';
 import { DollarSign, BarChart, LineChart } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
-// Images based on your requirements
-// Fundamental: chart (earnings/growth)
-// Technical: candlestick chart up
-// Sentiment: news headline or analyst ratings
-
 export function FeaturesSection() {
   return (
     <section className="py-16 bg-white">
@@ -29,9 +24,8 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
-                {/* Placeholder image: dashboard or colorful chart */}
                 <img
-                  src="/placeholder/photo-1488590528505-98d2b5aba04b.jpg"
+                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop"
                   alt="Earnings growth chart"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
@@ -51,9 +45,8 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
-                {/* Placeholder image: candlestick chart */}
                 <img
-                  src="/placeholder/photo-1461749280684-dccba630e2f6.jpg"
+                  src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop"
                   alt="Candlestick chart trending upward"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
@@ -73,10 +66,9 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
-                {/* Placeholder image: news or analyst environment */}
                 <img
-                  src="/placeholder/photo-1605810230434-7631ac76ec81.jpg"
-                  alt="News headline about company"
+                  src="https://images.unsplash.com/photo-1586339949216-35c2747cc36d?q=80&w=1470&auto=format&fit=crop"
+                  alt="Positive news headline about company"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
