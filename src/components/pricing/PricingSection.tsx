@@ -4,6 +4,7 @@ import PlanCard from "./PlanCard";
 import PricingToggle from "./PricingToggle";
 import { useAuth } from "@/contexts/AuthContext";
 import { BadgeDollarSign, Package, PackagePlus, Badge } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const plansData = [
   {
@@ -81,21 +82,23 @@ interface PricingSectionProps {
 
 const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
+  // Compute plans, modifying Freemium CTA text and styling if not authenticated
   const computedPlans = plansData.map((plan) => {
     if (plan.name !== "Freemium") return plan;
 
     if (!isAuthenticated) {
       // Copy Plus CTA styling for Freemium with "Try For Free" text
-      const plusPlan = plansData.find((p) => p.name === "Plus");
+      const plusPlan = plansData.find((p) => p.name === "Plus")!;
       return {
         ...plan,
         button: {
           ...plan.button,
           text: "Try For Free",
-          variant: plusPlan!.button.variant,
+          variant: plusPlan.button.variant,
           disabled: false,
-          ctaColor: plusPlan!.button.ctaColor,
+          ctaColor: plusPlan.button.ctaColor,
         },
       };
     } else {
@@ -104,6 +107,9 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
     }
   });
 
+  // Custom PlanCard wrapper that wraps buttons in link to /signup
+  // Since PlanCard renders a button only, we replace the button with one navigating to /signup
+  // We'll add an onClick that navigates to /signup if not disabled
   return (
     <section>
       <PricingToggle annual={annual} setAnnual={setAnnual} />
@@ -117,7 +123,21 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
                 </span>
               </div>
             )}
-            <PlanCard plan={plan} annual={annual} />
+            <PlanCard
+              plan={{
+                ...plan,
+                button: {
+                  ...plan.button,
+                  onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+                    e.preventDefault();
+                    if (!plan.button.disabled) {
+                      navigate("/signup");
+                    }
+                  },
+                },
+              }}
+              annual={annual}
+            />
           </div>
         ))}
       </div>
@@ -126,4 +146,3 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
 };
 
 export default PricingSection;
-
