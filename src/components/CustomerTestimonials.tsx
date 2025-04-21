@@ -16,19 +16,19 @@ const testimonials = [
   {
     name: "Sarah J.",
     role: "Individual Investor",
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1287&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     quote: "AI Stock Whisperer has transformed my investment strategy. The AI-driven insights helped me make more informed decisions.",
   },
   {
     name: "Michael R.",
     role: "Day Trader",
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     quote: "The technical analysis features of AI Stock Whisperer are incredibly accurate. It's like having a professional analyst by your side.",
   },
   {
     name: "Emily L.",
     role: "Portfolio Manager",
-    image: "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?q=80&w=2940&auto=format&fit=crop",
+    image: "https://images.unsplash.com/photo-1573497019236-17f8177b81e8?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     quote: "The sentiment analysis from AI Stock Whisperer helps me stay ahead of market trends. This tool has become essential for my daily trading.",
   },
 ];
@@ -73,10 +73,17 @@ export function CustomerTestimonials() {
                           "{testimonial.quote}"
                         </p>
                         <div className="mt-auto">
-                          <Avatar className="h-16 w-16 mb-4">
-                            <AvatarImage src={testimonial.image} alt={testimonial.name} />
-                            <AvatarFallback>{testimonial.name.split(' ')[0][0]}</AvatarFallback>
-                          </Avatar>
+                          <div className="relative rounded-full overflow-hidden h-16 w-16 mb-4 shadow-lg">
+                            <div className="absolute inset-0 bg-black/10 z-10"></div>
+                            <Avatar className="h-16 w-16">
+                              <AvatarImage 
+                                src={testimonial.image} 
+                                alt={testimonial.name} 
+                                className="object-cover"
+                              />
+                              <AvatarFallback>{testimonial.name.split(' ')[0][0]}</AvatarFallback>
+                            </Avatar>
+                          </div>
                           <div className="text-center">
                             <h3 className="font-semibold text-lg text-finance-navy">
                               {testimonial.name}
