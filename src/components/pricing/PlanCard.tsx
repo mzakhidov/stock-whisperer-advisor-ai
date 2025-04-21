@@ -15,6 +15,7 @@ type Plan = {
     variant: "default" | "outline";
     disabled: boolean;
     ctaColor: string;
+    onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   };
 };
 
@@ -51,6 +52,7 @@ const PlanCard: React.FC<PlanCardProps> = ({ plan, annual }) => (
         transition-colors duration-200 outline-2 outline-offset-2
       `}
       style={{ outlineColor: "transparent" }}
+      onClick={plan.button.onClick}
     >
       {plan.button.text}
     </button>
