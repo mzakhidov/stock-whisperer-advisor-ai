@@ -1,10 +1,12 @@
 
 import React, { useState } from "react";
 import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
-import { Switch } from "@/components/ui/switch";
-import { Table, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/ui/table";
 import FAQAccordion from "../components/FAQAccordion";
+import PlanCard from "../components/pricing/PlanCard";
+import PlanComparisonTable from "../components/pricing/PlanComparisonTable";
+import PricingToggle from "../components/pricing/PricingToggle";
 
+// Data arrays moved outside component for clarity
 const plansData = [
   {
     name: "Freemium",
@@ -158,7 +160,7 @@ const faq = [
     q: "Will I lose my watchlists if I downgrade?",
     a: "No, your watchlists are safe! You may need to remove lists if limits change."
   }
-]
+];
 
 export default function Plans() {
   const [annual, setAnnual] = useState(false);
@@ -172,85 +174,17 @@ export default function Plans() {
         <p className="text-center text-gray-500 mb-6">
           Upgrade anytime – transparent pricing, no hidden fees.
         </p>
-        <div className="flex items-center justify-center gap-3 mb-10">
-          <span className={`font-semibold transition-colors ${!annual ? "text-violet-600" : "text-gray-500"}`}>Monthly</span>
-          <Switch checked={annual} onCheckedChange={setAnnual} />
-          <span className={`font-semibold transition-colors ${annual ? "text-violet-600" : "text-gray-500"}`}>Annually</span>
-          <span className="ml-2 text-xs bg-green-100 text-green-700 px-2 py-1 rounded-full">
-            Save 17% on Annual!
-          </span>
-        </div>
+        <PricingToggle annual={annual} setAnnual={setAnnual} />
+
         <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
           {plansData.map((plan) => (
-            <div
-              key={plan.name}
-              className={`flex flex-col items-center border-2 ${plan.color} rounded-2xl px-8 py-10 w-full max-w-xs hover:scale-105 transition-transform duration-300 ${
-                plan.highlight ? "ring-4 ring-violet-200" : ""
-              }`}
-            >
-              {plan.icon}
-              <h2 className={`text-2xl font-bold mb-2 ${plan.text}`}>{plan.name}</h2>
-              <div className={`text-xl font-semibold mb-4 ${plan.text}`}>
-                {annual ? plan.price.annually : plan.price.monthly}
-              </div>
-              <ul className={`text-sm mb-6 w-full ${plan.bodyTextColor}`}>
-                {plan.features.map((feature) => (
-                  <li key={feature} className="py-1 flex items-center">
-                    <span className="w-2 h-2 rounded-full bg-green-500 mr-2 inline-block"></span>
-                    {feature}
-                  </li>
-                ))}
-              </ul>
-              <button
-                disabled={plan.button.disabled}
-                className={`
-                  w-[95%] px-6 py-3 rounded-lg font-semibold text-base text-center
-                  ${plan.button.ctaColor}
-                  ${plan.button.disabled ? "cursor-not-allowed opacity-50" : ""}
-                  transition-colors duration-200 outline-2 outline-offset-2
-                `}
-                style={{ outlineColor: "transparent" }} // to keep a consistent base and rely on ctaColor outlines
-              >
-                {plan.button.text}
-              </button>
-            </div>
+            <PlanCard plan={plan} key={plan.name} annual={annual} />
           ))}
         </div>
 
         <div className="mt-16">
           <h2 className="text-2xl font-bold mb-4 text-center text-finance-navy">Compare Plans</h2>
-          <div className="overflow-x-auto">
-            <Table className="min-w-[400px] w-full border rounded-xl bg-white shadow-md">
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-1/3 font-bold text-lg">Feature</TableHead>
-                  <TableHead className="text-center font-bold text-lg">Freemium</TableHead>
-                  <TableHead className="text-center font-bold text-lg">Plus</TableHead>
-                  <TableHead className="text-center font-bold text-lg">Pro</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {comparisonFeatures.map((item) => (
-                  <TableRow key={item.feature}>
-                    <TableCell className="py-3 font-medium">{item.feature}</TableCell>
-                    {["Freemium", "Plus", "Pro"].map((plan) => (
-                      <TableCell key={plan} className="text-center">
-                        {typeof item[plan] === "boolean" ? (
-                          item[plan] ? (
-                            <span className="inline-block text-green-600 text-xl font-bold">&#10003;</span>
-                          ) : (
-                            <span className="inline-block text-gray-400 text-xl font-bold">&#8212;</span>
-                          )
-                        ) : (
-                          <span className="font-semibold">{item[plan]}</span>
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </div>
+          <PlanComparisonTable comparisonFeatures={comparisonFeatures} />
         </div>
 
         <div className="mt-16 max-w-3xl mx-auto">
@@ -261,4 +195,3 @@ export default function Plans() {
     </section>
   );
 }
-
