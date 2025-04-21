@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
@@ -18,12 +19,13 @@ const plansData = [
     highlight: false,
     color: "bg-white border-primary",
     text: "text-primary",
+    bodyTextColor: "text-gray-700",
     button: {
       text: "Current Plan",
       variant: "outline" as const,
       disabled: true,
       ctaColor:
-        "bg-gray-200 text-gray-500 border border-gray-300",
+        "bg-gray-200 text-gray-500 border border-gray-300 outline outline-2 outline-gray-400",
     },
   },
   {
@@ -42,12 +44,13 @@ const plansData = [
     highlight: true,
     color: "bg-gradient-to-r from-purple-600 via-purple-700 to-purple-800 border-transparent shadow-lg",
     text: "text-white",
+    bodyTextColor: "text-white",
     button: {
       text: "Start Plus",
       variant: "default" as const,
       disabled: false,
       ctaColor:
-        "bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400 text-white border-0 hover:brightness-105 shadow-lg",
+        "bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400 text-white border border-white hover:brightness-105 shadow-lg outline outline-2 outline-white",
     },
   },
   {
@@ -66,12 +69,13 @@ const plansData = [
     highlight: false,
     color: "bg-white border-finance-navy",
     text: "text-finance-navy",
+    bodyTextColor: "text-gray-700",
     button: {
       text: "Go Pro",
       variant: "outline" as const,
       disabled: false,
       ctaColor:
-        "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border-0 hover:brightness-105 shadow-lg",
+        "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border border-blue-500 hover:brightness-105 shadow-lg outline outline-2 outline-blue-500",
     },
   },
 ];
@@ -189,7 +193,7 @@ export default function Plans() {
               <div className={`text-xl font-semibold mb-4 ${plan.text}`}>
                 {annual ? plan.price.annually : plan.price.monthly}
               </div>
-              <ul className="text-sm mb-6 text-gray-700 w-full">
+              <ul className={`text-sm mb-6 w-full ${plan.bodyTextColor}`}>
                 {plan.features.map((feature) => (
                   <li key={feature} className="py-1 flex items-center">
                     <span className="w-2 h-2 rounded-full bg-green-500 mr-2 inline-block"></span>
@@ -203,8 +207,9 @@ export default function Plans() {
                   w-[95%] px-6 py-3 rounded-lg font-semibold text-base text-center
                   ${plan.button.ctaColor}
                   ${plan.button.disabled ? "cursor-not-allowed opacity-50" : ""}
-                  transition-colors duration-200
+                  transition-colors duration-200 outline-2 outline-offset-2
                 `}
+                style={{ outlineColor: "transparent" }} // to keep a consistent base and rely on ctaColor outlines
               >
                 {plan.button.text}
               </button>
@@ -256,3 +261,4 @@ export default function Plans() {
     </section>
   );
 }
+
