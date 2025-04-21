@@ -52,7 +52,6 @@ export function CustomerTestimonials() {
         <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-finance-navy">
           What Our Users Say About AI Stock Whisperer
         </h2>
-        
         <div className="max-w-7xl mx-auto">
           <Carousel 
             setApi={setApi} 
@@ -66,22 +65,27 @@ export function CustomerTestimonials() {
               {testimonials.map((testimonial, index) => (
                 <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-1/3">
                   <Card className="border-none bg-transparent h-full">
-                    <CardContent className="p-6">
-                      <div className="flex flex-col items-center space-y-4 h-full">
-                        <Quote className="h-8 w-8 text-primary/60" />
+                    <CardContent className="p-6 h-full flex flex-col justify-between">
+                      <div className="flex flex-col h-full">
+                        <Quote className="h-8 w-8 text-primary/60 mb-3" />
                         <p className="text-base md:text-lg text-gray-700 text-center italic mb-6 line-clamp-4">
                           "{testimonial.quote}"
                         </p>
-                        <div className="mt-auto">
-                          <div className="relative rounded-full overflow-hidden h-16 w-16 mb-4 shadow-lg">
-                            <div className="absolute inset-0 bg-black/10 z-10"></div>
-                            <Avatar className="h-16 w-16">
-                              <AvatarImage 
-                                src={testimonial.image} 
-                                alt={testimonial.name} 
-                                className="object-cover"
+                        <div className="flex-grow"></div>
+                        {/* Bottom block: Avatar + Name/Role */}
+                        <div className="flex flex-col items-center gap-2 mt-6">
+                          <div className="relative rounded-full overflow-hidden h-20 w-20 shadow-lg mb-2">
+                            <Avatar className="h-20 w-20">
+                              <AvatarImage
+                                src={testimonial.image}
+                                alt={testimonial.name}
+                                className="object-cover h-full w-full"
+                                style={{ objectPosition: 'center' }}
                               />
-                              <AvatarFallback>{testimonial.name.split(' ')[0][0]}</AvatarFallback>
+                              <div className="absolute inset-0 bg-black/30 z-20" />
+                              <AvatarFallback className="z-30 absolute inset-0 flex items-center justify-center">
+                                {testimonial.name.split(' ')[0][0]}
+                              </AvatarFallback>
                             </Avatar>
                           </div>
                           <div className="text-center">
