@@ -5,10 +5,10 @@ export default function About() {
   return (
     <section className="py-16 bg-white min-h-[60vh]">
       <div className="container mx-auto px-4 max-w-3xl">
-        {/* Wall Street Bull image */}
+        {/* NYSE image */}
         <img
-          src="https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-          alt="Wall Street Bull statue, symbolizing the stock market"
+          src="https://images.unsplash.com/photo-1608534020091-2a61f2a9c567?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
+          alt="New York Stock Exchange building"
           className="rounded-xl shadow-md mb-8 w-full h-64 object-cover object-center"
         />
         <h1 className="text-3xl font-bold text-finance-navy mb-4">About AI Stock Whisperer</h1>
