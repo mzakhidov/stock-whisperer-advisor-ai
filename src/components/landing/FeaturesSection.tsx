@@ -3,6 +3,11 @@ import React from 'react';
 import { DollarSign, BarChart, LineChart } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
 
+// Images based on your requirements
+// Fundamental: chart (earnings/growth)
+// Technical: candlestick chart up
+// Sentiment: news headline or analyst ratings
+
 export function FeaturesSection() {
   return (
     <section className="py-16 bg-white">
@@ -11,6 +16,7 @@ export function FeaturesSection() {
           Make Informed Investment Decisions
         </h2>
         <div className="grid md:grid-cols-3 gap-8">
+          {/* Fundamental Analysis */}
           <div className="flex flex-col bg-gray-50 rounded-lg shadow-sm border border-gray-100">
             <div className="p-6">
               <div className="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mb-4">
@@ -23,15 +29,16 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
+                {/* Placeholder image: dashboard or colorful chart */}
                 <img
-                  src="https://images.unsplash.com/photo-1554260570-9140fd3b7614?q=80&w=1470&auto=format&fit=crop"
-                  alt="Financial statements and reports"
+                  src="/placeholder/photo-1488590528505-98d2b5aba04b.jpg"
+                  alt="Earnings growth chart"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
             </div>
           </div>
-
+          {/* Technical Analysis */}
           <div className="flex flex-col bg-gray-50 rounded-lg shadow-sm border border-gray-100">
             <div className="p-6">
               <div className="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mb-4">
@@ -44,15 +51,16 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
+                {/* Placeholder image: candlestick chart */}
                 <img
-                  src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop"
-                  alt="Stock market charts and technical analysis"
+                  src="/placeholder/photo-1461749280684-dccba630e2f6.jpg"
+                  alt="Candlestick chart trending upward"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
             </div>
           </div>
-
+          {/* Sentiment Analysis */}
           <div className="flex flex-col bg-gray-50 rounded-lg shadow-sm border border-gray-100">
             <div className="p-6">
               <div className="rounded-full bg-blue-100 w-12 h-12 flex items-center justify-center mb-4">
@@ -65,9 +73,10 @@ export function FeaturesSection() {
             </div>
             <div className="mt-auto">
               <AspectRatio ratio={16/9} className="bg-muted">
+                {/* Placeholder image: news or analyst environment */}
                 <img
-                  src="https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?q=80&w=1470&auto=format&fit=crop"
-                  alt="Social media and news analytics"
+                  src="/placeholder/photo-1605810230434-7631ac76ec81.jpg"
+                  alt="News headline about company"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>

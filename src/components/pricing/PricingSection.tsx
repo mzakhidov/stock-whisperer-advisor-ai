@@ -6,7 +6,28 @@ import { useAuth } from "@/contexts/AuthContext";
 import { BadgeDollarSign, Package, PackagePlus, Badge } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const plansData = [
+// Extend the typing for the Plan button to allow optional onClick field
+type PlanButton = {
+  text: string;
+  variant: "default" | "outline";
+  disabled: boolean;
+  ctaColor: string;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+};
+
+type Plan = {
+  name: string;
+  icon: React.ReactNode;
+  price: { monthly: string; annually: string };
+  features: string[];
+  highlight: boolean;
+  color: string;
+  text: string;
+  bodyTextColor: string;
+  button: PlanButton;
+};
+
+const plansData: Plan[] = [
   {
     name: "Freemium",
     icon: <Package className="h-8 w-8 mb-2 text-primary" />,
@@ -23,7 +44,7 @@ const plansData = [
     bodyTextColor: "text-gray-700",
     button: {
       text: "Current Plan",
-      variant: "outline" as const,
+      variant: "outline",
       disabled: true,
       ctaColor:
         "bg-gray-200 text-gray-500 border border-gray-300 outline outline-2 outline-gray-400",
@@ -45,7 +66,7 @@ const plansData = [
     bodyTextColor: "text-white",
     button: {
       text: "Start Plus",
-      variant: "default" as const,
+      variant: "default",
       disabled: false,
       ctaColor:
         "bg-gradient-to-r from-purple-700 via-pink-600 to-yellow-400 text-white border border-white hover:brightness-105 shadow-lg outline outline-2 outline-white",
@@ -67,7 +88,7 @@ const plansData = [
     bodyTextColor: "text-gray-700",
     button: {
       text: "Go Pro",
-      variant: "outline" as const,
+      variant: "outline",
       disabled: false,
       ctaColor:
         "bg-gradient-to-r from-orange-400 via-pink-600 to-blue-500 text-white border border-blue-500 hover:brightness-105 shadow-lg outline outline-2 outline-blue-500",
@@ -84,32 +105,49 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
-  // Compute plans, modifying Freemium CTA text and styling if not authenticated
+  // Ensure all CTAs route to Signup except disabled states
   const computedPlans = plansData.map((plan) => {
-    if (plan.name !== "Freemium") return plan;
+    let button: PlanButton = { ...plan.button };
 
-    if (!isAuthenticated) {
-      // Copy Plus CTA styling for Freemium with "Try For Free" text
-      const plusPlan = plansData.find((p) => p.name === "Plus")!;
-      return {
-        ...plan,
-        button: {
-          ...plan.button,
+    // For all plans (even Freemium), if CTA is not disabled, clicking navigates to /signup
+    if (!plan.button.disabled) {
+      button = {
+        ...button,
+        onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+          e.preventDefault();
+          navigate("/signup");
+        },
+      };
+      // For the Freemium plan, if user is not authenticated, stylize like Plus and change text
+      if (plan.name === "Freemium" && !isAuthenticated) {
+        const plusPlan = plansData.find((p) => p.name === "Plus")!;
+        button = {
+          ...button,
+          text: "Try For Free",
+          variant: plusPlan.button.variant,
+          ctaColor: plusPlan.button.ctaColor
+        };
+      }
+    } else {
+      // If user is not authenticated and Freemium, still set Try For Free CTA
+      if (plan.name === "Freemium" && !isAuthenticated) {
+        const plusPlan = plansData.find((p) => p.name === "Plus")!;
+        button = {
+          ...button,
           text: "Try For Free",
           variant: plusPlan.button.variant,
           disabled: false,
           ctaColor: plusPlan.button.ctaColor,
-        },
-      };
-    } else {
-      // Default "Current Plan" style (as before)
-      return plan;
+          onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            navigate("/signup");
+          },
+        };
+      }
     }
+    return { ...plan, button };
   });
 
-  // Custom PlanCard wrapper that wraps buttons in link to /signup
-  // Since PlanCard renders a button only, we replace the button with one navigating to /signup
-  // We'll add an onClick that navigates to /signup if not disabled
   return (
     <section>
       <PricingToggle annual={annual} setAnnual={setAnnual} />
@@ -124,18 +162,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
               </div>
             )}
             <PlanCard
-              plan={{
-                ...plan,
-                button: {
-                  ...plan.button,
-                  onClick: (e: React.MouseEvent<HTMLButtonElement>) => {
-                    e.preventDefault();
-                    if (!plan.button.disabled) {
-                      navigate("/signup");
-                    }
-                  },
-                },
-              }}
+              plan={plan}
               annual={annual}
             />
           </div>
