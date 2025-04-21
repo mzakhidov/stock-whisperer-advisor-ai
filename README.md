@@ -4,7 +4,7 @@
 This project has been built by me using popular no-code platform, Lovable.dev. As part of this project, I'm looking to combine my deep passions for capital markets, product management and Artificial Intelligence (AI) in coming up with a model that provides stock recommendations to everyday folks. The project consists of three phases:
 1. Front-end development using Lovable.dev (React, Typescipt, etc) - **Completed**. This is the Github repository for Phase 1. 
 2. Back-end model recommendation engine based on my own investing methods using (Python and Python libraries) - **In Process**.
-3. Artificial Intelligence / Machine Learning model that trains on historical stock price data to train the model and further optimize the recommendation engine - **In Process**. 
+3. Artificial Intelligence / Machine Learning model that trains on historical stock price data to train the model and measure the accuracy of the recommendation engine - **In Process**. 
 
 Note: project might use some mock data. 
 
