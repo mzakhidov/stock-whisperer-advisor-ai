@@ -7,7 +7,7 @@ export default function About() {
       <div className="container mx-auto px-4 max-w-3xl">
         {/* Wall Street Bull image */}
         <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Charging_Bull_statue_in_Bowling_Green_Park%2C_NYC_-_January_2006.jpg/900px-Charging_Bull_statue_in_Bowling_Green_Park%2C_NYC_-_January_2006.jpg"
+          src="https://images.unsplash.com/photo-1554774853-b415df9eeb92?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
           alt="Wall Street Bull statue, symbolizing the stock market"
           className="rounded-xl shadow-md mb-8 w-full h-64 object-cover object-center"
         />
@@ -30,7 +30,7 @@ export default function About() {
           </li>
         </ul>
         <p className="text-gray-700 text-base">
-          Whether you’re a beginner or a pro, AI Stock Whisperer empowers you with data-driven tools, a supportive community, and ongoing innovation to enhance your investing experience.
+          Whether you're a beginner or a pro, AI Stock Whisperer empowers you with data-driven tools, a supportive community, and ongoing innovation to enhance your investing experience.
         </p>
       </div>
     </section>
