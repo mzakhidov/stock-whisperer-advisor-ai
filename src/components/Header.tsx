@@ -1,8 +1,9 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import UserProfile from "@/components/UserProfile";
-import { LogIn, BarChart, Home, Book, ChartPieIcon } from "lucide-react";
+import { LogIn, BarChart, Book, ChartPieIcon } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -28,21 +29,7 @@ export default function Header() {
           {/* Main Navigation */}
           <NavigationMenu>
             <NavigationMenuList>
-              <NavigationMenuItem>
-                <Link to="/">
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    <Home className="h-4 w-4 mr-2" />
-                    Home
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <Link to="/about">
-                  <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                    About
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuItem>
+              {/* Removed Home NavigationMenuItem */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <BarChart className="h-4 w-4 mr-2" />
@@ -118,7 +105,7 @@ export default function Header() {
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          {/* PLANS NAV LINK */}
+          {/* PRICING NAV LINK, was PLANS */}
           <Link
             to="/plans"
             className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
@@ -126,7 +113,7 @@ export default function Header() {
             } ml-4`}
             style={{ marginLeft: 24 }}
           >
-            Plans
+            Pricing
           </Link>
         </div>
 
