@@ -1,4 +1,3 @@
-
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -103,20 +102,7 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Pricing nav as direct link */}
-              <NavigationMenuItem>
-                <NavigationMenuLink asChild>
-                  <Link
-                    to="/plans"
-                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
-                  >
-                    <DollarSign className="h-4 w-4 mr-2" />
-                    Pricing
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
-              {/* About nav as direct link */}
+              {/* About nav as direct link (now before Pricing) */}
               <NavigationMenuItem>
                 <NavigationMenuLink asChild>
                   <Link
@@ -125,6 +111,19 @@ export default function Header() {
                   >
                     <Info className="h-4 w-4 mr-2" />
                     About
+                  </Link>
+                </NavigationMenuLink>
+              </NavigationMenuItem>
+
+              {/* Pricing nav as direct link (now after About) */}
+              <NavigationMenuItem>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/plans"
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  >
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Pricing
                   </Link>
                 </NavigationMenuLink>
               </NavigationMenuItem>
