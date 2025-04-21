@@ -5,6 +5,12 @@ export default function About() {
   return (
     <section className="py-16 bg-white min-h-[60vh]">
       <div className="container mx-auto px-4 max-w-3xl">
+        {/* Add relevant investing-themed image */}
+        <img
+          src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&q=80"
+          alt="Investors collaborating at laptops and big table"
+          className="rounded-xl shadow-md mb-8 w-full h-64 object-cover object-center"
+        />
         <h1 className="text-3xl font-bold text-finance-navy mb-4">About AI Stock Whisperer</h1>
         <p className="text-gray-700 text-lg mb-6">
           <strong>AI Stock Whisperer</strong> is your advanced platform for smart stock discovery, insightful analytics, and actionable investing insights powered by artificial intelligence.

@@ -11,7 +11,6 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import React from "react";
 
@@ -29,7 +28,6 @@ export default function Header() {
           {/* Main Navigation */}
           <NavigationMenu>
             <NavigationMenuList>
-              {/* Removed Home NavigationMenuItem */}
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <BarChart className="h-4 w-4 mr-2" />
@@ -104,9 +102,9 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* PRICING NAV LINK styled like other NavigationMenuItems */}
+              {/* Pricing nav button, icon, and menu */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger hideChevron>
                   <DollarSign className="h-4 w-4 mr-2" />
                   Pricing
                 </NavigationMenuTrigger>
@@ -129,9 +127,9 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* ABOUT NAV LINK styled like other NavigationMenuItems */}
+              {/* About nav button, icon, and menu */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
+                <NavigationMenuTrigger hideChevron>
                   <Info className="h-4 w-4 mr-2" />
                   About
                 </NavigationMenuTrigger>
@@ -156,7 +154,6 @@ export default function Header() {
             </NavigationMenuList>
           </NavigationMenu>
         </div>
-
         <div className="flex items-center gap-4">
           {isAuthenticated ? (
             <UserProfile />
@@ -178,4 +175,3 @@ export default function Header() {
     </header>
   );
 }
-
