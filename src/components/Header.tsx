@@ -3,7 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import UserProfile from "@/components/UserProfile";
-import { LogIn, BarChart, Book, ChartPieIcon } from "lucide-react";
+import { LogIn, BarChart, Book, ChartPieIcon, DollarSign, Info } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -103,26 +103,58 @@ export default function Header() {
                   </ul>
                 </NavigationMenuContent>
               </NavigationMenuItem>
+
+              {/* PRICING NAV LINK styled like other NavigationMenuItems */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <DollarSign className="h-4 w-4 mr-2" />
+                  Pricing
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="p-4 md:w-[300px]">
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to="/plans"
+                          className="block select-none rounded-md p-3 no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium">Pricing Plans</div>
+                          <p className="text-sm text-muted-foreground leading-tight line-clamp-2">
+                            Choose a plan that fits your investing needs
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+
+              {/* ABOUT NAV LINK styled like other NavigationMenuItems */}
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>
+                  <Info className="h-4 w-4 mr-2" />
+                  About
+                </NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="p-4 md:w-[300px]">
+                    <li>
+                      <NavigationMenuLink asChild>
+                        <Link
+                          to="/about"
+                          className="block select-none rounded-md p-3 no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                        >
+                          <div className="text-sm font-medium">About Us</div>
+                          <p className="text-sm text-muted-foreground leading-tight line-clamp-2">
+                            Learn more about AI Stock Whisperer
+                          </p>
+                        </Link>
+                      </NavigationMenuLink>
+                    </li>
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
-          {/* PRICING NAV LINK, was PLANS */}
-          <Link
-            to="/plans"
-            className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
-              location.pathname === "/plans" ? "bg-accent text-accent-foreground" : ""
-            } ml-4`}
-          >
-            Pricing
-          </Link>
-          {/* ABOUT NAV LINK on right of Pricing */}
-          <Link
-            to="/about"
-            className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
-              location.pathname === "/about" ? "bg-accent text-accent-foreground" : ""
-            } ml-4`}
-          >
-            About
-          </Link>
         </div>
 
         <div className="flex items-center gap-4">
