@@ -5,10 +5,10 @@ export default function About() {
   return (
     <section className="py-16 bg-white min-h-[60vh]">
       <div className="container mx-auto px-4 max-w-3xl">
-        {/* Updated image related to capital markets and investing */}
+        {/* Wall Street Bull image */}
         <img
-          src="https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=900&q=80"
-          alt="Multiple monitors displaying stock market charts and financial graphs"
+          src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Charging_Bull_statue_in_Bowling_Green_Park%2C_NYC_-_January_2006.jpg/900px-Charging_Bull_statue_in_Bowling_Green_Park%2C_NYC_-_January_2006.jpg"
+          alt="Wall Street Bull statue, symbolizing the stock market"
           className="rounded-xl shadow-md mb-8 w-full h-64 object-cover object-center"
         />
         <h1 className="text-3xl font-bold text-finance-navy mb-4">About AI Stock Whisperer</h1>
@@ -36,4 +36,3 @@ export default function About() {
     </section>
   );
 }
-
