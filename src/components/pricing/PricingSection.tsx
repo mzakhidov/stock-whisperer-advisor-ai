@@ -3,7 +3,7 @@ import React from "react";
 import PlanCard from "./PlanCard";
 import PricingToggle from "./PricingToggle";
 import { useAuth } from "@/contexts/AuthContext";
-import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
+import { BadgeDollarSign, Package, PackagePlus, Badge } from "lucide-react";
 
 const plansData = [
   {
@@ -86,7 +86,7 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
     if (plan.name !== "Freemium") return plan;
 
     if (!isAuthenticated) {
-      // Copy Plus CTA styling for Freemium
+      // Copy Plus CTA styling for Freemium with "Try For Free" text
       const plusPlan = plansData.find((p) => p.name === "Plus");
       return {
         ...plan,
@@ -107,9 +107,18 @@ const PricingSection: React.FC<PricingSectionProps> = ({ annual, setAnnual }) =>
   return (
     <section>
       <PricingToggle annual={annual} setAnnual={setAnnual} />
-      <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
+      <div className="flex flex-col md:flex-row gap-8 justify-center items-center relative">
         {computedPlans.map((plan) => (
-          <PlanCard plan={plan} key={plan.name} annual={annual} />
+          <div key={plan.name} className="relative w-full max-w-xs">
+            {plan.name === "Plus" && (
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                <span className="inline-flex items-center rounded-full bg-purple-500 px-3 py-1 text-white text-xs font-semibold shadow-lg select-none">
+                  Most Popular
+                </span>
+              </div>
+            )}
+            <PlanCard plan={plan} annual={annual} />
+          </div>
         ))}
       </div>
     </section>
