@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { BadgeDollarSign, Package, PackagePlus } from "lucide-react";
 import FAQAccordion from "../components/FAQAccordion";
@@ -6,7 +5,6 @@ import PlanCard from "../components/pricing/PlanCard";
 import PlanComparisonTable from "../components/pricing/PlanComparisonTable";
 import PricingToggle from "../components/pricing/PricingToggle";
 
-// Data arrays moved outside component for clarity
 const plansData = [
   {
     name: "Freemium",
@@ -34,8 +32,8 @@ const plansData = [
     name: "Plus",
     icon: <BadgeDollarSign className="h-8 w-8 mb-2 text-white" />,
     price: {
-      monthly: "$9/mo",
-      annually: "$90/yr",
+      monthly: "$14.95/mo",
+      annually: "$149/yr",
     },
     features: [
       "Unlimited watchlists",
@@ -59,8 +57,8 @@ const plansData = [
     name: "Pro",
     icon: <PackagePlus className="h-8 w-8 mb-2 text-finance-navy" />,
     price: {
-      monthly: "$19/mo",
-      annually: "$190/yr",
+      monthly: "$29.95/mo",
+      annually: "$299/yr",
     },
     features: [
       "All Plus features",
