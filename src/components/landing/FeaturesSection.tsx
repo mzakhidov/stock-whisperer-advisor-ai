@@ -23,7 +23,7 @@ export function FeaturesSection() {
               </p>
             </div>
             <div className="mt-auto">
-              <AspectRatio ratio={16/9} className="bg-muted">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
                   src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop"
                   alt="Earnings growth chart"
@@ -44,9 +44,9 @@ export function FeaturesSection() {
               </p>
             </div>
             <div className="mt-auto">
-              <AspectRatio ratio={16/9} className="bg-muted">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
-                  src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?q=80&w=1470&auto=format&fit=crop"
+                  src="https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?q=80&w=1470&auto=format&fit=crop"
                   alt="Candlestick chart trending upward"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
@@ -65,7 +65,7 @@ export function FeaturesSection() {
               </p>
             </div>
             <div className="mt-auto">
-              <AspectRatio ratio={16/9} className="bg-muted">
+              <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
                   src="https://images.unsplash.com/photo-1586339949216-35c2747cc36d?q=80&w=1470&auto=format&fit=crop"
                   alt="Positive news headline about company"
@@ -79,3 +79,4 @@ export function FeaturesSection() {
     </section>
   );
 }
+
