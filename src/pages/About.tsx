@@ -1,16 +1,12 @@
 
 import React from "react";
+import CandleChart from "../components/CandleChart";
 
 export default function About() {
   return (
     <section className="py-16 bg-white min-h-[60vh]">
       <div className="container mx-auto px-4 max-w-3xl">
-        {/* Investing-themed image */}
-        <img
-          src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-4.0.3&auto=format&fit=crop&w=1170&q=80"
-          alt="Group of people around video screens showing stock data"
-          className="rounded-xl shadow-md mb-8 w-full h-64 object-cover object-center"
-        />
+        <CandleChart />
         <h1 className="text-3xl font-bold text-finance-navy mb-4">About AI Stock Whisperer</h1>
         <p className="text-gray-700 text-lg mb-6">
           <strong>AI Stock Whisperer</strong> is your advanced platform for smart stock discovery, insightful analytics, and actionable investing insights powered by artificial intelligence.
@@ -36,3 +32,4 @@ export default function About() {
     </section>
   );
 }
+
