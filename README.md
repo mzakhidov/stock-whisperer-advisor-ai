@@ -1,73 +1,107 @@
-# Welcome to your Lovable project
 
-## Project info
+# AI Stock Whisperer
 
-**URL**: https://lovable.dev/projects/25245a3b-d261-4203-8dc8-ee2c0e4bb231
+AI Stock Whisperer is an advanced platform for smart stock discovery, insightful analytics, and actionable investing insights powered by artificial intelligence.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- Real-time stock market data and analysis
+- AI-powered buy/sell signals and risk assessments
+- Personalized dashboards and watchlists
+- Educational resources on stock market basics and investing
+- Secure user authentication and profile management
+- Responsive and modern UI built with React and Tailwind CSS
 
-**Use Lovable**
+## Technologies Used
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/25245a3b-d261-4203-8dc8-ee2c0e4bb231) and start prompting.
+- React
+- TypeScript
+- Vite
+- Tailwind CSS
+- Shadcn UI components
+- React Router DOM for routing
+- Tanstack React Query for data fetching and caching
+- Sonner for notifications
+- Lucide React for icons
 
-Changes made via Lovable will be committed automatically to this repo.
+## Getting Started
 
-**Use your preferred IDE**
+### Prerequisites
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+- Node.js and npm installed (recommend using nvm for version management)
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+### Installation
 
-Follow these steps:
+1. Clone the repository:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+```bash
+git clone <YOUR_GIT_REPOSITORY_URL>
+```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. Navigate to the project directory:
 
-# Step 3: Install the necessary dependencies.
-npm i
+```bash
+cd <PROJECT_DIRECTORY>
+```
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+3. Install dependencies:
+
+```bash
+npm install
+```
+
+4. Set up environment variables:
+
+Create a `.env` file in the root directory and add your API keys:
+
+```env
+VITE_ALPHA_VANTAGE_API_KEY=your_alpha_vantage_api_key
+VITE_FMP_API_KEY=your_financial_modeling_prep_api_key
+VITE_POLYGON_API_KEY=your_polygon_api_key
+```
+
+If no API keys are configured, the app will use mock data.
+
+### Running the App
+
+Start the development server with hot reload:
+
+```bash
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Open your browser and navigate to:
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+http://localhost:8080
+```
 
-**Use GitHub Codespaces**
+## Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+- `src/components`: Reusable UI components
+- `src/pages`: Page components corresponding to routes
+- `src/contexts`: React contexts like AuthContext
+- `src/services`: API and data services, including stock data fetching and recommendation logic
+- `src/hooks`: Custom React hooks
+- `src/types`: TypeScript type definitions
+- `src/App.tsx`: Main app entry and routing
 
-## What technologies are used for this project?
+## Usage
 
-This project is built with:
+- Visit `/` for the landing page
+- Visit `/guides` for educational content (no login required)
+- Login or sign up to access the dashboard and profile
+- Manage your watchlist, view detailed stock data, and get AI-powered recommendations
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Contributing
 
-## How can I deploy this project?
+Contributions are welcome! Please open issues or pull requests for bug fixes and enhancements.
 
-Simply open [Lovable](https://lovable.dev/projects/25245a3b-d261-4203-8dc8-ee2c0e4bb231) and click on Share -> Publish.
+## License
 
-## Can I connect a custom domain to my Lovable project?
+This project is open-source and licensed under the MIT License.
 
-Yes it is!
+---
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Built with ❤️ using React, TypeScript, and Tailwind CSS.
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
