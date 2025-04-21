@@ -111,9 +111,17 @@ export default function Header() {
             className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
               location.pathname === "/plans" ? "bg-accent text-accent-foreground" : ""
             } ml-4`}
-            style={{ marginLeft: 24 }}
           >
             Pricing
+          </Link>
+          {/* ABOUT NAV LINK on right of Pricing */}
+          <Link
+            to="/about"
+            className={`text-sm font-semibold px-3 py-1 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors ${
+              location.pathname === "/about" ? "bg-accent text-accent-foreground" : ""
+            } ml-4`}
+          >
+            About
           </Link>
         </div>
 
@@ -138,3 +146,4 @@ export default function Header() {
     </header>
   );
 }
+
