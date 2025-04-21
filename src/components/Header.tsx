@@ -102,54 +102,30 @@ export default function Header() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
 
-              {/* Pricing nav button, icon, and menu */}
+              {/* Pricing nav as direct link */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger hideChevron>
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  Pricing
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="p-4 md:w-[300px]">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to="/plans"
-                          className="block select-none rounded-md p-3 no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium">Pricing Plans</div>
-                          <p className="text-sm text-muted-foreground leading-tight line-clamp-2">
-                            Choose a plan that fits your investing needs
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/plans"
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  >
+                    <DollarSign className="h-4 w-4 mr-2" />
+                    Pricing
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
-              {/* About nav button, icon, and menu */}
+              {/* About nav as direct link */}
               <NavigationMenuItem>
-                <NavigationMenuTrigger hideChevron>
-                  <Info className="h-4 w-4 mr-2" />
-                  About
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  <ul className="p-4 md:w-[300px]">
-                    <li>
-                      <NavigationMenuLink asChild>
-                        <Link
-                          to="/about"
-                          className="block select-none rounded-md p-3 no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                        >
-                          <div className="text-sm font-medium">About Us</div>
-                          <p className="text-sm text-muted-foreground leading-tight line-clamp-2">
-                            Learn more about AI Stock Whisperer
-                          </p>
-                        </Link>
-                      </NavigationMenuLink>
-                    </li>
-                  </ul>
-                </NavigationMenuContent>
+                <NavigationMenuLink asChild>
+                  <Link
+                    to="/about"
+                    className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50"
+                  >
+                    <Info className="h-4 w-4 mr-2" />
+                    About
+                  </Link>
+                </NavigationMenuLink>
               </NavigationMenuItem>
             </NavigationMenuList>
           </NavigationMenu>
