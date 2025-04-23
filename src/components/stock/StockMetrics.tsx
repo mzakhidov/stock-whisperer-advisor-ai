@@ -1,7 +1,6 @@
 
 import React from 'react';
 import { StockData } from '@/types/stock';
-import BuySellReasons from './BuySellReasons';
 
 interface StockMetricsProps {
   stock: StockData;
@@ -52,10 +51,9 @@ const StockMetrics: React.FC<StockMetricsProps> = ({ stock }) => {
           </div>
         ))}
       </div>
-
-      <BuySellReasons stock={stock} />
     </div>
   );
 };
 
 export default StockMetrics;
+
