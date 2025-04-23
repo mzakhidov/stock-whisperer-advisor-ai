@@ -6,6 +6,7 @@ import MacroeconomicsCard from './MacroeconomicsCard';
 import EarningsCard from './EarningsCard';
 import PriceChart from './PriceChart';
 import AboutSection from './AboutSection';
+import BuySellReasons from './stock/BuySellReasons';
 
 interface EnhancedStockCardProps {
   stock: StockData;
@@ -102,6 +103,7 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
         industry={aboutInfo.industry}
         mainProducts={aboutInfo.mainProducts}
       />
+      <BuySellReasons stock={stock} />
       <PriceChart data={mockHistoricalPrices} />
       <StockCard stock={stock} />
       <EarningsCard earnings={mockEarningsHistory} />
@@ -147,3 +149,4 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
 };
 
 export default EnhancedStockCard;
+
