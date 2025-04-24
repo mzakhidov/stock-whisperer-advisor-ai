@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { StockData } from '@/types/stock';
 import {
@@ -82,59 +83,55 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
   }
 
   return (
-    <>
-      <Separator />
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Analyst Ratings</h3>
-        <div className="flex flex-col md:flex-row items-center justify-between">
-          <div className="w-full md:w-1/2 h-[200px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={analystRatingsData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={50}
-                  outerRadius={80}
-                  paddingAngle={2}
-                  dataKey="value"
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  labelLine={false}
-                >
-                  {analystRatingsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  formatter={(value) => [`${value} analysts`, 'Count']}
-                  contentStyle={{ background: 'white', borderRadius: '4px', border: '1px solid #ccc' }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
+    <div className="bg-white p-6 rounded-lg shadow-md border-2 border-primary/20 my-6">
+      <h3 className="text-xl font-bold mb-4 text-primary">Analyst Ratings</h3>
+      <div className="flex flex-col md:flex-row items-center justify-between">
+        <div className="w-full md:w-1/2 h-[200px]">
+          <ResponsiveContainer width="100%" height="100%">
+            <PieChart>
+              <Pie
+                data={analystRatingsData}
+                cx="50%"
+                cy="50%"
+                innerRadius={50}
+                outerRadius={80}
+                paddingAngle={2}
+                dataKey="value"
+                label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                labelLine={false}
+              >
+                {analystRatingsData.map((entry, index) => (
+                  <Cell key={`cell-${index}`} fill={entry.color} />
+                ))}
+              </Pie>
+              <Tooltip 
+                formatter={(value) => [`${value} analysts`, 'Count']}
+                contentStyle={{ background: 'white', borderRadius: '4px', border: '1px solid #ccc' }}
+              />
+            </PieChart>
+          </ResponsiveContainer>
+        </div>
+        <div className="flex flex-col gap-2 mt-4 md:mt-0">
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-[#22c55e] rounded-full mr-2"></div>
+            <span>Buy: {stock.analystRatings.buy} analysts</span>
           </div>
-          <div className="flex flex-col gap-2 mt-4 md:mt-0">
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-[#22c55e] rounded-full mr-2"></div>
-              <span>Buy: {stock.analystRatings.buy} analysts</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-[#f59e0b] rounded-full mr-2"></div>
-              <span>Hold: {stock.analystRatings.hold} analysts</span>
-            </div>
-            <div className="flex items-center">
-              <div className="w-3 h-3 bg-[#ef4444] rounded-full mr-2"></div>
-              <span>Sell: {stock.analystRatings.sell} analysts</span>
-            </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-[#f59e0b] rounded-full mr-2"></div>
+            <span>Hold: {stock.analystRatings.hold} analysts</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-[#ef4444] rounded-full mr-2"></div>
+            <span>Sell: {stock.analystRatings.sell} analysts</span>
           </div>
         </div>
       </div>
 
-      <Separator className="my-6" />
-      <div>
-        <h3 className="text-lg font-semibold mb-3">Analyst Price Targets</h3>
-        <div className="rounded-md border">
+      <div className="mt-8">
+        <h3 className="text-xl font-bold mb-4 text-primary">Analyst Price Targets</h3>
+        <div className="rounded-md border border-primary/20">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-primary/5">
               <TableRow>
                 <TableHead>Analyst</TableHead>
                 <TableHead>Firm</TableHead>
@@ -145,7 +142,7 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
             </TableHeader>
             <TableBody>
               {mockAnalystDetails.map((analyst, index) => (
-                <TableRow key={index}>
+                <TableRow key={index} className="hover:bg-primary/5">
                   <TableCell className="font-medium">{analyst.name}</TableCell>
                   <TableCell>{analyst.company}</TableCell>
                   <TableCell className={getRecommendationClassName(analyst.recommendation)}>
@@ -162,7 +159,7 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
           </Table>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
