@@ -44,31 +44,28 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
           
           <AnalystRatings stock={stock} />
 
-          {/* Recent News Section */}
+          {/* Recent News Section - Making it more prominent */}
           {stock.recentNews && stock.recentNews.length > 0 && (
-            <>
-              <Separator />
-              <div>
-                <h3 className="text-lg font-semibold mb-3">Recent News</h3>
-                <div className="space-y-3">
-                  {stock.recentNews.map((news, index) => (
-                    <div key={index} className="border-l-4 pl-3 py-1 border-gray-300">
-                      <p className="font-medium">{news.headline}</p>
-                      <div className="flex justify-between text-sm">
-                        <span className={`${
-                          news.sentiment === 'positive' ? 'text-finance-green' :
-                          news.sentiment === 'negative' ? 'text-finance-red' :
-                          'text-gray-500'
-                        }`}>
-                          {news.sentiment.charAt(0).toUpperCase() + news.sentiment.slice(1)} sentiment
-                        </span>
-                        <span className="text-gray-500">{news.date}</span>
-                      </div>
+            <div className="bg-white p-6 rounded-lg shadow-md border-2 border-primary/20 my-6">
+              <h3 className="text-xl font-bold mb-4 text-primary">Recent News</h3>
+              <div className="space-y-3">
+                {stock.recentNews.map((news, index) => (
+                  <div key={index} className="border-l-4 pl-3 py-2 border-gray-300 hover:bg-gray-50 transition-colors">
+                    <p className="font-medium">{news.headline}</p>
+                    <div className="flex justify-between text-sm">
+                      <span className={`${
+                        news.sentiment === 'positive' ? 'text-finance-green' :
+                        news.sentiment === 'negative' ? 'text-finance-red' :
+                        'text-gray-500'
+                      }`}>
+                        {news.sentiment.charAt(0).toUpperCase() + news.sentiment.slice(1)} sentiment
+                      </span>
+                      <span className="text-gray-500">{news.date}</span>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))}
               </div>
-            </>
+            </div>
           )}
 
           {/* Disclaimer */}
