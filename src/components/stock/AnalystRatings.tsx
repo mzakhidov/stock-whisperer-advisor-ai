@@ -83,8 +83,8 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
   }
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md border-2 border-primary/20 my-6">
-      <h3 className="text-xl font-bold mb-4 text-primary">Analyst Ratings</h3>
+    <div className="bg-white p-6 rounded-lg shadow-md border-2 border-purple-200 my-6">
+      <h3 className="text-xl font-bold mb-4 text-[#9b87f5]">Analyst Ratings</h3>
       <div className="flex flex-col md:flex-row items-center justify-between">
         <div className="w-full md:w-1/2 h-[200px]">
           <ResponsiveContainer width="100%" height="100%">
@@ -128,10 +128,10 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
       </div>
 
       <div className="mt-8">
-        <h3 className="text-xl font-bold mb-4 text-primary">Analyst Price Targets</h3>
-        <div className="rounded-md border border-primary/20">
+        <h3 className="text-xl font-bold mb-4 text-[#9b87f5]">Analyst Price Targets</h3>
+        <div className="rounded-md border-2 border-purple-200 shadow-lg">
           <Table>
-            <TableHeader className="bg-primary/5">
+            <TableHeader className="bg-purple-50">
               <TableRow>
                 <TableHead>Analyst</TableHead>
                 <TableHead>Firm</TableHead>
@@ -142,7 +142,7 @@ const AnalystRatings: React.FC<AnalystRatingsProps> = ({ stock }) => {
             </TableHeader>
             <TableBody>
               {mockAnalystDetails.map((analyst, index) => (
-                <TableRow key={index} className="hover:bg-primary/5">
+                <TableRow key={index} className="hover:bg-purple-50">
                   <TableCell className="font-medium">{analyst.name}</TableCell>
                   <TableCell>{analyst.company}</TableCell>
                   <TableCell className={getRecommendationClassName(analyst.recommendation)}>

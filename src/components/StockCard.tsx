@@ -42,15 +42,13 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
           <Separator />
           <StockMetrics stock={stock} />
           
-          <AnalystRatings stock={stock} />
-
-          {/* Recent News Section - Making it more prominent */}
+          {/* Recent News Section - Highly Visible */}
           {stock.recentNews && stock.recentNews.length > 0 && (
-            <div className="bg-white p-6 rounded-lg shadow-md border-2 border-primary/20 my-6">
-              <h3 className="text-xl font-bold mb-4 text-primary">Recent News</h3>
+            <div className="bg-white p-6 rounded-lg shadow-md border-2 border-purple-200 my-6">
+              <h3 className="text-xl font-bold mb-4 text-[#9b87f5]">Recent News</h3>
               <div className="space-y-3">
                 {stock.recentNews.map((news, index) => (
-                  <div key={index} className="border-l-4 pl-3 py-2 border-gray-300 hover:bg-gray-50 transition-colors">
+                  <div key={index} className="border-l-4 pl-3 py-2 border-purple-300 hover:bg-purple-50 transition-colors">
                     <p className="font-medium">{news.headline}</p>
                     <div className="flex justify-between text-sm">
                       <span className={`${
@@ -67,6 +65,8 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
               </div>
             </div>
           )}
+          
+          <AnalystRatings stock={stock} />
 
           {/* Disclaimer */}
           <div className="mt-6 text-xs text-gray-500 italic">
