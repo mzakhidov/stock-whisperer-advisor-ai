@@ -24,7 +24,7 @@ export interface AnalysisResults {
 }
 
 export interface ExternalDataCache {
-  [key: string]: any;
+  [key: string]: number | null;
   lastUpdated?: Date;
 }
 

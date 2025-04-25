@@ -97,14 +97,16 @@ export class StockRecommendationEngine {
     ]);
 
     // Evaluate all indicators and calculate total score
-    const indicatorValues = {
+    const indicatorValues: Record<string, number | null> = {
       RSI: rsiValue,
       Moving_Average_Cross: maValue,
       Annual_Growth_Rate: growthRate,
       Analyst_Price_Projection: priceProjection,
       CEO_Strength: ceoStrength,
       Latest_Company_News: newsSentiment,
-      ...this.externalDataCache
+      ...Object.fromEntries(Object.entries(this.externalDataCache).map(
+        ([key, value]) => [key, typeof value === 'number' ? value : null]
+      ))
     };
 
     for (const [name, value] of Object.entries(indicatorValues)) {
@@ -116,7 +118,7 @@ export class StockRecommendationEngine {
         factors.push({
           name,
           value: Math.min(100, Math.max(0, 50 + score * 25)),
-          description: `${name}: ${value.toFixed(1)}. ${recommendation}`
+          description: `${name}: ${typeof value === 'number' ? value.toFixed(1) : 'N/A'}. ${recommendation}`
         });
       }
     }

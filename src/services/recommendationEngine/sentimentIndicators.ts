@@ -12,10 +12,8 @@ export class SentimentIndicators {
           order: "desc",
           limit: "50",
           sort: "published_utc",
-          published_utc: {
-            gte: formatDate(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)),
-            lte: formatDate(new Date())
-          }
+          "published_utc.gte": formatDate(new Date(Date.now() - 90 * 24 * 60 * 60 * 1000)),
+          "published_utc.lte": formatDate(new Date())
         })
       ]);
       
@@ -59,10 +57,8 @@ export class SentimentIndicators {
         order: "desc",
         limit: "20",
         sort: "published_utc",
-        published_utc: {
-          gte: startDate,
-          lte: endDate
-        }
+        "published_utc.gte": startDate,
+        "published_utc.lte": endDate
       });
       
       if (!news.results?.length) return null;
