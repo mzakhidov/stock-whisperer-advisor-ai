@@ -7,6 +7,8 @@ import EarningsCard from './EarningsCard';
 import PriceChart from './PriceChart';
 import AboutSection from './AboutSection';
 import BuySellReasons from './stock/BuySellReasons';
+import RecentNewsSection from './stock/RecentNewsSection';
+import RecommendationAnalysis from './stock/RecommendationAnalysis';
 
 interface EnhancedStockCardProps {
   stock: StockData;
@@ -144,9 +146,13 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
       />
       <BuySellReasons stock={stock} />
       <PriceChart data={priceData} />
+      {stock.metrics.aiAnalysisFactors && stock.metrics.aiAnalysisFactors.length > 0 && (
+        <RecommendationAnalysis stock={stock} analysisFactors={stock.metrics.aiAnalysisFactors} />
+      )}
       <StockCard stock={stock} />
       <EarningsCard earnings={earningsData} />
       <MacroeconomicsCard macroeconomics={macroData} />
+      <RecentNewsSection news={stock.recentNews} />
     </div>
   );
 };

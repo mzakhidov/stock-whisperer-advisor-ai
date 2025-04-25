@@ -20,9 +20,10 @@ const StockCard: React.FC<StockCardProps> = ({ stock }) => {
 
   // Sort by value and get top 8 factors
   const allMetrics = [
-    ...stock.metrics.fundamental,
-    ...stock.metrics.technical,
-    ...stock.metrics.sentiment
+    ...(stock.metrics.fundamental || []),
+    ...(stock.metrics.technical || []),
+    ...(stock.metrics.sentiment || []),
+    ...(stock.metrics.aiAnalysisFactors || []),
   ];
   const topFactors = [...allMetrics].sort((a, b) => b.value - a.value).slice(0, 8);
 

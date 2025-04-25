@@ -1,3 +1,4 @@
+
 export type StockRecommendation = 'Strong Buy' | 'Buy' | 'Hold' | 'Sell' | 'Strong Sell';
 
 export type MetricScore = {
@@ -48,6 +49,7 @@ export type StockData = {
     fundamental: MetricScore[];
     technical: MetricScore[];
     sentiment: MetricScore[];
+    aiAnalysisFactors?: MetricScore[]; // Added AI analysis factors
   };
   peRatio: number | null;
   rsi: number | null;

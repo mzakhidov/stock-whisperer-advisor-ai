@@ -5,6 +5,7 @@ import { StockData } from "@/types/stock";
 import { fetchFundamentalMetrics, fetchTechnicalIndicators, fetchMarketSentiment } from "./metrics/metricsService";
 import { generateRecommendation } from "./recommendations/recommendationService";
 import { getMockStockData } from "./mockDataService";
+import stockRecommendationEngine from "./recommendationEngine/StockRecommendationEngine";
 
 const fetchStockOverview = async (ticker: string): Promise<any | null> => {
   try {
@@ -124,6 +125,20 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       earningsHistory: mockData?.earningsHistory || [],
       historicalPrices: mockData?.historicalPrices || []
     };
+
+    // Use the recommendation engine to enhance the recommendation
+    try {
+      const engineAnalysis = await stockRecommendationEngine.analyzeStock(stockData);
+      
+      // Update the recommendation with the engine's analysis
+      stockData.recommendation = engineAnalysis.recommendation;
+      
+      // Add AI analysis factors to the metrics
+      stockData.metrics.aiAnalysisFactors = engineAnalysis.factors;
+    } catch (error) {
+      console.error("Error using recommendation engine:", error);
+      // fallback to the simpler recommendation
+    }
 
     return stockData;
   } catch (error) {
