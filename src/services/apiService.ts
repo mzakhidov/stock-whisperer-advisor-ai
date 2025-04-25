@@ -1,3 +1,4 @@
+
 import { toast } from "sonner";
 import { API_KEYS, API_URLS, checkApiKeys } from "./apiConfig";
 import { StockData } from "@/types/stock";
@@ -54,7 +55,18 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
       recentEarnings: mockData?.recentEarnings,
       ceoRating: mockData?.ceoRating,
       marketSentiment: mockData?.marketSentiment,
-      recentNews: mockData?.recentNews,
+      recentNews: mockData?.recentNews || [
+        {
+          headline: `Latest ${ticker} Market Update`,
+          sentiment: 'neutral',
+          date: new Date().toISOString().split('T')[0]
+        },
+        {
+          headline: `${ticker} Announces New Product Line`,
+          sentiment: 'positive',
+          date: new Date(Date.now() - 86400000).toISOString().split('T')[0]
+        }
+      ],
     };
   } catch (error) {
     console.error("Error fetching stock overview:", error);
@@ -86,6 +98,7 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
 
     const mockData = getMockStockData(ticker);
 
+    // Ensure we have data for all sections
     const stockData: StockData = {
       ticker: ticker.toUpperCase(),
       name: overview.name,
@@ -107,7 +120,7 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       recentEarnings: overview.recentEarnings,
       ceoRating: overview.ceoRating,
       marketSentiment: overview.marketSentiment,
-      recentNews: overview.recentNews,
+      recentNews: overview.recentNews || mockData?.recentNews,
       earningsHistory: mockData?.earningsHistory || [],
       historicalPrices: mockData?.historicalPrices || []
     };

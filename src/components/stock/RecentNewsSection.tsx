@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { MessageSquare, TrendingUp, TrendingDown, Smile, Frown, Meh } from 'lucide-react';
+import { MessageSquare, Smile, Frown, Meh } from 'lucide-react';
 
 interface NewsItem {
   headline: string;
@@ -14,7 +14,21 @@ interface RecentNewsSectionProps {
 }
 
 const RecentNewsSection: React.FC<RecentNewsSectionProps> = ({ news }) => {
-  if (!news || news.length === 0) return null;
+  if (!news || news.length === 0) {
+    return (
+      <Card className="mt-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <MessageSquare className="h-5 w-5" />
+            Recent News & Sentiment
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <p className="text-center text-gray-500 py-4">No recent news available for this stock.</p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const getSentimentIcon = (sentiment: string) => {
     switch (sentiment) {

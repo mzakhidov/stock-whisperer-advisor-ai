@@ -28,13 +28,13 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
   };
 
   const aboutInfo = mockDescription[stock.ticker as keyof typeof mockDescription] || {
-    description: stock.description,
-    industry: stock.industry,
-    mainProducts: stock.mainProducts
+    description: stock.description || "No company description available",
+    industry: stock.industry || "Technology",
+    mainProducts: stock.mainProducts || ["Various Products"]
   };
 
   // Generate mock earnings history data if not present
-  const mockEarningsHistory = stock.earningsHistory || [
+  const earningsData = stock.earningsHistory || [
     {
       date: "2025-01-30",
       period: "Q1 2025",
@@ -79,7 +79,7 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
   ];
 
   // Generate mock historical prices data if not present
-  const mockHistoricalPrices = stock.historicalPrices || Array.from({ length: 30 }, (_, i) => {
+  const priceData = stock.historicalPrices || Array.from({ length: 30 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (30 - i));
     
@@ -95,6 +95,45 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
     };
   });
 
+  // Generate mock macroeconomics data if not present
+  const macroData = stock.macroeconomics || {
+    gdpGrowth: {
+      name: 'GDP Growth',
+      value: '2.5%',
+      change: 0.3,
+      trend: 'up' as const,
+      period: 'Q4 2024'
+    },
+    unemploymentRate: {
+      name: 'Unemployment Rate',
+      value: '3.8%',
+      change: -0.2,
+      trend: 'down' as const,
+      period: 'Mar 2024'
+    },
+    inflationRate: {
+      name: 'Inflation Rate',
+      value: '3.1%',
+      change: -0.4,
+      trend: 'down' as const,
+      period: 'Mar 2024'
+    },
+    consumerSpending: {
+      name: 'Consumer Spending',
+      value: '+0.8%',
+      change: 0.2,
+      trend: 'up' as const,
+      period: 'Feb 2024'
+    },
+    fedFundsRate: {
+      name: 'Fed Funds Rate',
+      value: '5.50%',
+      change: 0,
+      trend: 'neutral' as const,
+      period: 'Mar 2024'
+    }
+  };
+
   return (
     <div className="space-y-6">
       <AboutSection 
@@ -104,49 +143,12 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
         mainProducts={aboutInfo.mainProducts}
       />
       <BuySellReasons stock={stock} />
-      <PriceChart data={mockHistoricalPrices} />
+      <PriceChart data={priceData} />
       <StockCard stock={stock} />
-      <EarningsCard earnings={mockEarningsHistory} />
-      <MacroeconomicsCard macroeconomics={stock.macroeconomics || {
-        gdpGrowth: {
-          name: 'GDP Growth',
-          value: '2.5%',
-          change: 0.3,
-          trend: 'up' as const,
-          period: 'Q4 2024'
-        },
-        unemploymentRate: {
-          name: 'Unemployment Rate',
-          value: '3.8%',
-          change: -0.2,
-          trend: 'down' as const,
-          period: 'Mar 2024'
-        },
-        inflationRate: {
-          name: 'Inflation Rate',
-          value: '3.1%',
-          change: -0.4,
-          trend: 'down' as const,
-          period: 'Mar 2024'
-        },
-        consumerSpending: {
-          name: 'Consumer Spending',
-          value: '+0.8%',
-          change: 0.2,
-          trend: 'up' as const,
-          period: 'Feb 2024'
-        },
-        fedFundsRate: {
-          name: 'Fed Funds Rate',
-          value: '5.50%',
-          change: 0,
-          trend: 'neutral' as const,
-          period: 'Mar 2024'
-        }
-      }} />
+      <EarningsCard earnings={earningsData} />
+      <MacroeconomicsCard macroeconomics={macroData} />
     </div>
   );
 };
 
 export default EnhancedStockCard;
-
