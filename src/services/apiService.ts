@@ -1,4 +1,3 @@
-
 import { toast } from "sonner";
 import { API_KEYS, API_URLS, checkApiKeys } from "./apiConfig";
 import { StockData } from "@/types/stock";
@@ -8,48 +7,28 @@ import { getMockStockData } from "./mockDataService";
 
 const fetchStockOverview = async (ticker: string): Promise<any | null> => {
   try {
-    if (API_KEYS.ALPHA_VANTAGE) {
+    if (API_KEYS.POLYGON) {
       const response = await fetch(
-        `${API_URLS.ALPHA_VANTAGE}?function=GLOBAL_QUOTE&symbol=${ticker}&apikey=${API_KEYS.ALPHA_VANTAGE}`
+        `${API_URLS.POLYGON}/aggs/ticker/${ticker}/prev?adjusted=true&apiKey=${API_KEYS.POLYGON}`
       );
       const data = await response.json();
       
-      if (data['Global Quote']) {
-        const quote = data['Global Quote'];
+      if (data.results && data.results.length > 0) {
+        const quote = data.results[0];
+        const previousClose = quote.c;
+        const currentPrice = quote.c;
+        const change = currentPrice - previousClose;
+        const changePercent = (change / previousClose) * 100;
+        
         return {
           name: ticker,
-          price: parseFloat(quote['05. price']),
-          change: parseFloat(quote['09. change']),
-          changePercent: parseFloat(quote['10. change percent'].replace('%', '')),
+          price: currentPrice,
+          change: change,
+          changePercent: changePercent,
           peRatio: null,
           rsi: null,
           fiftyDayMA: null,
           twoHundredDayMA: null,
-          analystRatings: null,
-          growthRate: null,
-          recentEarnings: null,
-          ceoRating: null,
-          marketSentiment: null,
-          recentNews: null,
-        };
-      }
-    } else if (API_KEYS.FINANCIAL_MODELING_PREP) {
-      const response = await fetch(
-        `${API_URLS.FINANCIAL_MODELING_PREP}/quote/${ticker}?apikey=${API_KEYS.FINANCIAL_MODELING_PREP}`
-      );
-      const data = await response.json();
-      
-      if (data && data.length > 0) {
-        const quote = data[0];
-        return {
-          name: quote.name,
-          price: quote.price,
-          change: quote.change,
-          changePercent: quote.changesPercentage,
-          peRatio: null,
-          rsi: null,
-          fiftyDayMA: null,
-          twoHundredDayMA: quote.priceAvg200,
           analystRatings: null,
           growthRate: null,
           recentEarnings: null,

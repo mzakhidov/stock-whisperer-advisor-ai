@@ -1,4 +1,3 @@
-
 import { API_KEYS, API_URLS } from '../apiConfig';
 import { MetricScore } from '@/types/stock';
 import { calculateGrowthValue, calculateEarningsQuality } from './calculators';
@@ -76,37 +75,37 @@ export const fetchTechnicalIndicators = async (ticker: string): Promise<MetricSc
   try {
     const metrics: MetricScore[] = [];
     
-    if (API_KEYS.ALPHA_VANTAGE) {
-      const rsiResponse = await fetch(
-        `${API_URLS.ALPHA_VANTAGE}?function=RSI&symbol=${ticker}&interval=daily&time_period=14&series_type=close&apikey=${API_KEYS.ALPHA_VANTAGE}`
-      );
-      const rsiData = await rsiResponse.json();
+    if (API_KEYS.POLYGON) {
+      const endDate = new Date().toISOString().split('T')[0];
+      const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
       
-      if (rsiData && rsiData['Technical Analysis: RSI']) {
-        const rsiValues = Object.values(rsiData['Technical Analysis: RSI']) as any[];
-        if (rsiValues.length > 0 && rsiValues[0].RSI) {
-          const latestRsi = parseFloat(rsiValues[0].RSI);
-          
-          let rsiValue = 50;
-          let rsiDescription = '';
-          
-          if (latestRsi < 35) {
-            rsiValue = 90;
-            rsiDescription = 'RSI below 35 indicates oversold conditions, strong buy signal';
-          } else if (latestRsi > 90) {
-            rsiValue = 10;
-            rsiDescription = 'RSI above 90 indicates overbought conditions, strong sell signal';
-          } else {
-            rsiValue = 50 + ((60 - latestRsi) / 25) * 20;
-            rsiDescription = `RSI of ${latestRsi.toFixed(2)} indicates neutral momentum`;
-          }
-          
-          metrics.push({
-            name: 'RSI',
-            value: rsiValue,
-            description: rsiDescription
-          });
+      const response = await fetch(
+        `${API_URLS.POLYGON}/indicators/rsi/${ticker}?timespan=day&adjusted=true&window=14&series_type=close&order=desc&apiKey=${API_KEYS.POLYGON}&start_date=${startDate}&end_date=${endDate}`
+      );
+      const data = await response.json();
+      
+      if (data.results && data.results.values && data.results.values.length > 0) {
+        const latestRsi = data.results.values[0].value;
+        
+        let rsiValue = 50;
+        let rsiDescription = '';
+        
+        if (latestRsi < 35) {
+          rsiValue = 90;
+          rsiDescription = 'RSI below 35 indicates oversold conditions, strong buy signal';
+        } else if (latestRsi > 90) {
+          rsiValue = 10;
+          rsiDescription = 'RSI above 90 indicates overbought conditions, strong sell signal';
+        } else {
+          rsiValue = 50 + ((60 - latestRsi) / 25) * 20;
+          rsiDescription = `RSI of ${latestRsi.toFixed(2)} indicates neutral momentum`;
         }
+        
+        metrics.push({
+          name: 'RSI',
+          value: rsiValue,
+          description: rsiDescription
+        });
       }
     }
     
