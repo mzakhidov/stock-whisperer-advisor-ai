@@ -22,12 +22,28 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
         const change = currentPrice - previousClose;
         const changePercent = (change / previousClose) * 100;
         
+        // Get company details
+        const companyResponse = await fetch(
+          `${API_URLS.POLYGON}/reference/tickers/${ticker}?apiKey=${API_KEYS.POLYGON}`
+        );
+        const companyData = await companyResponse.json();
+        
+        // Get industry
+        let industry = null;
+        let description = null;
+        let mainProducts = null;
+        if (companyData.results) {
+          industry = companyData.results.sic_description || companyData.results.standard_industrial_classification?.industry_title;
+          description = companyData.results.description;
+          // Main products would need additional data sources
+        }
+        
         return {
-          name: ticker,
+          name: companyData.results?.name || ticker,
           price: currentPrice,
           change: change,
           changePercent: changePercent,
-          peRatio: null,
+          peRatio: null, // Will be populated by metrics service
           rsi: null,
           fiftyDayMA: null,
           twoHundredDayMA: null,
@@ -37,6 +53,9 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
           ceoRating: null,
           marketSentiment: null,
           recentNews: null,
+          description,
+          industry,
+          mainProducts
         };
       }
     }
@@ -68,9 +87,93 @@ const fetchStockOverview = async (ticker: string): Promise<any | null> => {
           date: new Date(Date.now() - 86400000).toISOString().split('T')[0]
         }
       ],
+      description: mockData?.description,
+      industry: mockData?.industry,
+      mainProducts: mockData?.mainProducts
     };
   } catch (error) {
     console.error("Error fetching stock overview:", error);
+    return null;
+  }
+};
+
+// Fetch recent news for a stock
+const fetchStockNews = async (ticker: string): Promise<any[] | null> => {
+  try {
+    if (API_KEYS.POLYGON) {
+      const response = await fetch(
+        `${API_URLS.POLYGON}/reference/news?ticker=${ticker}&order=desc&limit=10&sort=published_utc&apiKey=${API_KEYS.POLYGON}`
+      );
+      const data = await response.json();
+      
+      if (data.results && data.results.length > 0) {
+        return data.results.map((article: any) => {
+          // Simple sentiment analysis based on title keywords
+          const title = article.title.toLowerCase();
+          let sentiment: 'positive' | 'neutral' | 'negative' = 'neutral';
+          
+          const positiveWords = ["up", "rise", "gain", "positive", "buy", "bullish", 
+            "growth", "success", "innovation", "profit", "beat", "exceed", "strong"];
+          
+          const negativeWords = ["down", "fall", "drop", "negative", "sell", "bearish", 
+            "loss", "fail", "bankruptcy", "weak", "miss", "below", "poor"];
+          
+          const hasPositiveWords = positiveWords.some(word => title.includes(word));
+          const hasNegativeWords = negativeWords.some(word => title.includes(word));
+          
+          if (hasPositiveWords && !hasNegativeWords) sentiment = 'positive';
+          if (hasNegativeWords && !hasPositiveWords) sentiment = 'negative';
+          
+          return {
+            headline: article.title,
+            sentiment: sentiment,
+            date: new Date(article.published_utc).toISOString().split('T')[0],
+            url: article.article_url
+          };
+        });
+      }
+    }
+    
+    // Fall back to mock data
+    const mockData = getMockStockData(ticker);
+    return mockData?.recentNews || [];
+  } catch (error) {
+    console.error("Error fetching stock news:", error);
+    return null;
+  }
+};
+
+// Fetch historical prices for a stock
+const fetchHistoricalPrices = async (ticker: string): Promise<any[] | null> => {
+  try {
+    if (API_KEYS.POLYGON) {
+      const endDate = new Date().toISOString().split('T')[0];
+      const startDate = new Date();
+      startDate.setDate(startDate.getDate() - 365); // Get 1 year of data
+      const startDateStr = startDate.toISOString().split('T')[0];
+      
+      const response = await fetch(
+        `${API_URLS.POLYGON}/aggs/ticker/${ticker}/range/1/day/${startDateStr}/${endDate}?adjusted=true&sort=asc&limit=365&apiKey=${API_KEYS.POLYGON}`
+      );
+      const data = await response.json();
+      
+      if (data.results && data.results.length > 0) {
+        return data.results.map((bar: any) => {
+          const date = new Date(bar.t);
+          return {
+            date: date.toISOString().split('T')[0],
+            price: bar.c,
+            volume: bar.v
+          };
+        });
+      }
+    }
+    
+    // Fall back to mock data
+    const mockData = getMockStockData(ticker);
+    return mockData?.historicalPrices || [];
+  } catch (error) {
+    console.error("Error fetching historical prices:", error);
     return null;
   }
 };
@@ -82,11 +185,13 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
   }
 
   try {
-    const [overview, fundamentals, technicals, sentiment] = await Promise.all([
+    const [overview, fundamentals, technicals, sentiment, news, historicalPrices] = await Promise.all([
       fetchStockOverview(ticker),
       fetchFundamentalMetrics(ticker),
       fetchTechnicalIndicators(ticker),
-      fetchMarketSentiment(ticker)
+      fetchMarketSentiment(ticker),
+      fetchStockNews(ticker),
+      fetchHistoricalPrices(ticker)
     ]);
 
     if (!overview) {
@@ -103,6 +208,9 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
     const stockData: StockData = {
       ticker: ticker.toUpperCase(),
       name: overview.name,
+      description: overview.description || mockData?.description,
+      industry: overview.industry || mockData?.industry, 
+      mainProducts: overview.mainProducts || mockData?.mainProducts,
       price: overview.price,
       change: overview.change,
       changePercent: overview.changePercent,
@@ -121,9 +229,9 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       recentEarnings: overview.recentEarnings,
       ceoRating: overview.ceoRating,
       marketSentiment: overview.marketSentiment,
-      recentNews: overview.recentNews || mockData?.recentNews,
+      recentNews: news || overview.recentNews || mockData?.recentNews,
       earningsHistory: mockData?.earningsHistory || [],
-      historicalPrices: mockData?.historicalPrices || []
+      historicalPrices: historicalPrices || mockData?.historicalPrices || []
     };
 
     // Use the recommendation engine to enhance the recommendation
@@ -135,6 +243,9 @@ export const fetchStockData = async (ticker: string): Promise<StockData | null> 
       
       // Add AI analysis factors to the metrics
       stockData.metrics.aiAnalysisFactors = engineAnalysis.factors;
+      
+      // Log the analysis results
+      console.log("Stock recommendation engine analysis:", engineAnalysis);
     } catch (error) {
       console.error("Error using recommendation engine:", error);
       // fallback to the simpler recommendation
