@@ -85,14 +85,30 @@ export class APIUtils {
         
         if (!response.ok) {
           console.error(`API error (${response.status}): ${url}`);
+          
+          // Enhanced error handling for common cases
           if (response.status === 404) {
-            // For 404s, return empty data instead of throwing
+            console.warn(`Resource not found: ${endpoint}`);
             return { results: [] };
           }
+          
+          if (response.status === 429) {
+            console.warn("Rate limit hit, waiting before retry");
+            await new Promise(resolve => setTimeout(resolve, 60000));
+            return this.fetchPolygonAPI(endpoint, params);
+          }
+          
           throw new Error(`Polygon API error: ${response.status} ${response.statusText}`);
         }
         
-        return response.json();
+        const data = await response.json();
+        
+        // Add debug logging for development
+        if (process.env.NODE_ENV === 'development') {
+          console.debug(`API Response for ${endpoint}:`, data);
+        }
+        
+        return data;
       } catch (error) {
         console.error(`Error fetching from ${url}:`, error);
         throw error;

@@ -1,4 +1,3 @@
-
 import { apiUtils } from './apiUtils';
 import { formatDate } from '../utils/dateUtils';
 
@@ -8,23 +7,35 @@ export class TechnicalIndicators {
       const endDate = formatDate(new Date());
       const startDate = formatDate(new Date(Date.now() - 30 * 24 * 60 * 60 * 1000));
       
-      const data = await apiUtils.fetchPolygonAPI(`/indicators/rsi/${ticker}`, {
-        timespan: "day",
+      const data = await apiUtils.fetchPolygonAPI(`/aggs/ticker/${ticker}/range/1/day/${startDate}/${endDate}`, {
         adjusted: "true",
-        window: "14",
-        series_type: "close",
-        order: "desc",
-        start_date: startDate,
-        end_date: endDate
+        sort: "asc",
+        limit: "30"
       });
       
-      if (data.results?.values?.[0]) {
-        return data.results.values[0].value;
+      if (!data.results || data.results.length < 14) return null;
+      
+      const closes = data.results.map((bar: any) => bar.c);
+      const gains: number[] = [];
+      const losses: number[] = [];
+      
+      for (let i = 1; i < closes.length; i++) {
+        const change = closes[i] - closes[i - 1];
+        gains.push(Math.max(0, change));
+        losses.push(Math.max(0, -change));
       }
       
-      return null;
+      const avgGain = gains.reduce((sum, gain) => sum + gain, 0) / 14;
+      const avgLoss = losses.reduce((sum, loss) => sum + loss, 0) / 14;
+      
+      if (avgLoss === 0) return 100;
+      
+      const rs = avgGain / avgLoss;
+      const rsi = 100 - (100 / (1 + rs));
+      
+      return rsi;
     } catch (error) {
-      console.error("Error fetching RSI:", error);
+      console.error("Error calculating RSI:", error);
       return null;
     }
   }
@@ -87,23 +98,20 @@ export class TechnicalIndicators {
       
       if (!data.results || data.results.length < 5) return null;
 
-      // Calculate average volume for the last 30 days
       const recentVolumes = data.results.map((day: any) => day.v);
       const avgVolume = recentVolumes.reduce((sum: number, vol: number) => sum + vol, 0) / recentVolumes.length;
       
-      // Get the most recent 5 days
       const recentFiveDayVolumes = recentVolumes.slice(-5);
       const avgRecentVolume = recentFiveDayVolumes.reduce((sum: number, vol: number) => sum + vol, 0) / 5;
       
-      // Compare recent volume to average volume
       const volumeRatio = avgRecentVolume / avgVolume;
       
-      if (volumeRatio > 1.5) return 80; // High volume is bullish
+      if (volumeRatio > 1.5) return 80;
       if (volumeRatio > 1.2) return 65;
-      if (volumeRatio < 0.7) return 35; // Low volume is bearish
+      if (volumeRatio < 0.7) return 35;
       if (volumeRatio < 0.5) return 20;
       
-      return 50; // Neutral
+      return 50;
     } catch (error) {
       console.error("Error fetching volume indicator:", error);
       return null;
@@ -115,7 +123,6 @@ export class TechnicalIndicators {
       const endDate = formatDate(new Date());
       const startDate = formatDate(new Date(Date.now() - 60 * 24 * 60 * 60 * 1000));
       
-      // Get current price and 50-day moving average
       const [priceData, ma50Data] = await Promise.all([
         apiUtils.fetchPolygonAPI(`/aggs/ticker/${ticker}/prev?adjusted=true`),
         apiUtils.fetchPolygonAPI(`/indicators/sma/${ticker}`, {
@@ -135,16 +142,14 @@ export class TechnicalIndicators {
       const currentPrice = priceData.results[0].c;
       const ma50 = ma50Data.results.values[0].value;
       
-      // Calculate percentage difference
       const priceDiff = ((currentPrice - ma50) / ma50) * 100;
       
-      // Score based on the difference
-      if (priceDiff > 20) return 85; // Strong uptrend
+      if (priceDiff > 20) return 85;
       if (priceDiff > 10) return 70;
-      if (priceDiff < -15) return 25; // Strong downtrend
+      if (priceDiff < -15) return 25;
       if (priceDiff < -7) return 40;
       
-      return 50; // Neutral
+      return 50;
     } catch (error) {
       console.error("Error fetching price to MA:", error);
       return null;
