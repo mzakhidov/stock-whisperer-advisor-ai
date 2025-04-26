@@ -110,7 +110,7 @@ export class StockRecommendationEngine {
     ]);
 
     // Combine all indicator values
-    const indicatorValues = {
+    const indicatorValues: Record<string, number | null> = {
       // Technical indicators
       RSI: rsi,
       Moving_Average_Cross: movingAverageCross,
@@ -131,18 +131,18 @@ export class StockRecommendationEngine {
       Insider_Trading: insiderTrading,
       
       // External market indicators
-      Market_Sentiment: this.externalDataCache.Market_Sentiment,
-      VIX_Rate: this.externalDataCache.VIX_Rate,
-      Bond_Yield: this.externalDataCache.Bond_Yield,
-      Consumer_Sentiment: this.externalDataCache.Consumer_Sentiment,
-      Consumer_Spending: this.externalDataCache.Consumer_Spending,
+      Market_Sentiment: this.externalDataCache.Market_Sentiment as number | null,
+      VIX_Rate: this.externalDataCache.VIX_Rate as number | null,
+      Bond_Yield: this.externalDataCache.Bond_Yield as number | null,
+      Consumer_Sentiment: this.externalDataCache.Consumer_Sentiment as number | null,
+      Consumer_Spending: this.externalDataCache.Consumer_Spending as number | null,
       
       // Macroeconomic indicators
-      Macroeconomics: this.externalDataCache.Macroeconomics,
-      Inflation_Rate: this.externalDataCache.Inflation_Rate,
-      Unemployment_Rate: this.externalDataCache.Unemployment_Rate,
-      GDP_Growth_Rate: this.externalDataCache.GDP_Growth_Rate,
-      Fed_Funds_Rate: this.externalDataCache.Fed_Funds_Rate
+      Macroeconomics: this.externalDataCache.Macroeconomics as number | null,
+      Inflation_Rate: this.externalDataCache.Inflation_Rate as number | null,
+      Unemployment_Rate: this.externalDataCache.Unemployment_Rate as number | null,
+      GDP_Growth_Rate: this.externalDataCache.GDP_Growth_Rate as number | null,
+      Fed_Funds_Rate: this.externalDataCache.Fed_Funds_Rate as number | null
     };
 
     // Remove lastUpdated from evaluation
