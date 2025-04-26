@@ -86,6 +86,60 @@ export class FundamentalIndicators {
       return null;
     }
   }
+
+  async fetchPEProfitability(ticker: string): Promise<number | null> {
+    try {
+      const data = await apiUtils.fetchPolygonAPI(`/reference/financials/${ticker}`, {
+        limit: "1",
+        type: "A"
+      });
+      
+      if (!data.results?.length) return null;
+
+      const financials = data.results[0].financials;
+      const peRatio = financials?.ratios?.price_earnings_ratio?.value;
+      
+      if (!peRatio) return null;
+
+      // Convert PE ratio to a score
+      if (peRatio <= 10) return 90; // Excellent value
+      if (peRatio <= 15) return 80;
+      if (peRatio <= 20) return 70;
+      if (peRatio <= 25) return 60;
+      if (peRatio <= 35) return 50;
+      if (peRatio <= 50) return 40;
+      if (peRatio <= 70) return 30;
+      if (peRatio <= 100) return 20;
+      return 10; // Very high PE, poor value
+    } catch (error) {
+      console.error("Error fetching PE profitability:", error);
+      return null;
+    }
+  }
+
+  async fetchAnalystRating(ticker: string): Promise<number | null> {
+    try {
+      const data = await apiUtils.fetchPolygonAPI(`/snapshot/locale/us/markets/stocks/analysts/${ticker}`);
+      
+      if (!data.results) return null;
+      
+      const ratings = data.results;
+      const buy = ratings.buy || 0;
+      const hold = ratings.hold || 0;
+      const sell = ratings.sell || 0;
+      const total = buy + hold + sell;
+      
+      if (total === 0) return null;
+      
+      // Convert analyst ratings to a score (0-5)
+      const score = (buy * 5 + hold * 3 + sell * 1) / total;
+      
+      return score;
+    } catch (error) {
+      console.error("Error fetching analyst rating:", error);
+      return null;
+    }
+  }
 }
 
 export const fundamentalIndicators = new FundamentalIndicators();

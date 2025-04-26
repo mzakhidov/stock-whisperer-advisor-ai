@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StockData } from '@/types/stock';
 import StockCard from './StockCard';
 import MacroeconomicsCard from './MacroeconomicsCard';
@@ -9,27 +9,35 @@ import AboutSection from './AboutSection';
 import BuySellReasons from './stock/BuySellReasons';
 import RecentNewsSection from './stock/RecentNewsSection';
 import RecommendationAnalysis from './stock/RecommendationAnalysis';
+import { toast } from 'sonner';
 
 interface EnhancedStockCardProps {
   stock: StockData;
 }
 
 const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
-  const mockDescription = {
-    'AAPL': {
-      description: "Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. The company offers cutting-edge technology products and services, including the iPhone, iPad, Mac, Apple Watch, and Apple TV.",
-      industry: "Consumer Electronics",
-      mainProducts: ["iPhone", "Mac", "iPad", "Wearables", "Services"]
-    },
-    'MSFT': {
-      description: "Microsoft Corporation develops, licenses, and supports software, services, devices, and solutions worldwide. The company operates through cloud computing, software licensing, and hardware manufacturing.",
-      industry: "Software - Infrastructure",
-      mainProducts: ["Azure", "Windows", "Office 365", "LinkedIn", "Xbox"]
-    },
-    // Add more mock descriptions as needed
-  };
+  const [showAnalysisLoading, setShowAnalysisLoading] = useState<boolean>(false);
+  const [analysisExpanded, setAnalysisExpanded] = useState<boolean>(false);
 
-  const aboutInfo = mockDescription[stock.ticker as keyof typeof mockDescription] || {
+  useEffect(() => {
+    if (stock.metrics.aiAnalysisFactors?.length === 0 && !showAnalysisLoading) {
+      setShowAnalysisLoading(true);
+      
+      // Show toast for analysis generation
+      toast.info("Generating detailed stock analysis...", {
+        duration: 3000,
+      });
+      
+      // After a certain time (to show the loading state)
+      const timer = setTimeout(() => {
+        setShowAnalysisLoading(false);
+      }, 2500); // Show loading state for 2.5 seconds
+      
+      return () => clearTimeout(timer);
+    }
+  }, [stock]);
+
+  const aboutInfo = {
     description: stock.description || "No company description available",
     industry: stock.industry || "Technology",
     mainProducts: stock.mainProducts || ["Various Products"]
@@ -135,6 +143,8 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
       period: 'Mar 2024'
     }
   };
+  
+  const hasAiAnalysis = stock.metrics.aiAnalysisFactors && stock.metrics.aiAnalysisFactors.length > 0;
 
   return (
     <div className="space-y-6">
@@ -146,9 +156,28 @@ const EnhancedStockCard: React.FC<EnhancedStockCardProps> = ({ stock }) => {
       />
       <BuySellReasons stock={stock} />
       <PriceChart data={priceData} />
-      {stock.metrics.aiAnalysisFactors && stock.metrics.aiAnalysisFactors.length > 0 && (
-        <RecommendationAnalysis stock={stock} analysisFactors={stock.metrics.aiAnalysisFactors} />
-      )}
+      
+      {showAnalysisLoading ? (
+        <div className="p-6 border-2 border-gray-200 rounded-lg shadow-md bg-gray-50 animate-pulse">
+          <div className="h-6 w-1/3 bg-gray-300 rounded mb-4"></div>
+          <div className="h-4 w-full bg-gray-300 rounded mb-3"></div>
+          <div className="h-4 w-5/6 bg-gray-300 rounded mb-6"></div>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="h-24 bg-gray-300 rounded"></div>
+            <div className="h-24 bg-gray-300 rounded"></div>
+            <div className="h-24 bg-gray-300 rounded"></div>
+            <div className="h-24 bg-gray-300 rounded"></div>
+            <div className="h-24 bg-gray-300 rounded"></div>
+            <div className="h-24 bg-gray-300 rounded"></div>
+          </div>
+        </div>
+      ) : hasAiAnalysis ? (
+        <RecommendationAnalysis 
+          stock={stock} 
+          analysisFactors={stock.metrics.aiAnalysisFactors} 
+        />
+      ) : null}
+      
       <StockCard stock={stock} />
       <EarningsCard earnings={earningsData} />
       <MacroeconomicsCard macroeconomics={macroData} />
