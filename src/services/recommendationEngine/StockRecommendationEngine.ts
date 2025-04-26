@@ -5,50 +5,50 @@ import { apiUtils } from './apiUtils';
 import { technicalIndicators } from './technicalIndicators';
 import { fundamentalIndicators } from './fundamentalIndicators';
 import { sentimentIndicators } from './sentimentIndicators';
+import { marketIndicators } from './marketIndicators';
+import { macroIndicators } from './macroIndicators';
 import { ExternalDataCache, IndicatorResult, AnalysisResults, StockAnalysis } from './types';
 
 export class StockRecommendationEngine {
   private externalDataCache: ExternalDataCache = {};
-  private externalDataTimestamp: Date | null = null;
+  private readonly cacheDuration = 30 * 60 * 1000; // 30 minutes
 
   private async updateExternalData(force = false): Promise<void> {
-    if (!force && this.externalDataTimestamp && 
-        (new Date().getTime() - this.externalDataTimestamp.getTime()) < 86400000) {
+    const now = new Date();
+    if (!force && this.externalDataCache.lastUpdated && 
+        (now.getTime() - this.externalDataCache.lastUpdated.getTime()) < this.cacheDuration) {
       return;
     }
 
     try {
-      const externalData: ExternalDataCache = {};
+      // Fetch market indicators
+      const [vixRate, bondYield, consumerSentiment] = await Promise.all([
+        marketIndicators.fetchVIXRate(),
+        marketIndicators.fetchBondYield(),
+        marketIndicators.fetchConsumerSentiment()
+      ]);
 
-      // Fetch VIX for market sentiment
-      const vixData = await apiUtils.fetchPolygonAPI(`/aggs/ticker/VIX/prev`);
-      if (vixData.results?.[0]) {
-        externalData['Market_Sentiment'] = Math.max(-100, Math.min(100, (25 - vixData.results[0].c) * 5));
-      }
+      // Fetch macro indicators
+      const [inflationRate, unemploymentRate, gdpGrowth, fedFundsRate] = await Promise.all([
+        macroIndicators.fetchInflationRate(),
+        macroIndicators.fetchUnemploymentRate(),
+        macroIndicators.fetchGDPGrowthRate(),
+        macroIndicators.fetchFedFundsRate()
+      ]);
 
-      // Fetch major indices for macroeconomic health
-      const indicesData = await apiUtils.fetchPolygonAPI(`/snapshot/locale/us/markets/indices/tickers`);
-      if (indicesData.tickers) {
-        const indices = indicesData.tickers.filter((index: any) => 
-          ['SPY', 'QQQ', 'DIA', 'IWM'].includes(index.ticker));
-        
-        const avgChange = indices.reduce((sum: number, index: any) => {
-          if (index.day?.c && index.prevDay?.c) {
-            return sum + ((index.day.c - index.prevDay.c) / index.prevDay.c);
-          }
-          return sum;
-        }, 0) / indices.length;
-        
-        externalData['Macroeconomics'] = Math.max(-1, Math.min(1, avgChange * 50));
-      }
-
-      // Store the data and timestamp
-      this.externalDataCache = externalData;
-      this.externalDataTimestamp = new Date();
+      this.externalDataCache = {
+        VIX_Rate: vixRate,
+        Bond_Yield: bondYield,
+        Consumer_Sentiment: consumerSentiment,
+        Inflation_Rate: inflationRate,
+        Unemployment_Rate: unemploymentRate,
+        GDP_Growth_Rate: gdpGrowth,
+        Fed_Funds_Rate: fedFundsRate,
+        lastUpdated: now
+      };
     } catch (error) {
       console.error("Error updating external data:", error);
-      this.externalDataCache = {};
-      this.externalDataTimestamp = new Date();
+      this.externalDataCache.lastUpdated = now;
     }
   }
 
@@ -79,7 +79,7 @@ export class StockRecommendationEngine {
     const factors: MetricScore[] = [];
 
     // Fetch and evaluate technical indicators
-    const [rsiValue, maValue] = await Promise.all([
+    const [rsi, movingAverageCross] = await Promise.all([
       technicalIndicators.fetchRSI(stockData.ticker),
       technicalIndicators.fetchMovingAverages(stockData.ticker)
     ]);
@@ -96,20 +96,23 @@ export class StockRecommendationEngine {
       sentimentIndicators.fetchNewsSentiment(stockData.ticker)
     ]);
 
-    // Evaluate all indicators and calculate total score
-    const indicatorValues: Record<string, number | null> = {
-      RSI: rsiValue,
-      Moving_Average_Cross: maValue,
+    // Combine all indicator values
+    const indicatorValues = {
+      RSI: rsi,
+      Moving_Average_Cross: movingAverageCross,
+      PE_Ratio: stockData.peRatio,
       Annual_Growth_Rate: growthRate,
       Analyst_Price_Projection: priceProjection,
       CEO_Strength: ceoStrength,
       Latest_Company_News: newsSentiment,
-      ...Object.fromEntries(Object.entries(this.externalDataCache).map(
-        ([key, value]) => [key, typeof value === 'number' ? value : null]
-      ))
+      ...this.externalDataCache
     };
 
-    for (const [name, value] of Object.entries(indicatorValues)) {
+    // Remove lastUpdated from evaluation
+    const { lastUpdated, ...evaluationValues } = indicatorValues;
+
+    // Evaluate all indicators
+    for (const [name, value] of Object.entries(evaluationValues)) {
       const [score, recommendation] = this.evaluateIndicator(name, value);
       results[name] = { value, score, recommendation };
       totalScore += score;
@@ -118,7 +121,7 @@ export class StockRecommendationEngine {
         factors.push({
           name,
           value: Math.min(100, Math.max(0, 50 + score * 25)),
-          description: `${name}: ${typeof value === 'number' ? value.toFixed(1) : 'N/A'}. ${recommendation}`
+          description: `${name.replace(/_/g, ' ')}: ${typeof value === 'number' ? value.toFixed(2) : 'N/A'}. ${recommendation}`
         });
       }
     }
