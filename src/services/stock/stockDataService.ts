@@ -6,6 +6,9 @@ import { fetchFundamentalMetrics, fetchTechnicalIndicators, fetchMarketSentiment
 import { generateRecommendation } from "../recommendations/recommendationService";
 import { getMockStockData } from "../mockDataService";
 import stockRecommendationEngine from "../recommendationEngine/StockRecommendationEngine";
+import { fetchStockOverview } from "./stockOverviewService";
+import { fetchStockNews } from "./newsService";
+import { fetchHistoricalPrices } from "./historicalDataService";
 
 // Core function to fetch complete stock data
 export const fetchStockData = async (ticker: string): Promise<StockData | null> => {

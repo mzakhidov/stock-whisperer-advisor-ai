@@ -4,6 +4,7 @@ import { fetchStockData } from "./stock/stockDataService";
 import { stocksDatabase } from './database/mockStockDatabase';
 export { getRecommendationColor, getRecommendationTextColor, getChangeColor } from './utils/stockUtils';
 export { searchStocks } from './search/searchService';
+export { fetchStockData } from './stock/stockDataService';
 
 export const getStockData = async (ticker: string): Promise<StockData | null> => {
   try {

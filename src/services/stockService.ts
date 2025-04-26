@@ -1,7 +1,7 @@
 
 import { StockData } from "@/types/stock";
 import { toast } from "sonner";
-import { fetchStockData } from "./apiService";
+import { fetchStockData } from "./stock/stockDataService";
 import { stocksDatabase } from './database/mockStockDatabase';
 export { getRecommendationColor, getRecommendationTextColor, getChangeColor } from './utils/stockUtils';
 export { searchStocks } from './search/searchService';
