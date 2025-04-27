@@ -67,8 +67,8 @@ export function FeaturesSection() {
             <div className="mt-auto">
               <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
-                  src="https://images.unsplash.com/photo-1586339949216-35c2747cc36d?q=80&w=1470&auto=format&fit=crop"
-                  alt="Positive news headline about company"
+                  src="/lovable-uploads/f9203722-18fa-4b8e-a146-61d1257dc150.png"
+                  alt="Latest market news and sentiment analysis"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
