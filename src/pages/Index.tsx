@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import StockSearch from '@/components/StockSearch';
@@ -6,12 +7,11 @@ import { getStockData } from '@/services/stockService';
 import { StockData } from '@/types/stock';
 import { toast } from "sonner";
 import { API_KEYS, checkApiKeys } from '@/services/apiConfig';
+import { Button } from '@/components/ui/button';
+import { List, Bookmark } from 'lucide-react';
 import EnhancedStockCard from '@/components/EnhancedStockCard';
 import CompetitorsTable from '@/components/CompetitorsTable';
 import WatchlistTable from '@/components/WatchlistTable';
-import { Button } from '@/components/ui/button';
-import { List, Bookmark } from 'lucide-react';
-import RecentNewsSection from '@/components/stock/RecentNewsSection';
 
 const Index = () => {
   const [selectedStock, setSelectedStock] = useState<StockData | null>(null);
@@ -127,7 +127,6 @@ const Index = () => {
               <div className="space-y-6">
                 <EnhancedStockCard stock={selectedStock} />
                 <CompetitorsTable stock={selectedStock} />
-                <RecentNewsSection news={selectedStock.recentNews} />
               </div>
             ) : (
               <div className="text-center py-12 bg-white rounded-lg shadow-md">
@@ -161,3 +160,4 @@ const Index = () => {
 };
 
 export default Index;
+
