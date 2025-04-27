@@ -6,7 +6,11 @@ export default function About() {
   return (
     <section className="py-16 bg-white min-h-[60vh]">
       <div className="container mx-auto px-4 max-w-3xl">
-        <CandleChart />
+        <img 
+          src="/lovable-uploads/f197b024-f6c0-4f5b-8012-b40f6d5c10c7.png" 
+          alt="Trading dashboard showing stock market analytics" 
+          className="w-full h-auto mb-8 rounded-lg shadow-md"
+        />
         <h1 className="text-3xl font-bold text-finance-navy mb-4">About AI Stock Whisperer</h1>
         <p className="text-gray-700 text-lg mb-6">
           <strong>AI Stock Whisperer</strong> is your advanced platform for smart stock discovery, insightful analytics, and actionable investing insights powered by artificial intelligence.
@@ -32,4 +36,3 @@ export default function About() {
     </section>
   );
 }
-
