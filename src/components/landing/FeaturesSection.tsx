@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { DollarSign, BarChart, LineChart } from 'lucide-react';
 import { AspectRatio } from '@/components/ui/aspect-ratio';
@@ -25,8 +24,8 @@ export function FeaturesSection() {
             <div className="mt-auto">
               <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1470&auto=format&fit=crop"
-                  alt="Earnings growth chart"
+                  src="/lovable-uploads/b5980423-f934-4208-80ff-842377f782e7.png"
+                  alt="Financial analysis with calculator and charts"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
