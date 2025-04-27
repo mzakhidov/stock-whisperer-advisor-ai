@@ -45,8 +45,8 @@ export function FeaturesSection() {
             <div className="mt-auto">
               <AspectRatio ratio={16 / 9} className="bg-muted">
                 <img
-                  src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1470&auto=format&fit=crop"
-                  alt="Upward trending candlestick chart"
+                  src="/lovable-uploads/ae914990-c07e-456f-b606-9bf30c8e5e14.png"
+                  alt="Analytics dashboard showing technical market metrics"
                   className="rounded-b-lg object-cover w-full h-full"
                 />
               </AspectRatio>
