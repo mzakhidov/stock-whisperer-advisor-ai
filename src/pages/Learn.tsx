@@ -1,4 +1,3 @@
-
 import React from "react";
 import { BookOpen, TrendingUp, DollarSign, Lightbulb } from "lucide-react";
 
@@ -43,6 +42,14 @@ export default function Learn() {
           <p>
             <b>Remember:</b> Investing always involves risks, but learning the basics is a great step toward making smart, confident decisions for your financial future!
           </p>
+        </div>
+
+        <div className="mt-8 w-full">
+          <img 
+            src="/lovable-uploads/084072da-0e00-436f-bf6b-9cd57c5fdbd4.png" 
+            alt="Stock market trading dashboard with financial analytics" 
+            className="w-full h-auto rounded-lg shadow-md object-cover"
+          />
         </div>
       </div>
     </section>
