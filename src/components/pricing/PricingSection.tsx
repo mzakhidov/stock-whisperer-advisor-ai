@@ -80,7 +80,7 @@ const plansData: Plan[] = [
       "All Plus features",
       "Export data",
       "AI-powered signals",
-      "1:1 Portfolio review",
+      "24/7 Premium support",
     ],
     highlight: false,
     color: "bg-white border-finance-navy",

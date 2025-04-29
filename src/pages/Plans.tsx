@@ -46,7 +46,7 @@ const comparisonFeatures = [
     feature: "Support",
     Freemium: "Email",
     Plus: "Priority Email",
-    Pro: "1:1 Portfolio review",
+    Pro: "24/7 Premium",
   },
   {
     feature: "Export data",
