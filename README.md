@@ -6,7 +6,7 @@ This project has been built by me using popular no-code platform, Lovable.dev. A
 2. Back-end model recommendation engine based on my own investing methods using (Python and Python libraries) - **In Process**.
 3. Artificial Intelligence / Machine Learning model that trains on historical stock price data to train the model and measure the accuracy of the recommendation engine - **In Process**. 
 
-Note: project might use some mock data. 
+Note: some mock data has been used as part of this project. 
 
 ## AI Stock Whisperer
 
